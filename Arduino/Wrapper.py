@@ -28,6 +28,7 @@ except:
 
 while isBoard and dbAvailable:
     try:
+        time.sleep(3) #Every 3 seconds we will save data inside the db
         if preHeat == 0:
             x = board.readline().decode('utf-8').split()
             x = WrappingData(x)
@@ -36,12 +37,12 @@ while isBoard and dbAvailable:
                             MQ135=x[2],
                             DustSensor=x[3],
                             db_cursor=cursor)
-            database.commit()
+            database.commit() #Saving data inside the file
             print(bcolors.OKGREEN + "Data saved!" + bcolors.ENDC) if not isSaving else None
             isSaving = True
             if WhatsTheLastRowinRoom(cursor) == 20000:
                 DeleteAllinRoom()
-                print(bcolors.WARNING + "[-] Reseting Room table" + bcolors.ENDC)
+                print(bcolors.WARNING + "[-] Reseting Room table.." + bcolors.ENDC)
         else:
             preHeat -= 1
     except KeyboardInterrupt as keyboad:
@@ -56,4 +57,4 @@ while isBoard and dbAvailable:
 if dbAvailable:
     database.commit() #Saving db
     cursor.close() #Closing db
-print(bcolors.FAIL + "[-] Failed connection!" + bcolors.ENDC)
+print(bcolors.FAIL + "[-] Finishing connection!" + bcolors.ENDC)
