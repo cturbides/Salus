@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/Web/css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <script defer src="/Web/js/login.js"></script>
+</head>
+
+<body>
+    <div class="loading hidden">
+        <img src="/Web/static/loading.gif" alt="Loading....">
+    </div>
+    <div class="login-box" id="main-login">
+        <h1>
+            <a href="/Web/index.html"><img class="logo" src="/Web/static/Logo_Salus.png"></a>
+        </h1>
+        <br><br>
+        <form action="POST">
+            <!-- user -->
+            <label for="username">Username</label>
+            <input type="text" placeholder="Input username">
+            <!-- pass -->
+            <label for="password">Password</label>
+            <input type="password" placeholder="Input password">
+            <!-- user -->
+            <input type="submit" value="Login">
+
+            <a href="">Lost your password?</a><br>
+            <a href="">Sign up</a>
+        </form>
+    </div>
+</body>
+
+
+</html>

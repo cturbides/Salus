@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: space-around;
+}
+
+header {
+    background: #BE93C5;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #7BC6CC, #BE93C5);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: auto;
+    padding: 48px;
+    width: 100%;
+}
+
+.container img {
+    display: block;
+    height: 450px;
+    object-fit: cover;
+    width: auto;
+    animation: arriba 1s ease-in;
+}
+
+.header-titles {
+    width: 50%;
+    color: #fff;
+    animation: moverDerecha 1s ease-in;
+}
+
+.header-titles h1 {
+    font-size: 80px;
+}
+
+.header-titles h2 {
+    font-size: 60px;
+}
+
+.header-titles a {
+    display: inline-block;
+    color: #fff;
+    font-weight: 300;
+    text-decoration: none;
+    margin-top: 30px;
+    border: 1px solid #fff;
+    width: 150px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.wave {
+    height: 100px;
+    width: 100%;
+    background: #BE93C5;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #7BC6CC, #BE93C5);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@keyframes moverIzquierda {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moverDerecha {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes arriba {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+.about-us {
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: space-around;
+}
