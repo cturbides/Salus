@@ -1,0 +1,128 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>El ultimo paciente ingresado ha sido {{ name }}</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-download">
+                    <i class='bx bxs-cloud-download'></i>
+                    <span class="text">Descargar PDF</span>
+                </a>
+            </div>
+
+            <ul class="box-info">
+                <li>
+                    <i class='bx bx-camera-home'></i>
+                    <span class="text">
+						<h3>{{contador_habitaciones}}</h3><!--reemplazar-->
+						<p>Habitaciones activas</p>
+					</span>
+                </li>
+                <li>
+                    <i class='bx bxs-group'></i>
+                    <span class="text">
+						<h3>{{contador_miembros_equipo}}</h3><!--reemplazar-->
+						<p>Miembros activos</p>
+					</span>
+                </li>
+            </ul>
+            
+            <div class="table-data">
+                <div class="order">
+                    <a href=""> <!--Redireccionar a pagina monitor-->
+                        <div class="head">
+                        <h3>Habitacion no.1</h3>
+                    </div>
+                </a>
+                    <!-- HABITACION 1 -->
+                    <ul class="box-info">
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>Nombre del doctor</h3>
+                                <p>Doctor a cargo</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>Nombre de la enfermera</h3>
+                                <p>Enfermera a cargo</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>Nombre de la enfermedad</h3>
+                                <p>Enfermedad del paciente</p>
+                            </span>
+                        </li>
+                    </ul>
+                    <!-- HABITACION 1 -->
+                    <ul class="box-info">
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Temperatura media</th>
+                                        <th>Humedad relativa</th>
+                                        <th>Calidad del aire</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>35 Celsius</p>
+                                        </td>
+                                        <td>30%</td>
+                                        <td><span class="status process">60%</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Temperatura del paciente media</th>
+                                        <th>Pulso del paciente</th>
+                                        <th>Estado de los musculos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>35 Celsius</p>
+                                        </td>
+                                        <td>30%</td>
+                                        <td><span class="status pending">Tensos</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

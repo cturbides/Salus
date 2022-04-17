@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.links a {
+    display: inline-block;
+    color: #fff;
+    align-items: flex-end;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 30px;
+    border: 1px solid #fff;
+    width: 150px;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+nav {
+    box-sizing: border-box;
+    display: flex;
+    height: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 70px;
+    background: #BE93C5 !important;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5) !important;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #7BC6CC, #BE93C5) !important;
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    animation: moverIzquierda 1s ease-in;
+    margin-right: 100px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav img {
+    display: inline-block;
+    height: 150px;
+    width: auto;
+    object-fit: cover;
+    padding-top: 30px;
+    margin-left: 40px;
+}

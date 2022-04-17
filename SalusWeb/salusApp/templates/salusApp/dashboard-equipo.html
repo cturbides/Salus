@@ -1,0 +1,149 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>La ultima persona agregada ha sido {{ name }}</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'equipo' %}">Equipo</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Doctores</h3>
+                    </div>
+                    <!-- Doctores -->
+                    <ul class="box-info">
+                        <li>
+                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <span class="text">
+                                <h3>Nombre del doctor</h3>
+                                <p>Ultimo doctor agregado</p>
+                            </span>
+                        </li>
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Edad</th>
+                                        <th>Numero de Telefono</th>
+                                        <th>Residencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>29</p>
+                                        </td>
+                                        <td>809-089-5623</td>
+                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                    <a href="{% url 'doctores' %}">Lista de doctores</a>
+                    <!-- Doctores -->
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Enfermeras</h3>
+                    </div>
+                    <!-- Doctores -->
+                    <ul class="box-info">
+                        <li>
+                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <span class="text">
+                                <h3>Nombre de la enfermera</h3>
+                                <p>Ultimo enfermer@ agregad@</p>
+                            </span>
+                        </li>
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Edad</th>
+                                        <th>Numero de Telefono</th>
+                                        <th>Residencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>29</p>
+                                        </td>
+                                        <td>809-089-5623</td>
+                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                    <a href="{% url 'enfermeros' %}">Lista de enfermeras</a>
+                    <!-- Enfermeras -->
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Pacientes</h3>
+                    </div>
+                    <!-- Doctores -->
+                    <ul class="box-info">
+                        <li>
+                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <span class="text">
+                                <h3>Nombre del paciente</h3>
+                                <p>Ultimo paciente ingresado</p>
+                            </span>
+                        </li>
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Edad</th>
+                                        <th>Numero de Telefono</th>
+                                        <th>Residencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>29</p>
+                                        </td>
+                                        <td>809-089-5623</td>
+                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                    <a href="{% url 'pacientes' %}">Lista de pacientes</a>
+                    <!-- Doctores -->
+                </div>
+            </div>
+            
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

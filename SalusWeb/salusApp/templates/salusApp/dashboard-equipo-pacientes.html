@@ -1,0 +1,101 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Lista de Pacientes</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'equipo' %}">Equipo</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'pacientes' %}">Pacientes</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-download"><!-- Agregar Pacientes -->
+                    <i class='bx bxs-ambulance' ></i>
+                    <span class="text">Agregar paciente</span>
+                </a>
+            </div>
+
+            <!-- For Pacientes en blabla-->
+            <div class="table-data">
+                <div class="order">
+                    <ul class="box-info">
+                        <li>
+                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <span class="text">
+                                <h3>Nombre del paciente</h3>
+                                <p>Nombre del paciente</p>
+                                <p>edad years</p>
+                                <p>sexo</p>
+                            </span>
+                        </li>
+                    </ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Numero de Telefono</th>
+                                <th>Residencia</th>
+                                <th>Enfermedad</th>
+                                <th>ARS</th>
+                                <th>IMC</th>
+                                <th>Tipo de hospitalizacion</th>
+                                <th>Fecha de ingreso</th>
+                                <th>Nombre de referencia</th>
+                                <th>Numero de telefono - Referencia</th>
+                                <th>Parentesco - Referencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>809-089-5623</td>
+                                <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                <td>Sifilis</td>
+                                <td>Humanos</td>
+                                <td>12.5</td>
+                                <td>Urgente</td>
+                                <td>24/10/2004</td>
+                                <td>Carlos</td>
+                                <td>846-544-511</td>
+                                <td>Amigo</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="head-title">
+                        <div class="left">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="{% url 'pacientes' %}" class="active">Editar</a> <!-- Editar paciente-->
+                                </li>
+                                <li>
+                                    <a href="{% url 'pacientes' %}" class="active">Eliminar</a><!-- Eliminar paciente-->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <!-- for Pacientes-->
+            
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

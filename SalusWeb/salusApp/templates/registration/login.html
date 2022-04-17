@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+    <head>
+        <title>Login Page</title>
+        <link rel="stylesheet" href="{% static 'salusApp/css/login.css' %}">
+        <script defer src="{% static 'salusApp/js/login.js' %}"></script>
+    </head>
+
+    <body>
+        <div class="loading hidden">
+            <img src="{% static 'salusApp/img/loading.gif' %}" alt="Loading....">
+        </div>
+        <div class="login-box" id="main-login">
+            <h1>
+                <a href="{% url 'home' %}"><img class="logo" src="{% static 'salusApp/img/Logo_Salus.png' %}"></a>
+            </h1>
+            <br><br>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <!-- user -->
+                <label for="username">Username</label>
+                <input id="id_username" type="text" placeholder="Input username" name='username' required="">
+                <!-- pass -->
+                <label for="password">Password</label>
+                <input id="id_password" type="password" placeholder="Input password" name="password" required="">
+                <!-- user -->
+                <input type="submit" value="Login" name="">
+
+                <a href="{% url 'signup' %}">Sign up</a><br>
+            </form>
+        </div>
+    </body>
+</html>

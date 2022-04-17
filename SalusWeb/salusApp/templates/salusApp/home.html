@@ -1,0 +1,24 @@
+{% extends 'salusApp/base.html' %}
+{% load static %}
+
+{% block head %}
+<script src="{% static 'salusApp/js/main.js' %}" type="text/javascript" defer></script>
+<title>Salus HomePage</title>
+<link rel="stylesheet" href="{% static 'salusApp/css/main.css' %}"/>
+{% endblock head %}
+
+{% block content %}
+<header>
+    <div class="container">
+        <div class="header-titles">
+            <h1>SALUS</h1>
+            <h2>Hacemos tu estadia más fácil!</h2>
+            <a href="{% url 'dashboard' %}">Dashboard</a> 
+        </div>
+        <img src="{% static 'salusApp/img/medical_icons.png' %}">
+    </div>
+</header>
+<div class="wave">
+    <div style="height: 150px; overflow: hidden;"><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C150.00,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #fff;"></path></svg></div>
+</div>
+{% endblock content %}

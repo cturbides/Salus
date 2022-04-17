@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="{% static 'https://fonts.googleapis.com' %}">
+    <link rel="preconnect" href="{% static 'https://fonts.gstatic.com' %}" crossorigin>
+    <link href="{% static 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,300&display=swap' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'salusApp/css/navbar.css' %}"/>
+    {% block head %}{% endblock head %}
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home' %}" id="logo" class="logo"><img src="{% static 'salusApp/img/Logo_Salus.png' %}"></a>
+        <div class="links" id="links">
+            {% block links %}{% endblock links %}
+        </div>
+    </nav>
+    <header>
+    </header>
+    {% block content %}{% endblock content %}
+    {% block footer %}{% endblock footer %}
+</body>
+
+</html>

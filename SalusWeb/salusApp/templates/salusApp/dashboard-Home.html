@@ -1,0 +1,84 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Bienvenido {{ name }}</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'dashboard' %}">Home</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-download">
+                    <i class='bx bxs-cloud-download'></i>
+                    <span class="text">Descargar PDF</span>
+                </a>
+            </div>
+
+            <ul class="box-info">
+                <li>
+                    <i class='bx bxs-calendar-check'></i>
+                    <span class="text">
+						<h3>{{contador_pacientes}}</h3>
+						<p>Nuevos Pacientes</p>
+					</span>
+                </li>
+                <li>
+                    <i class='bx bxs-group'></i>
+                    <span class="text">
+						<h3>{{contador_miembros_equipo}}</h3>
+						<p>Miembros del equipo</p>
+					</span>
+                </li>
+                <li>
+                    <i class='bx bx-camera-home'></i>
+                    <span class="text">
+						<h3>{{contador_habitaciones}}</h3>
+						<p>Habitaciones activas</p>
+					</span>
+                </li>
+            </ul>
+
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Ingresos recientes</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Fecha de ingreso</th>
+                                <th>Tipo de ingreso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="img/people.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>01-10-2021</td>
+                                <td><span class="status completed">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Lista de Doctores</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'equipo' %}">Equipo</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'doctores' %}">Doctores</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-download"><!-- Agregar Doctores -->
+                    <i class='bx bx-pulse' ></i>
+                    <span class="text">Agregar Doctores</span>
+                </a>
+            </div>
+
+            <!-- For Doctores en blabla-->
+            <div class="table-data">
+                <div class="order">
+                    <ul class="box-info">
+                        <li>
+                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <span class="text">
+                                <h3>Nombre de la Doctora</h3>
+                                <p>Nombre del doctor</p>
+                            </span>
+                        </li>
+                        <li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Edad</th>
+                                        <th>Numero de Telefono</th>
+                                        <th>Residencia</th>
+                                        <th>Sexo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>29</p>
+                                        </td>
+                                        <td>809-089-5623</td>
+                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                        <td>Femenino</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                    
+                    <div class="head-title">
+                        <div class="left">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="{% url 'pacientes' %}" class="active">Editar</a> <!-- Editar doctor-->
+                                </li>
+                                <li>
+                                    <a href="{% url 'pacientes' %}" class="active">Eliminar</a><!-- Eliminar doctor-->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <!-- for Doctores-->
+            
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

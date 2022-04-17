@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'salusApp/css/dashboard.css' %}">
+
+    <title>Salus</title>
+</head>
+{% endblock head %}
+
+<body>
+
+
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="{% url 'dashboard' %}" class="brand">
+            <img src="{% static 'salusApp/img/Logo_Salus.png' %}">
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="{% url 'dashboard' %}" id="dash">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'mi-clinica' %}" id="clinica">
+                    <i class='bx bx-health'></i>
+                    <span class="text">Mi Clinica</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'analitica' %}" id="analitica">
+                    <i class='bx bxs-doughnut-chart'></i>
+                    <span class="text">Analiticas</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'equipo' %}" id="equipo">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Equipo</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="{% url 'settings' %}" id="settings">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+    {% block content %}{% endblock content %}
+
+
+    <script src="{% static 'salusApp/js/dashboard.js' %}"></script>
+</body>
+
+</html>
