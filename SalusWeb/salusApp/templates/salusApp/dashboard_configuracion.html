@@ -1,0 +1,62 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Bienvenido {{ name }}</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'settings' %}">Configuracion</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Configuraciones de la cuenta</h3>
+                    </div>
+                    <ul class="box-info">
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>{{name}}</h3>
+                                <p>Nombre de usuario</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>{{isAdmin}}</h3>
+                                <p>Es administrador</p>
+                            </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <h3>{{id}}</h3>
+                                <p>ID del usuario</p>
+                            </span>
+                        </li>
+                    </ul>
+                    <a href="{% url 'changepass' %}">Cambiar password</a>
+                    <a>|  |</a>
+                    <a href="{% url 'delete' user.id %}">Eliminar cuenta</a>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

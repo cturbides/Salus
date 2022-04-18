@@ -8,7 +8,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>La ultima persona agregada ha sido {{ name }}</h1>
+                    <h1>La ultima persona agregada ha sido {{ persona.first_name }}</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -29,10 +29,14 @@
                     <!-- Doctores -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <img src="{% static doc.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>Nombre del doctor</h3>
+                                <h3>{{doc.first_name}}</h3>
+                                {% if doc.sex == 'M' %}
                                 <p>Ultimo doctor agregado</p>
+                                {% elif doc.sex == 'F' %}
+                                <p>Ultima doctora agregada</p>
+                                {% endif %}
                             </span>
                         </li>
                         <li>
@@ -47,10 +51,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>29</p>
+                                            <p>{{doc.age}}</p>
                                         </td>
-                                        <td>809-089-5623</td>
-                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                        <td>{{doc.phone}}</td>
+                                        <td><span>{{doc.address}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -64,15 +68,19 @@
             <div class="table-data">
                 <div class="order">
                     <div class="head">
-                        <h3>Enfermeras</h3>
+                        <h3>Enfermeros</h3>
                     </div>
                     <!-- Doctores -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <img src="{% static nurse.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>Nombre de la enfermera</h3>
-                                <p>Ultimo enfermer@ agregad@</p>
+                                <h3>{{nurse.first_name}}</h3>
+                                {% if nurse.sex == 'F' %}
+                                    <p>Ultima enfermera agregada</p>
+                                {% elif nurse.sex == 'M' %}
+                                    <p>Ultimo enfermero agregado</p>
+                                {% endif %}
                             </span>
                         </li>
                         <li>
@@ -87,10 +95,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>29</p>
+                                            <p>{{nurse.age}}</p>
                                         </td>
-                                        <td>809-089-5623</td>
-                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                        <td>{{nurse.phone}}</td>
+                                        <td><span>{{nurse.address}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>

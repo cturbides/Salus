@@ -1,0 +1,229 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Lista de enfermeras</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'equipo' %}">Equipo</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        
+                        {% if person.isNurse %}
+                        <li>
+                            <a class="active" href="{% url 'enfermeros' %}">Enfermeras</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'enfermeros-edit' person.id %}">Editando a {{person.first_name}}</a>
+                        </li>
+
+                        {% elif person.isDoctor%}
+                        <li>
+                            <a class="active" href="{% url 'doctores' %}">Doctores</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'doctores-edit' person.id %}">Editando a {{person.first_name}}</a>
+                        </li>
+
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- For enfermera en blabla-->
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Editar</h3>
+                    </div>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <ul class="box-info">
+                            <li>
+                                <!-- Primer Nombre-->
+                                <span class="text">
+                                    <h3>Nombre</h3>
+                                    <input value="{{person.first_name}}" id="id_first_name" type="text" name="first_name" maxlength="30" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Primer apellido -->
+                                <span class="text">
+                                    <h3>Apellido</h3>
+                                    <input value="{{person.last_name}}" id="id_last_name" type="text" name="last_name" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Edad -->
+                                <span class="text">
+                                    <h3>Edad</h3>
+                                    <input value="{{person.age}}" id="id_age" type="number" name="age" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        <ul class="box-info">
+                            <li>
+                                <!-- Residencia -->
+                                <span class="text">
+                                    <h3>Residencia</h3>
+                                    <input value="{{person.address}}" id="id_address" type="text" maxlength="100" name="address" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Sexo -->
+                                <span class="text">
+                                    <h3>Sexo</h3>
+                                    {% if person.sex == 'M' %}
+                                    <select id="id_sex" name="sex"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                        <option value="M" selected>Hombre</option>
+                                        <option value="F">Mujer</option>
+                                    </select>
+
+                                    {% elif person.sex == 'F' %}
+                                    <select id="id_sex" name="sex"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                        <option value="M">Hombre</option>
+                                        <option value="F" selected>Mujer</option>
+                                    </select>
+                                    {% endif %}
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Cedula -->
+                                <span class="text">
+                                    <h3>Numero de identidad</h3>
+                                    <input id="id_idNumber" type="text" value="{{person.idNumber}}" maxlength="10" name="idNumber" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        
+                        <ul class="box-info">
+                            <li>
+                                <!-- Numero de telefono -->
+                                <span class="text">
+                                    <h3>Numero de telefono</h3>
+                                    <input value="{{person.phone}}" id="id_phone" type="text" maxlength="15" name="phone" required=""
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li></li>
+                            <li>
+                                <!-- Photo-->
+                                <span class="text">
+                                    <h3>Nueva foto</h3>
+                                    <input id="id_photo" type="file"  name="photo"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        <div class="head-title">
+                            <div class="left">
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <input type="submit" value="Enviar"
+                                        style="border: none !important;
+                                            border-bottom: 1px solid #000!important;
+                                            background: transparent!important;
+                                            outline: none!important;
+                                            height: 40px!important;
+                                            color: #000!important;
+                                            font-size: 16px!important;
+                                            margin-bottom: 20px!important;" 
+                                            onMouseOver="this.style.color='#fff'; this.style.cursor='pointer';" onMouseOut="this.style.color='#000'">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- for enfermera-->
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

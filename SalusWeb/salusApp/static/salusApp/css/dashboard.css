@@ -1,4 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ---Table data -- */
+
+#id_first_name,
+#id_last_name,
+#id_age,
+#id_address,
+#id_idNumber,
+#id_phone {
+    border: none !important;
+    border-bottom: 1px solid #fff!important;
+    background: transparent!important;
+    outline: none!important;
+    height: 40px!important;
+    color: #fff!important;
+    font-size: 16px!important;
+    margin-bottom: 20px!important;
+}
+
 * {
     margin: 0;
     padding: 0;

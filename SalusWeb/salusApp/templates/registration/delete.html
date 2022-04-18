@@ -1,0 +1,59 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Eliminar {{ name }}</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'settings' %}">Configuracion</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'settings' %}">Eliminar cuenta</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        {% if message %}
+                        <h3>{{message}}</h3>
+                        {% else %}
+                        <h3>Estas seguro?</h3>
+                        
+                    </div>
+                    <ul class="box-info">
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <a href="{% url 'settings' %}"><h3>No estoy seguro</h3></a>
+                            </span>
+                        </li>
+                        <li>
+                            <i class='bx bx-plus-medical'></i>
+                            <span class="text">
+                                <a href="{% url 'confirm-delete' user.id %}"><h3>Estoy seguro</h3></a>
+                            </span>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}
