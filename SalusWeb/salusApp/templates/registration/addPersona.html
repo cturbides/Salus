@@ -29,7 +29,7 @@
                             <a class="active" href="{% url 'enfermeros-add' %}">Nueva enfermera</a>
                         </li>
 
-                        {% elif isDoctor%}
+                        {% elif isDoctor %}
                         <li>
                             <a class="active" href="{% url 'doctores' %}">Doctores</a>
                         </li>
@@ -173,18 +173,33 @@
                             <li></li>
                             <li>
                                 <!-- Photo-->
-                                <span class="text">
-                                    <h3>Direccion foto de la enfermera</h3>
-                                    <input id="id_photo" type="file"  name="photo" required=""
-                                    style="border: none !important;
-                                    border-bottom: 1px solid #000!important;
-                                    background: transparent!important;
-                                    outline: none!important;
-                                    height: 40px!important;
-                                    color: #000!important;
-                                    font-size: 16px!important;
-                                    margin-bottom: 20px!important;">
-                                </span>  
+                                {% if isEnfermera %}
+                                    <span class="text">
+                                        <h3>Foto de la enfermera</h3>
+                                        <input id="id_photo" type="file"  name="photo" required=""
+                                        style="border: none !important;
+                                        border-bottom: 1px solid #000!important;
+                                        background: transparent!important;
+                                        outline: none!important;
+                                        height: 40px!important;
+                                        color: #000!important;
+                                        font-size: 16px!important;
+                                        margin-bottom: 20px!important;">
+                                    </span>  
+                                {% elif isDoctor %}
+                                    <span class="text">
+                                        <h3>Foto del doctor</h3>
+                                        <input id="id_photo" type="file"  name="photo" required=""
+                                        style="border: none !important;
+                                        border-bottom: 1px solid #000!important;
+                                        background: transparent!important;
+                                        outline: none!important;
+                                        height: 40px!important;
+                                        color: #000!important;
+                                        font-size: 16px!important;
+                                        margin-bottom: 20px!important;">
+                                    </span>
+                                {% endif %}
                             </li>
                         </ul>
                         <div class="head-title">

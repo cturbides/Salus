@@ -44,7 +44,7 @@
                     <i class='bx bx-camera-home'></i>
                     <span class="text">
 						<h3>{{contador_habitaciones}}</h3>
-						<p>Habitaciones activas</p>
+						<p>Habitaciones disponibles</p>
 					</span>
                 </li>
             </ul>
@@ -61,17 +61,27 @@
                                 <th>Paciente</th>
                                 <th>Fecha de ingreso</th>
                                 <th>Tipo de ingreso</th>
+                                <th>Habitacion</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for paciente in pacientes %}
                             <tr>
                                 <td>
-                                    <img src="img/people.png">
-                                    <p>John Doe</p>
+                                    <img src="{% static paciente.person.photo.url %}">
+                                    <p>{{paciente.person.first_name}} {{paciente.person.last_name}}</p>
                                 </td>
-                                <td>01-10-2021</td>
-                                <td><span class="status completed">Completed</span></td>
+                                <td>{{paciente.join_date}}</td>
+                                {% if paciente.hospitalization == 'U' %}
+                                <td><span class="status pending">Urgente</span></td>
+                                {% elif paciente.hospitalization == 'P' %}
+                                <td><span class="status completed">Programado</span></td>
+                                {% elif paciente.hospitalization == 'I' %}
+                                <td><span class="status process">Intrahospitalario</span></td>
+                                {% endif %}
+                                <td>{{paciente.room.roomName}}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

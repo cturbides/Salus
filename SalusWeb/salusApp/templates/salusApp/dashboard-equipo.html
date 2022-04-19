@@ -8,7 +8,11 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>La ultima persona agregada ha sido {{ persona.first_name }}</h1>
+                    {% if not persona %}
+                    <h1>Parece que todos estan de vacaciones!</h1>
+                    {% else %}
+                    <h1>La ultima persona agregada ha sido {{ persona.first_name }} {{ persona.last_name }}</h1>
+                    {% endif %}
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -21,17 +25,20 @@
                 </div>
             </div>
             
+            
             <div class="table-data">
                 <div class="order">
                     <div class="head">
                         <h3>Doctores</h3>
                     </div>
+
+                    {% if doc %}
                     <!-- Doctores -->
                     <ul class="box-info">
                         <li>
                             <img src="{% static doc.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>{{doc.first_name}}</h3>
+                                <h3>{{doc.first_name}} {{doc.last_name}}</h3>
                                 {% if doc.sex == 'M' %}
                                 <p>Ultimo doctor agregado</p>
                                 {% elif doc.sex == 'F' %}
@@ -62,6 +69,9 @@
                     </ul>
                     <a href="{% url 'doctores' %}">Lista de doctores</a>
                     <!-- Doctores -->
+                    {% else %}
+                    <a href="{% url 'doctores-add' %}">Añadir doctor</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -70,12 +80,13 @@
                     <div class="head">
                         <h3>Enfermeros</h3>
                     </div>
-                    <!-- Doctores -->
+                    {% if nurse %}
+                    <!-- Enfermeras -->
                     <ul class="box-info">
                         <li>
                             <img src="{% static nurse.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>{{nurse.first_name}}</h3>
+                                <h3>{{nurse.first_name}} {{nurse.last_name}}</h3>
                                 {% if nurse.sex == 'F' %}
                                     <p>Ultima enfermera agregada</p>
                                 {% elif nurse.sex == 'M' %}
@@ -106,6 +117,9 @@
                     </ul>
                     <a href="{% url 'enfermeros' %}">Lista de enfermeras</a>
                     <!-- Enfermeras -->
+                    {% else %}
+                    <a href="{% url 'enfermeros-add' %}">Añadir enfermero</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -114,12 +128,14 @@
                     <div class="head">
                         <h3>Pacientes</h3>
                     </div>
-                    <!-- Doctores -->
+
+                    {% if paciente %}
+                    <!-- Pacientes -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <img src="{% static paciente.person.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>Nombre del paciente</h3>
+                                <h3>{{paciente.person.first_name}} {{paciente.person.last_name}}</h3>
                                 <p>Ultimo paciente ingresado</p>
                             </span>
                         </li>
@@ -128,24 +144,29 @@
                                 <thead>
                                     <tr>
                                         <th>Edad</th>
-                                        <th>Numero de Telefono</th>
-                                        <th>Residencia</th>
+                                        <th>Enfermedad</th>
+                                        <th>Tipo de sangre</th>
+                                        <th>Numero de Habitacion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>29</p>
+                                            <p>{{paciente.person.age}}</p>
                                         </td>
-                                        <td>809-089-5623</td>
-                                        <td><span class="status process">Avenida Libertad, casa #12</span></td>
+                                        <td>{{paciente.bloodType}}</td>
+                                        <td>{{paciente.illness}}</td>
+                                        <td><span>{{paciente.room.roomName}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
                     </ul>
                     <a href="{% url 'pacientes' %}">Lista de pacientes</a>
-                    <!-- Doctores -->
+                    <!-- Pacientes -->
+                    {% else %}
+                    <a href="{% url 'pacientes-add' %}">Añadir paciente</a>
+                    {% endif %}
                 </div>
             </div>
             

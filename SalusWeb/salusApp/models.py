@@ -74,16 +74,20 @@ class Person(models.Model):
 
 
 class Room(models.Model):
+    roomName = models.CharField(max_length=30)
+    isAvailable = models.BooleanField(default=True)
+    
+class Sensores(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     roomTemperature = models.FloatField("Room's Temperature")
     patientTemperature = models.FloatField("Patient's Temperature")
     roomHumidity = models.FloatField("Room's relative humidity %")
     roomDustLevel = models.IntegerField("Room's dust level in %")
     roomAirQuality = models.IntegerField("Room's AirQuality in %")
     patientPulse = models.FloatField("Patient's pulse value")
-    #emc -> unconfirmed
     
 class Patient(models.Model):
-    person = models.ManyToManyField(Person)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="nurse")
     doctor = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="doctor")
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
@@ -97,6 +101,8 @@ class Patient(models.Model):
     kinshipReference = models.CharField("Reference Person's kinshipness", choices=KinshipChoices, max_length=1)
     phone_reference = models.CharField("Reference person's phone number", max_length=15)
     bmi = models.FloatField("Person's BMI") #IMC
+    weight_in_pounds = models.FloatField("Perons's Weight")
+    height_in_meters = models.FloatField("Perons's Height")
     bloodTypes = [
         ('O+', 'O Positivo'),
         ('O-', 'O Negativo'),

@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from requests import request
 from .models import Person, User, Patient, Room
+from django.db.models import Q 
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -11,20 +12,24 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.contrib import messages
 from .forms import PersonCreateForm, PersonUpdateForm
+from datetime import datetime
 
 
 @login_required()
 def dashboard(request):
-    contador_pacientes = list(Patient.objects.all().values_list('last_nameReference', flat=True)).count() if Patient.objects.all() else 0
-    contador_miembros_equipo = 0
-    contador_habitaciones = 0
-    #list(Patient.objects.all().values_list('last_nameReference', flat=True)).count() if Patient.objects.all() else 0
+    contador_pacientes = len(Patient.objects.all()) if Patient.objects.all() else 0
+    contador_miembros_equipo = len(Person.objects.filter(isNurse=True)) + len(Person.objects.filter(isDoctor=True))
+    contador_habitaciones = len(Room.objects.all()) - len(Patient.objects.all())
+    pacientes = Patient.objects.all()
+    
 
     context = {
         "name":request.user,
         "contador_pacientes":contador_pacientes,
-        "contador_miembros_equipo":str(contador_miembros_equipo),
-        "contador_habitaciones":str(contador_habitaciones)
+        "contador_miembros_equipo":contador_miembros_equipo,
+        "contador_habitaciones":0,
+        "pacientes":pacientes,
+        "contador_habitaciones":contador_habitaciones,
         } 
     return render(request, 'salusApp/dashboard-Home.html', context=context)
 
@@ -79,23 +84,171 @@ def dashboard_clinica(request):
 @login_required()
 def dashboard_equipo(request):
     personas =  Person.objects.all()
-    ultima_persona = personas[len(personas)-1]
+    ultima_persona = personas[len(personas)-1] if personas else None
     nurses = Person.objects.filter(isNurse=True)
-    ultima_nurse = nurses[len(nurses)-1]
+    ultima_nurse = nurses[len(nurses)-1] if nurses else None
     doctors = Person.objects.filter(isDoctor=True)
-    ultimo_doc = doctors[len(doctors)-1]
+    ultimo_doc = doctors[len(doctors)-1] if doctors else None
+    patients = Patient.objects.all()
+    ultimo_paciente = patients[len(patients)-1] if patients else None
     context = {
         "nurse":ultima_nurse,
         "persona":ultima_persona,
-        "doc":ultimo_doc
+        "doc":ultimo_doc,
+        "paciente":ultimo_paciente 
                }
     return render(request, 'salusApp/dashboard-equipo.html', context)
 
-@login_required()
-def dashboard_equipo_pacientes(request):
-    context = {}
-    return render(request, 'salusApp/dashboard-equipo-pacientes.html', context)
 #=============================EQUIPO==========================
+
+
+#===========================PACIENTES==========================
+@login_required()
+def Pacientes(request):
+    pacientes = Patient.objects.all()
+    context = {"pacientes":pacientes}
+    return render(request, 'salusApp/dashboard-equipo-pacientes.html', context)
+
+@login_required()
+def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
+    if request.method == "POST":
+        try:
+            person = Person(
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                photo=request.POST['photo'],
+                age=request.POST['age'],
+                address=request.POST['address'],
+                sex=request.POST['sex'],
+                phone=request.POST['phone'],
+                idNumber=request.POST['idNumber'],
+                isDoctor=False,
+                isNurse=False
+            )
+            nurse = Person.objects.filter(pk=request.POST['nurse'], isNurse=True)[0]
+            doctor = Person.objects.filter(pk=request.POST['doctor'], isDoctor=True)[0]
+            room = Room.objects.filter(pk=request.POST['room'])[0]
+            name_reference = request.POST['first_nameReference']
+            lastName_reference = request.POST['last_nameReference']
+            phone_reference = request.POST['phone_reference']
+            kinship_reference = request.POST['kinshipReference']
+            weight = float(request.POST['weight_in_pounds'])
+            height = float(request.POST['height_in_meters'])
+            weight_in_kg = weight*0.453592
+            bmi = weight_in_kg/(height**2)
+            blood = request.POST['bloodType']
+            ars = request.POST['ars']
+            joining_date = datetime.today().strftime('%Y-%m-%d')
+            illness = request.POST['illness']
+            hospitalization = request.POST['hospitalization']
+            
+            newPatient = Patient(
+                person=person,
+                nurse=nurse,
+                doctor=doctor,
+                room=room,
+                first_nameReference=name_reference,
+                last_nameReference=lastName_reference,
+                kinshipReference=kinship_reference,
+                phone_reference=phone_reference,
+                bmi=bmi,
+                weight_in_pounds=weight,
+                height_in_meters=height,
+                bloodType=blood,
+                ars=ars,
+                join_date=joining_date,
+                illness=illness,
+                hospitalization=hospitalization
+            )
+            person.save()
+            newPatient.save()           
+            room.isAvailable = False
+            room.save()
+            return redirect('pacientes')
+        except Exception as e:
+            return HttpResponse(e)
+    else:
+        enfermeras = Person.objects.filter(isNurse=True)
+        doctores = Person.objects.filter(isDoctor=True)
+        room = Room.objects.filter(isAvailable=True)
+        context = {
+            "enfermeras":enfermeras, 
+            "doctors":doctores, 
+            "rooms":room
+        }
+        return render(request, 'registration/addPaciente.html', context)
+
+@login_required()
+def PacientesDelete(request, pk):
+    if request.method == "GET":
+        paciente = Patient.objects.filter(pk=pk)[0]
+        paciente.room.isAvailable = True
+        paciente.room.save()
+        paciente.persona.delete()
+        return redirect('pacientes')
+
+@login_required()
+def PacientesUpdate(request, pk):
+    if request.method == "POST":
+        try:
+            patient = Patient.objects.filter(pk=pk)[0]
+            patient.person.first_name=request.POST['first_name']
+            last_name=request.POST['last_name']
+            if len(request.POST['photo']) > 2:
+                patient.person.photo=request.POST['photo']
+            patient.person.age=request.POST['age']
+            patient.person.address=request.POST['address']
+            patient.person.sex=request.POST['sex']
+            patient.person.phone=request.POST['phone']
+            patient.person.idNumber=request.POST['idNumber']
+            
+            patient.nurse = Person.objects.filter(pk=request.POST['nurse'], isNurse=True)[0]
+            patient.doctor = Person.objects.filter(pk=request.POST['doctor'], isDoctor=True)[0]
+            
+            if request.POST['room'] != 'None':
+                patient.room.isAvailable = True
+                patient.room.save()
+                patient.room = Room.objects.filter(pk=request.POST['room'])[0]
+                
+            patient.name_reference = request.POST['first_nameReference']
+            patient.lastName_reference = request.POST['last_nameReference']
+            patient.phone_reference = request.POST['phone_reference']
+            patient.kinship_reference = request.POST['kinshipReference']
+            patient.weight = float(request.POST['weight_in_pounds'])
+            patient.height = float(request.POST['height_in_meters'])
+            weight_in_kg = patient.weight*0.453592
+            patient.bmi = weight_in_kg/(patient.height**2)
+            patient.blood = request.POST['bloodType']
+            patient.ars = request.POST['ars']
+            patient.illness = request.POST['illness']
+            patient.hospitalization = request.POST['hospitalization']
+            
+            patient.person.save()
+            patient.save()           
+            return redirect('pacientes')
+        except Exception as e:
+            return HttpResponse(e)
+    else:
+        enfermeras = Person.objects.filter(isNurse=True)
+        doctores = Person.objects.filter(isDoctor=True)
+        room = Room.objects.filter(isAvailable=True)
+        paciente = Patient.objects.filter(pk=pk)[0]
+        KinshipTypes = [['H','Conyugue'], ['A','Amigo'],['F','Familiar']]
+        bloodTypes = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
+        hospitalizacionChoices = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
+        context = {
+            "enfermeras":enfermeras, 
+            "doctors":doctores, 
+            "rooms":room,
+            "patient":paciente,
+            "KinshipTypes":KinshipTypes,
+            "bloodTypes":bloodTypes,
+            "hospitalizacionChoices":hospitalizacionChoices
+        }
+        return render(request, 'registration/editPaciente.html', context)
+
+#===========================PACIENTES=======================
+
 
 
 #===========================DOCTORES========================

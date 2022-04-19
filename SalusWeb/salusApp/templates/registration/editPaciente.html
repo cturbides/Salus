@@ -1,0 +1,471 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Lista de pacientes</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'equipo' %}">Equipo</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        
+                        <li>
+                            <a class="active" href="{% url 'pacientes' %}">Pacientes</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'pacientes-edit' patient.id %}">Editando a {{patient.person.first_name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- Head title -->
+
+            <!-- For enfermera en blabla-->
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Formulario</h3>
+                    </div>
+                    <form method="POST" action="" class="form">
+                        {% csrf_token %}
+                        <ul class="box-info">
+                            <li>
+                                <!-- Primer Nombre-->
+                                <span class="text">
+                                    <h3>Nombre</h3>
+                                    <input id="id_first_name" type="text" name="first_name" maxlength="30" required="" value="{{patient.person.first_name}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Primer apellido -->
+                                <span class="text">
+                                    <h3>Apellido</h3>
+                                    <input id="id_last_name" type="text" name="last_name" required="" value="{{patient.person.last_name}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Edad -->
+                                <span class="text">
+                                    <h3>Edad</h3>
+                                    <input id="id_age" type="number" name="age" required="" value="{{patient.person.age}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        <ul class="box-info">
+                            <li>
+                                <!-- Residencia -->
+                                <span class="text">
+                                    <h3>Residencia</h3>
+                                    <input id="id_address" type="text" maxlength="100" name="address" required="" value="{{patient.person.address}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Sexo -->
+                                <span class="text">
+                                    <h3>Sexo</h3>
+                                    <select id="id_sex" name="sex" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                    {% if patient.person.sex == 'M' %}
+                                    <option selected value="M">Hombre</option>
+                                    <option value="F">Mujer</option>
+                                    {% else %}
+                                    <option value="M">Hombre</option>
+                                    <option selected value="F">Mujer</option>
+                                    {% endif %}    
+                                    
+                                    </select>
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Cedula -->
+                                <span class="text">
+                                    <h3>Numero de identidad</h3>
+                                    <input id="id_idNumber" type="text" maxlength="10" name="idNumber" required="" value="{{patient.person.idNumber}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        
+                        <ul class="box-info">
+                            <li>
+                                <!-- Numero de telefono -->
+                                <span class="text">
+                                    <h3>Numero de telefono</h3>
+                                    <input id="id_phone" type="text" maxlength="15" name="phone" required="" value="{{patient.person.phone}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            
+                            <li>
+                                <!-- Enfermeras -->
+                                <span class="text">
+                                    <h3>Enfermero a cargo</h3>
+                                    <select id="id_nurse" name="nurse" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                        {% for enfermera in enfermeras %}
+                                        {% if enfermera == patient.nurse %}
+                                        <option selected value="{{enfermera.id}}">{{enfermera.first_name}}</option>
+                                        {% else %}
+                                        <option value="{{enfermera.id}}">{{enfermera.first_name}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+
+                            <li>
+                                <!-- Photo-->
+                                <span class="text">
+                                    <h3>Foto del paciente</h3>
+                                    <input id="id_photo" type="file"  name="photo"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+
+                        <ul class="box-info">
+                            <li>
+                                <!-- Nombre - Referencia -->
+                                <span class="text">
+                                    <h3>Nombre - Referencia</h3>
+                                    <input id="id_idfirst_nameReference" type="text" name="first_nameReference" maxlength="30" required="" value="{{patient.first_nameReference}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Apellido - Referencia -->
+                                <span class="text">
+                                    <h3>Apellido - Referencia</h3>
+                                    <input id="id_idlast_nameReference" type="text" name="last_nameReference" required="" value="{{patient.last_nameReference}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Telefono - Referencia -->
+                                <span class="text">
+                                    <h3>Telefono - Referencia</h3>
+                                    <input id="id_idphone_reference" type="text" maxlength="15" name="phone_reference" required="" value="{{patient.phone_reference}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+
+                        <ul class="box-info">
+                            <li>
+                                <!-- Parentesco -->
+                                <span class="text">
+                                    <h3>Parentesto - Referencia</h3>
+                                    <select id="id_idkinshipReference" name="kinshipReference" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                        {% for kinshipType in KinshipTypes %}
+                                        {% if patient.kinshipReference == kinshipType.0 %}
+                                        <option selected value="kinshipType.0">{{kinshipType.1}}</option>
+                                        {% else %}
+                                        <option value="kinshipType.0">{{kinshipType.1}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+
+
+                            <li>
+                                <!-- Peso en kilogramos -->
+                                <span class="text">
+                                    <h3>Peso en libras</h3>
+                                    <input id="id_idweight_in_pounds" step="any" type="number" name="weight_in_pounds" maxlength="30" required="" value="{{patient.weight_in_pounds}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                            <li>
+                                <!-- Altura en metros -->
+                                <span class="text">
+                                    <h3>Altura en metros</h3>
+                                    <input id="id_idheight_in_meters" step="any" type="number" name="height_in_meters" required="" value="{{patient.height_in_meters}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+
+                        <ul class="box-info">
+                            <li>
+                                <!-- ARS -->
+                                <span class="text">
+                                    <h3>Nombre de la aseguradora</h3>
+                                    <input id="id_idars" type="text" maxlength="15" name="ars" required="" value="{{patient.ars}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+
+                            <li>
+                                <!-- Tipo de sangre -->
+                                <span class="text">
+                                    <h3>Tipo de sangre</h3>
+                                    <select id="id_idbloodType" name="bloodType" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                    {% for bloodType in bloodTypes  %}
+                                    {% if bloodType == patient.bloodType %}
+                                    <option selected value="{{bloodType}}">{{bloodType}}</option>
+                                    {% else %}
+                                    <option value="{{bloodType}}">{{bloodType}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+                            
+                            <li>
+                                <!-- Enfermedad -->
+                                <span class="text">
+                                    <h3>Enfermedad</h3>
+                                    <input id="id_idillness" type="text" maxlength="20" name="illness" required="" value="{{patient.illness}}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+
+                        <ul class="box-info">         
+                            <li>
+                                <!-- Tipo de sangre -->
+                                <span class="text">
+                                    <h3>Tipo de hospitalizacion</h3> <!-- Agregar tilde-->
+                                    <select id="id_idhospitalization" name="hospitalization" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                                                        <!-- hospitalizacion choices-->
+                                    {% for hospitalizationChoice in hospitalizacionChoices %}
+                                    {% if patient.hospitalization == hospitalizationChoice.0 %}
+                                    <option selected value="{{hospitalizationChoice.0}}">{{hospitalizationChoice.1}}</option>
+                                    {% else %}
+                                    <option value="{{hospitalizationChoice.0}}">{{hospitalizationChoice.1}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+
+                            <li>
+                                <!-- Doctores -->
+                                <span class="text">
+                                    <h3>Doctor a cargo</h3>
+                                    <select id="id_iddoctor" name="doctor" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                    {% for doctor in doctors %}
+                                        {% if doctor == patient.doctor %}
+                                        <option selected value="{{doctor.id}}">{{doctor.first_name}}</option>
+                                        {% else %}
+                                        <option value="{{doctor.id}}">{{doctor.first_name}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+
+                            <li>
+                                <!-- Habitaciones disponibles -->
+                                <span class="text">
+                                    <h3>Habitaciones disponibles</h3>
+                                    <select id="id_idroom" name="room" 
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                        {% for room in rooms %}
+                                        {% if  room.id == patient.room.id %}
+                                        <option value="None" selected>--</option>
+                                        {% else %}
+                                        <option value="{{room.id}}">{{room.roomName}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </span>  
+                            </li>
+                        </ul>
+
+                        <div class="head-title">
+                            <div class="left">
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <input type="submit" value="Enviar"
+                                        style="border: none !important;
+                                            border-bottom: 1px solid #000!important;
+                                            background: transparent!important;
+                                            outline: none!important;
+                                            height: 40px!important;
+                                            color: #000!important;
+                                            font-size: 16px!important;
+                                            margin-bottom: 20px!important;" 
+                                            onMouseOver="this.style.color='#fff'; this.style.cursor='pointer';" onMouseOut="this.style.color='#000'">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}

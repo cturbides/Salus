@@ -23,66 +23,105 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download"><!-- Agregar Pacientes -->
+                <a href="{% url 'pacientes-add' %}" class="btn-download"><!-- Agregar Pacientes -->
                     <i class='bx bxs-ambulance' ></i>
                     <span class="text">Agregar paciente</span>
                 </a>
             </div>
 
-            <!-- For Pacientes en blabla-->
+            {% for paciente in pacientes %}
             <div class="table-data">
                 <div class="order">
                     <ul class="box-info">
                         <li>
-                            <img src="{% static 'salusApp/img/Doctor.jpeg' %}" style="height: 90px;">
+                            <img src="{% static paciente.person.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>Nombre del paciente</h3>
+                                <h3>{{paciente.person.first_name}} {{paciente.person.last_name}}</h3>
                                 <p>Nombre del paciente</p>
-                                <p>edad years</p>
-                                <p>sexo</p>
+                                <p>{{paciente.person.age}} years</p>
+                                {% if paciente.person.sex == 'F' %}
+                                    <p>Mujer</p>
+                                {% elif paciente.person.sex == 'M' %}
+                                    <p>Hombre</p>
+                                {% endif %}
+                                
                             </span>
                         </li>
                     </ul>
                     <table>
                         <thead>
                             <tr>
-                                <th>Numero de Telefono</th>
-                                <th>Residencia</th>
                                 <th>Enfermedad</th>
                                 <th>ARS</th>
-                                <th>IMC</th>
-                                <th>Tipo de hospitalizacion</th>
-                                <th>Fecha de ingreso</th>
-                                <th>Nombre de referencia</th>
-                                <th>Numero de telefono - Referencia</th>
-                                <th>Parentesco - Referencia</th>
+                                <th>Peso en libras</th>
+                                <th>Altura en metros</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>809-089-5623</td>
-                                <td><span class="status process">Avenida Libertad, casa #12</span></td>
-                                <td>Sifilis</td>
-                                <td>Humanos</td>
-                                <td>12.5</td>
-                                <td>Urgente</td>
-                                <td>24/10/2004</td>
-                                <td>Carlos</td>
-                                <td>846-544-511</td>
-                                <td>Amigo</td>
-
+                                <td>{{paciente.illness}}</td>
+                                <td>{{paciente.ars}}</td>
+                                <td>{{paciente.weight_in_pounds}}</td>
+                                <td>{{paciente.height_in_meters}}</td>
                             </tr>
                         </tbody>
+                        <thead>
+                            <tr>
+                                <th>Tipo de sangre</th>
+                                <th>Tipo de hospitalizacion</th>
+                                <th>Fecha de ingreso</th>
+                                <th>Nombre de referencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{paciente.bloodType}}</td>
+                                {% if paciente.hospitalization == 'U' %}
+                                    <td>Urgente</td>
+                                {% elif paciente.hospitalization == 'P' %}
+                                    <td>Programado</td>
+                                {% elif paciente.hospitalization == 'I' %}
+                                    <td>Intrahospitalario</td>
+                                {% endif %}
+
+                                <td>{{paciente.join_date}}</td>
+                                <td>{{paciente.first_nameReference}} {{paciente.last_nameReference}}</td>
+                            </tr>
+                        </tbody>
+
+                        <thead>
+                            <tr>
+                                <th>Numero de telefono - Referencia</th>
+                                <th>Parentesco - Referencia</th>
+                                <th>Habitacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{paciente.phone_reference}}</td>
+                                
+                                {% if paciente.kinshipReference == 'H' %}
+                                    <td>Conyugue</td> <!-- Poner la tilde-->
+                                {% elif paciente.kinshipReference == 'A' %}
+                                    <td>Amigo</td>
+                                {% elif paciente.kinshipReference == 'F' %}
+                                    <td>Familiar</td>
+                                {% endif %}
+
+                                <td>{{paciente.room.roomName}}</td>
+                            </tr>
+                        </tbody>
+
                     </table>
-                    
+
                     <div class="head-title">
                         <div class="left">
                             <ul class="breadcrumb">
                                 <li>
-                                    <a href="{% url 'pacientes' %}" class="active">Editar</a> <!-- Editar paciente-->
+                                    <a href="{% url 'pacientes-edit' paciente.id %}" class="active">Editar</a> <!-- Editar paciente-->
                                 </li>
                                 <li>
-                                    <a href="{% url 'pacientes' %}" class="active">Eliminar</a><!-- Eliminar paciente-->
+                                    <a href="{% url 'pacientes-delete' paciente.id %}" class="active">Eliminar</a><!-- Eliminar paciente-->
                                 </li>
                             </ul>
                         </div>
@@ -91,6 +130,7 @@
                     
                 </div>
             </div>
+            {% endfor %}
             <!-- for Pacientes-->
             
         </main>

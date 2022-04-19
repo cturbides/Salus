@@ -536,7 +536,11 @@ body {
 }
 
 #content main .table-data .order table tr td .status.completed {
-    background: #B898C6 !important;
+    background: var(--blue);
+}
+
+#content main .table-data .order table tr td .status.completed {
+    background: var(--blue);
 }
 
 #content main .table-data .order table tr td .status.process {
