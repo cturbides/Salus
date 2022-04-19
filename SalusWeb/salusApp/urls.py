@@ -15,6 +15,7 @@ urlpatterns = [
     path('changepass/changepass-success', views.change_password_success, name='changepass-success'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/mi-clinica', views.dashboard_clinica, name='mi-clinica'),
+    path('dashboard/mi-clinica/<int:pk>', views.dashboard_clinica_room, name='mi-clinica-room'),
     path('dashboard/analitica', views.dashboard_clinica, name='analitica'),
     path('dashboard/equipo', views.dashboard_equipo, name='equipo'),
     path('dashboard/equipo/enfermeros', views.Enfermeros, name='enfermeros'),

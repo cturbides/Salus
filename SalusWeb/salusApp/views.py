@@ -75,8 +75,22 @@ def change_password_success(request):
 #==========================MI-CLINICA=========================
 @login_required()
 def dashboard_clinica(request):
-    context = {"name":request.user} #Sending data from the request
+    contador_habitaciones = len(Patient.objects.all()) if Patient.objects.all() else 0
+    contador_miembros_equipo = len(Person.objects.filter(isNurse=True)) + len(Person.objects.filter(isDoctor=True)) 
+    pacientes = Patient.objects.all() if contador_habitaciones else 0
+    habitaciones = Room.objects.filter(isAvailable=True)
+    context = {
+        "contador_habitaciones":contador_habitaciones,
+        "contador_miembros_equipo":contador_miembros_equipo,
+        "pacientes":pacientes,
+        "habitaciones":habitaciones
+        } 
     return render(request, 'salusApp/dashboard-miClinica.html', context)
+
+@login_required()
+def dashboard_clinica_room(request):
+    context = {}
+    return render(request, 'salusApp/dashboard-miClinica-room.html', context)
 #==========================MI-CLINICA=========================
 
 

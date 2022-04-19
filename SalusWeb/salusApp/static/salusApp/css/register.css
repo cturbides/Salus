@@ -50,7 +50,7 @@ span {
 .login-box {
     width: 520px;
     height: 520px;
-    background: #8490a5;
+    background: #fff;
     color: #fff;
     top: 50%;
     left: 50%;
@@ -82,6 +82,7 @@ span {
     margin: 0;
     display: block;
     font-weight: bold;
+    color: #8490a5;
 }
 
 .login-box input {
@@ -92,11 +93,11 @@ span {
 .login-box input[type="text"],
 .login-box input[type="password"] {
     border: none;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #8490a5;
     background: transparent;
     outline: none;
     height: 40px;
-    color: #fff;
+    color: #8490a5;
     font-size: 16px;
 }
 
@@ -114,9 +115,9 @@ span {
     text-decoration: none;
     font-size: 12px;
     line-height: 20px;
-    color: darkgray;
+    color: #000;
 }
 
 .login-box a:hover {
-    color: #fff;
+    color: rgb(48, 93, 110);
 }

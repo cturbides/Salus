@@ -1,5 +1,4 @@
 """Imports"""
-from lib2to3.pgen2.token import MINEQUAL
 from typing import List
 import serial
 import time
