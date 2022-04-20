@@ -429,12 +429,10 @@
                                     color: #000!important;
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
+                                    <option value="None" selected>--</option>
+    
                                         {% for room in rooms %}
-                                        {% if  room.id == patient.room.id %}
-                                        <option value="None" selected>--</option>
-                                        {% else %}
                                         <option value="{{room.id}}">{{room.roomName}}</option>
-                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                 </span>  

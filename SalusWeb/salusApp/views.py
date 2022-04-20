@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from requests import request
-from .models import Person, User, Patient, Room
+from .models import Person, Sensores, User, Patient, Room
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -76,12 +76,15 @@ def dashboard_clinica(request):
     contador_habitaciones = len(Patient.objects.all()) if Patient.objects.all() else 0
     contador_miembros_equipo = len(Person.objects.filter(isNurse=True)) + len(Person.objects.filter(isDoctor=True)) 
     pacientes = Patient.objects.all() if contador_habitaciones else 0
-    habitaciones = Room.objects.filter(isAvailable=True)
+    habitaciones = Room.objects.filter(isAvailable=True) if Room.objects.filter(isAvailable=True) else 0
+    sensores = Sensores.objects.all()
+    sensores = sensores[len(sensores)-1]
     context = {
         "contador_habitaciones":contador_habitaciones,
         "contador_miembros_equipo":contador_miembros_equipo,
         "pacientes":pacientes,
-        "habitaciones":habitaciones
+        "habitaciones":habitaciones,
+        "sensores":sensores
         } 
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
@@ -89,10 +92,9 @@ def dashboard_clinica(request):
 def dashboard_clinica_room(request, room_id):
     room = Room.objects.filter(id=room_id)[0]
     paciente = Patient.objects.filter(room=room)[0]
-    
     context = {
         "paciente":paciente,
-        "room_id":room_id
+        "room_id":room_id,
     }
     return render(request, 'salusApp/dashboard-miClinica-room.html', context)
 #==========================MI-CLINICA=========================
@@ -227,6 +229,8 @@ def PacientesUpdate(request, pk):
                 patient.room.isAvailable = True
                 patient.room.save()
                 patient.room = Room.objects.filter(pk=request.POST['room'])[0]
+                patient.room.isAvailable = False
+                patient.room.save()
                 
             patient.name_reference = request.POST['first_nameReference']
             patient.lastName_reference = request.POST['last_nameReference']

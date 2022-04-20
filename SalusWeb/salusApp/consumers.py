@@ -66,7 +66,7 @@ class ThrowingSensorData(AsyncJsonWebsocketConsumer):
         while True:
             sensors_data_list = await get_all_sensor_data()
             await self.send(text_data=json.dumps({"sensors_data":sensors_data_list}))
-            await sleep(5)
+            await sleep(2)
             
     async def disconnect(self, code):
         await self.disconnect()

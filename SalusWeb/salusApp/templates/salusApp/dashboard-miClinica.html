@@ -19,10 +19,6 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download">
-                    <i class='bx bxs-cloud-download'></i>
-                    <span class="text">Descargar PDF</span>
-                </a>
             </div>
 
             <ul class="box-info">
@@ -88,10 +84,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>35 Celsius</p>
+                                            <p>{{sensores.roomTemperature}}</p>
                                         </td>
-                                        <td>30%</td>
-                                        <td><span class="status process">60%</span></td>
+                                        <td>{{sensores.roomHumidity}}</td>
+                                        <td><span>{{sensores.roomAirQuality}} %</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -108,9 +104,9 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>35 Celsius</p>
+                                            <p>{{sensores.patientTemperature}}</p>
                                         </td>
-                                        <td>30%</td>
+                                        <td>{{sensores.patientPulse}} ppm</td>
                                         <td><span class="status pending">Tensos</span></td>
                                     </tr>
                                 </tbody>
