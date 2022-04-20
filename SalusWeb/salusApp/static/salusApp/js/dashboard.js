@@ -1,5 +1,45 @@
 //=======================Seleccionador============================
 //const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+
+// TOGGLE SIDEBAR
+const menuBar = document.querySelector('#content nav .bx.bx-menu');
+const sidebar = document.getElementById('sidebar');
+
+menuBar.addEventListener('click', function() {
+    sidebar.classList.toggle('hide');
+})
+
+const switchMode = document.getElementById('switch-mode');
+
+function dark() {
+    document.body.classList.add('dark');
+}
+
+function light() {
+    document.body.classList.remove('dark');
+}
+if (localStorage.getItem("mode") == "dark") {
+    dark();
+    switchMode.click();
+} else {
+    light();
+}
+window.onload = function() {
+
+}
+
+switchMode.addEventListener('change', function() {
+    if (this.checked) {
+        dark();
+        localStorage.setItem("mode", "dark");
+    } else {
+        light();
+        localStorage.setItem("mode", "light");
+    }
+})
+
+
+
 const url = window.location.href;
 let last_part = url.split('/').pop();
 let after_dashboard = url.split('/')[5];

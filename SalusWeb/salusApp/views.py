@@ -1,9 +1,7 @@
-from cmath import polar
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from requests import request
 from .models import Person, User, Patient, Room
-from django.db.models import Q 
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -88,8 +86,14 @@ def dashboard_clinica(request):
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
 @login_required()
-def dashboard_clinica_room(request):
-    context = {}
+def dashboard_clinica_room(request, room_id):
+    room = Room.objects.filter(id=room_id)[0]
+    paciente = Patient.objects.filter(room=room)[0]
+    
+    context = {
+        "paciente":paciente,
+        "room_id":room_id
+    }
     return render(request, 'salusApp/dashboard-miClinica-room.html', context)
 #==========================MI-CLINICA=========================
 

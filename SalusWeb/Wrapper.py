@@ -54,11 +54,15 @@ while isBoard and dbAvailable:
             preHeat -= 1
     except KeyboardInterrupt as keyboad:
         print(bcolors.FAIL + "\n[-] Keyboard interrupt, finishing program.." + bcolors.ENDC)
+        time.sleep(2)
+        break
+    except EOFError as ctrlz:
+        print(bcolors.FAIL + "\n[-] Keyboard interrupt, finishing program.." + bcolors.ENDC)
         DeleteAllinRoom(cursor)
         time.sleep(2)
         break
     except Exception as e:
-        print(bcolors.WARNING + f"[-] Wrong data format!{e}" + bcolors.ENDC)
+        print(bcolors.WARNING + f"[-] Wrong data format! {e}" + bcolors.ENDC)
         time.sleep(1)
 
 #If Board wasn't well connected       

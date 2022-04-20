@@ -1,14 +1,16 @@
 {% extends 'salusApp/dashboard_base.html' %}
 {% load static %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 {% block content %}
     <!-- CONTENT -->
-    <section id="content">
+    
         <!-- MAIN -->
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>El ultimo paciente ingresado ha sido {{ name }}</h1>
+                    <h1>{{ paciente.room.roomName }}</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -17,40 +19,17 @@
                         <li>
                             <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
                         </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'mi-clinica-room' paciente.room.id %}">{{ paciente.room.roomName}}</a>
+                        </li>
                     </ul>
                 </div>
-                <a href="#" class="btn-download">
-                    <i class='bx bxs-cloud-download'></i>
-                    <span class="text">Descargar PDF</span>
-                </a>
             </div>
-
-            <ul class="box-info">
-                <li>
-                    <i class='bx bx-camera-home'></i>
-                    <span class="text">
-						<h3>{{contador_habitaciones}}</h3><!--reemplazar-->
-						<p>Habitaciones activas</p>
-					</span>
-                </li>
-                <li>
-                    <i class='bx bxs-group'></i>
-                    <span class="text">
-						<h3>{{contador_miembros_equipo}}</h3><!--reemplazar-->
-						<p>Miembros activos</p>
-					</span>
-                </li>
-            </ul>
             
-            {% for paciente in pacientes %}
             <div class="table-data">
                 <div class="order">
-                    <a href="#"> <!--Redireccionar a pagina monitor-->
-                        <div class="head">
-                        <h3>{{paciente.room.roomName}}</h3>
-                    </div>
-                </a>
-                    <!-- HABITACION 1 -->
+                    <!-- Info 1 -->
                     <ul class="box-info">
                         <li>
                             <i class='bx bx-plus-medical'></i>
@@ -74,7 +53,11 @@
                             </span>
                         </li>
                     </ul>
-                    <!-- HABITACION -->
+                    <!-- Info -->
+                </div>
+            </div>
+            <div class="table-data">
+                <div class="order">
                     <ul class="box-info">
                         <li>
                             <table>
@@ -83,15 +66,17 @@
                                         <th>Temperatura media</th>
                                         <th>Humedad relativa</th>
                                         <th>Calidad del aire</th>
+                                        <th>Cantidad de polvo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>35 Celsius</p>
+                                            <p id="temperature_room">34</p>
                                         </td>
-                                        <td>30%</td>
-                                        <td><span class="status process">60%</span></td>
+                                        <td id="relative_humidity">30%</td>
+                                        <td><span class="status process" id="air_quality">60%</span></td>
+                                        <td id="dust_level">30%</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -107,40 +92,147 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>
-                                            <p>35 Celsius</p>
-                                        </td>
-                                        <td>30%</td>
-                                        <td><span class="status pending">Tensos</span></td>
+                                        <td id="patient_temperature">35 Celsius</td>
+                                        <td id="patient_heartbeat">30%</td>
+                                        <td><span class="status pending" id="patient_muscles_state">Tensos</span></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
                     </ul>
-                </div>
-            </div>
-            {% endfor %}
 
-            {% for habitacion in habitaciones %}
-            <div class="table-data">
-                <div class="order">
-                    <h3>{{habitacion.roomName}}</h3>
-                    <!--  HABITACION  -->
                     <ul class="box-info">
-                        <li>
-                            <i class='bx bx-plus-medical'></i>
-                            <span class="text">
-                                <h3>Habitacion disponible</h3>
-                            </span>
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Pulso del paciente</h1>
+                            <canvas id="myChart_pulsoPaciente" width="400" height="500"></canvas>
+                        </li>
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Temperatura del paciente</h1>
+                            <canvas id="myChart_2" width="400" height="500"></canvas>
                         </li>
                     </ul>
-                    <!-- HABITACION -->
+                    <ul class="box-info">
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Temperatura de la habitacion</h1>
+                            <canvas id="myChart_3" width="400" height="500"></canvas>
+                        </li>
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Humedad relativa</h1>
+                            <canvas id="myChart_4" width="400" height="500"></canvas>
+                        </li>
+                    </ul>
+                    <ul class="box-info">
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Temperatura de la habitacion</h1>
+                            <canvas id="myChart_5" width="400" height="500"></canvas>
+                        </li>
+                        <li style="max-width: 300px; max-height: 300px;">
+                            <h1>Humedad relativa</h1>
+                            <canvas id="myChart_6" width="400" height="500"></canvas>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            {% endfor %}
+            
+            <button style="display: none !important;" id="magic_button" type="button"></button>
         </main>
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
 
+    <script>  
+        //Declaring html-related variables
+        let roomHumidity_html = document.querySelector('#relative_humidity');
+        let roomTemperature_html = document.querySelector('#temperature_room');
+        let roomAirQuality_html = document.querySelector('#air_quality');
+        let roomDustLevel_html = document.querySelector('#dust_level');
+        let patientTemperature_html = document.querySelector('#patient_temperature');
+        let patientHeartBeat_html = document.querySelector('#patient_heartbeat');
+        
+        //let patientMusclesState_html = document.querySelector('#patient_muscles_state'); //Pendiente por agregar
+
+        //Creating a new Websocket
+        const socket = new WebSocket(
+            'ws://'
+            +window.location.host
+            +'/ws/salusApp/room/'
+            +window.location.href.split('/')[6]);
+
+        socket.onmessage =  function(e) {
+            const result = JSON.parse(e.data)['sensors_data']; //Data -> parsed 
+            let sensorData = result[result.length-1];
+
+            //Taking out result's data
+            let roomHumidity = sensorData['roomHumidity'];
+            let roomTemperature = sensorData['roomTemperature'];
+            let roomDustLevel = sensorData['roomDustLevel'];
+            let roomAirQuality = sensorData['roomAirQuality'];
+            let patientTemperature = sensorData['patientTemperature'];
+            let patientPulse = sensorData['patientPulse'];
+            console.log(sensorData);
+
+            //Parse data to HTML
+            roomHumidity_html.innerHTML = (roomHumidity + "%");
+            roomTemperature_html.innerHTML = (roomTemperature + " grados");
+            roomDustLevel_html.innerHTML = (roomDustLevel + "%");
+            roomAirQuality_html.innerHTML = (roomAirQuality + "% puro");
+            patientTemperature_html.innerHTML = (patientTemperature + " grados");
+            patientHeartBeat_html.innerHTML = (patientPulse + "PPM");
+        }
+        
+        socket.onclose = function(e){
+            console.log("Socket closed!")
+        }
+
+        socket.onopen =  function(e){
+            console.log("Socket opened!")
+        }
+    </script>
+    
+    <script>
+        var label_pulsoPaciente = [1];
+        const data_pulsoPaciente = {
+        labels: label_pulsoPaciente,
+        datasets: [{
+            label: 'Pulsaciones',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+        };
+        const config_pulsoPaciente = {
+            type: 'line',
+            data: data_pulsoPaciente,
+            options: {
+                responsive: true,
+            }
+          };
+
+        const myChart_pulsoPaciente = new Chart(
+          document.getElementById('myChart_pulsoPaciente'),
+          config_pulsoPaciente
+        );
+    </script>
+    <script>
+        const myChart_temperaturaPaciente = new Chart(
+            document.getElementById('myChart_temperaturaPaciente'),
+            config_temperaturaPaciente
+          );
+          const myChart_temperaturaHabitacion = new Chart(
+            document.getElementById('myChart_temperaturaHabitacion'),
+            config_temperaturaHabitacion
+          );
+          const myChart_humedadRelativa = new Chart(
+            document.getElementById('myChart_humedadRelativa'),
+            config_humedadRelativa
+          );
+          const myChart_calidadAire = new Chart(
+            document.getElementById('myChart_calidadAire'),
+            config_calidadAire
+          );
+          const myChart_dustLevel = new Chart(
+            document.getElementById('myChart_dustLevel'),
+            config_dustLevel
+          );
+    </script>
 {% endblock content %}
