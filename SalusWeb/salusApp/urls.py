@@ -32,7 +32,7 @@ urlpatterns = [
     path('dashboard/settings', views.dashboard_configuracion, name='settings'),
     path('dashboard/settings/delete/<int:pk>', views.delete_user, name='delete'),
     path('dashboard/settings/delete/<int:pk>#', views.confirm_delete, name='confirm-delete'),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    ]
 
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,

@@ -75,7 +75,7 @@
                                             <p id="temperature_room">34</p>
                                         </td>
                                         <td id="relative_humidity">30%</td>
-                                        <td><span class="status process" id="air_quality">60%</span></td>
+                                        <td><span id="air_quality">60%</span></td>
                                         <td id="dust_level">30%</td>
                                     </tr>
                                 </tbody>
@@ -142,10 +142,19 @@
                                 </ul>
                             </tr>
                         </tbody>
+                        <tbody>
+                            <tr>
+                                <ul class="box-info">
+                                    <li style="max-width: 300px; max-height: 300px;">
+                                        <h1>Estado de sus musculos</h1>
+                                        <canvas id="myChart_electromigrafo" width="400" height="500"></canvas>
+                                    </li>
+                                </ul>
+                            </tr>
+                        </tbody>
                 </table>
                 </div>
             </div>
-            
             <button style="display: none !important;" id="magic_button" type="button"></button>
         </main>
         <!-- MAIN -->
@@ -169,7 +178,7 @@
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(205, 171, 231)',
             data: y_pulsoPaciente,
-        }]
+            }]
         };
         const config_pulsoPaciente = {
             type: 'line',
@@ -181,13 +190,12 @@
                         display: false
                     }
                 }
-        
             }
-          };
+        };
 
         const myChart_pulsoPaciente = new Chart(
-          document.getElementById('myChart_pulsoPaciente'),
-          config_pulsoPaciente
+            document.getElementById('myChart_pulsoPaciente'),
+            config_pulsoPaciente
         );
     </script>
     
@@ -208,8 +216,8 @@
                 borderColor: 'rgb(205, 171, 231)',
                 data: y_temperaturaPaciente,
             }]
-            };
-          const config_temperaturaPaciente = {
+        };
+        const config_temperaturaPaciente = {
             type: 'bar',
             data: data_temperaturaPaciente,
             options: {
@@ -224,13 +232,12 @@
                         display: false
                     }
                 }
-        
             }
-          };
+        };
         const myChart_temperaturaPaciente = new Chart(
             document.getElementById('myChart_temperaturaPaciente'),
             config_temperaturaPaciente
-          );
+        );
     </script>
 
     <script>
@@ -244,9 +251,9 @@
                 borderColor: 'rgb(205, 171, 231)',
                 data: y_temperaturaHabitacion,
             }]
-            };
-          const config_temperaturaHabitacion = {
-            type: 'bar',
+        };
+        const config_temperaturaHabitacion = {
+            type: 'line',
             data: data_temperaturaHabitacion,
             options: {
                 responsive: true,
@@ -260,13 +267,12 @@
                         display: false
                     }
                 }
-        
             }
-          };
+        };
         const myChart_temperaturaHabitacion = new Chart(
             document.getElementById('myChart_temperaturaHabitacion'),
             config_temperaturaHabitacion
-          );
+        );
     </script>
     
     <script>
@@ -274,17 +280,15 @@
 
         const data_humedadRelativa = {
             labels: labels,
-            datasets: [
-            {
+            datasets: [{
                 label: 'Humedad Relativa en %',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(205, 171, 231)',
                 data: y_humedadRelativa,
-            }
-            ]
-            };
-          const config_humedadRelativa = {
-            type: 'line',
+            }]
+        };
+        const config_humedadRelativa = {
+            type: 'bar',
             data: data_humedadRelativa,
             scales: {
                 y: {
@@ -303,13 +307,12 @@
                         display: false
                     }
                 }
-        
             }
-          };
+        };
         const myChart_humedadRelativa = new Chart(
             document.getElementById('myChart_humedadRelativa'),
             config_humedadRelativa
-          );
+        );
 
     </script>
 
@@ -318,16 +321,14 @@
 
         const data_calidadAire = {
             labels: labels,
-            datasets: [
-            {
+            datasets: [{
                 label: 'Calidad del aire en %',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(205, 171, 231)',
                 data: y_calidadAire,
-            }
-            ]
-            };
-          const config_calidadAire = {
+            }]
+        };
+        const config_calidadAire = {
             type: 'line',
             data: data_calidadAire,
             scales: {
@@ -347,13 +348,12 @@
                         display: false
                     }
                 }
-        
             }
-          };
+        };
         const myChart_calidadAire = new Chart(
             document.getElementById('myChart_calidadAire'),
             config_calidadAire
-          );
+        );
     </script>
 
     <script>
@@ -361,16 +361,14 @@
 
         const data_nivelPolvo = {
             labels: labels,
-            datasets: [
-            {
+            datasets: [{
                 label: 'Nivel de polvo %',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(205, 171, 231)',
                 data: y_nivelPolvo,
-            }
-            ]
-            };
-          const config_nivelPolvo = {
+            }]
+        };
+        const config_nivelPolvo = {
             type: 'line',
             data: data_nivelPolvo,
             scales: {
@@ -392,27 +390,69 @@
                 }
         
             }
-          };
-          const myChart_dustLevel = new Chart(
+        };
+        const myChart_dustLevel = new Chart(
             document.getElementById('myChart_dustLevel'),
             config_nivelPolvo
-          );
+        );
+    </script>
+
+    <script>
+        var y_electromigrafo = [];
+
+        const data_electromigrafo = {
+            labels: labels,
+            datasets: [
+            {
+                label: 'Estado de los musculos',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(205, 171, 231)',
+                data: y_electromigrafo,
+            }
+            ]
+            };
+        const config_electromigrafo = {
+            type: 'line',
+            data: data_electromigrafo,
+            scales: {
+                y: {
+                    stacked: true
+                }
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    filler: {
+                        propagate: false
+                    },
+                },
+                scales:{
+                    x: {
+                        display: false
+                    }
+                }
+        
+            }
+        };
+        const myChart_electromigrafo = new Chart(
+            document.getElementById('myChart_electromigrafo'),
+            config_electromigrafo
+        );
     </script>
 
     <script>  
-        //Declaring html-related variables
+        //Declaring HTML-related variables
         let roomHumidity_html = document.querySelector('#relative_humidity');
         let roomTemperature_html = document.querySelector('#temperature_room');
         let roomAirQuality_html = document.querySelector('#air_quality');
         let roomDustLevel_html = document.querySelector('#dust_level');
         let patientTemperature_html = document.querySelector('#patient_temperature');
         let patientHeartBeat_html = document.querySelector('#patient_heartbeat');
-        
-        //let patientMusclesState_html = document.querySelector('#patient_muscles_state'); //Pendiente por agregar   
-         //Defining a counter for graph's label and pushing it into label_pulsoPaciente
+        let patientElectro_html = document.querySelector('#patient_muscles_state');
+    
+         //Defining a counter for graph's label
         var counter = 1;
     
-
         //Creating a new Websocket
         const socket = new WebSocket(
             'ws://'
@@ -425,11 +465,21 @@
                 counter = 0; 
                 myChart_pulsoPaciente.data.labels = [];
                 myChart_temperaturaPaciente.data.labels = [];
-                myChart_temperaturaHabitacion.data.labels8 = [];
+                myChart_temperaturaHabitacion.data.labels = [];
                 myChart_humedadRelativa.data.labels = [];
                 myChart_calidadAire.data.labels = [];
                 myChart_dustLevel.data.labels = [];
+                myChart_electromigrafo.data.labels = [];                
+                y_calidadAire.length = 0;
+                y_humedadRelativa.length = 0;
+                y_pulsoPaciente.length = 0;
+                y_temperaturaPaciente.length = 0; 
+                y_temperaturaHabitacion.length = 0;
+                y_calidadAire.length = 0;
+                y_nivelPolvo.length = 0;
+                y_electromigrafo.length = 0;
             }
+            //If counter var is not 10:
             const result = JSON.parse(e.data)['sensors_data']; //Data -> parsed 
             let sensorData = result[result.length-1];
             
@@ -440,7 +490,8 @@
             let roomAirQuality = sensorData['roomAirQuality'];
             let patientTemperature = sensorData['patientTemperature'];
             let patientPulse = sensorData['patientPulse'];
-            console.log(sensorData);
+            let patientElectro = sensorData['patientElectro'];
+            //console.log(sensorData);
 
             //Parse data to HTML
             roomHumidity_html.innerHTML = (roomHumidity + "%");
@@ -449,38 +500,44 @@
             roomAirQuality_html.innerHTML = (roomAirQuality + "% puro");
             patientTemperature_html.innerHTML = (patientTemperature + " grados");
             patientHeartBeat_html.innerHTML = (patientPulse + "PPM");
-        
+            patientElectro_html.innerHTML = (patientElectro);
+
             counter++;  //Increasing the counter
             
-            //PULSO DEL PACIENTE
+            //PATIENT PULSE
             myChart_pulsoPaciente.data.labels += counter; //Adding a datapoint to the label
             y_pulsoPaciente.push(patientPulse); //Pushing data to the y_pulsoPatient array
             myChart_pulsoPaciente.update(); //Updating the graph
 
-            //TEMPERATURA DEL PACIENTE
+            //PATIENT TEMPERATURE
             myChart_temperaturaPaciente.data.labels += counter; //Adding a datapoint to the label
             y_temperaturaPaciente.push(patientTemperature); //Pushing data to the y_pulsoPatient array
             myChart_temperaturaPaciente.update(); //Updating the graph
 
-            //TEMPERATURA DE LA habitacion
+            //ROOM TEMPERATURE
             myChart_temperaturaHabitacion.data.labels += counter; //Adding a datapoint to the label
             y_temperaturaHabitacion.push(roomTemperature); //Pushing data to the y_pulsoPatient array
             myChart_temperaturaHabitacion.update(); //Updating the graph
 
-            //HUMEDAD RELATIVA DE LA habitacion
+            //RELATIVE HUMIDITY
             myChart_humedadRelativa.data.labels += counter; //Adding a datapoint to the label
             y_humedadRelativa.push(roomHumidity); //Pushing data to the y_pulsoPatient array
             myChart_humedadRelativa.update(); //Updating the graph
 
-            //CALIDAD DEL AIRE en la habitacion
+            //ROOM AIR QUALITY
             myChart_calidadAire.data.labels += counter; //Adding a datapoint to the label
             y_calidadAire.push(roomAirQuality); //Pushing data to the y_pulsoPatient array
             myChart_calidadAire.update(); //Updating the graph
 
-             //NIVEL DE POLVO en la habitacion
+             //ROOM DUST LEVEL
              myChart_dustLevel.data.labels += counter; //Adding a datapoint to the label
              y_nivelPolvo.push(roomDustLevel); //Pushing data to the y_pulsoPatient array
              myChart_dustLevel.update(); //Updating the graph
+
+             //PATIENT ELECTROMIOGRAPHY
+             myChart_electromigrafo.data.labels += counter; //Adding a datapoint to the label
+             y_electromigrafo.push(patientElectro); //Pushing data to the y_pulsoPatient array
+             myChart_electromigrafo.update(); //Updating the graph
         }
         
         socket.onclose = function(e){

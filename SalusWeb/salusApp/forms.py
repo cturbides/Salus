@@ -41,3 +41,7 @@ class PersonUpdateForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = ('first_name', 'last_name', 'age', 'photo', 'address', 'sex', 'phone', 'idNumber', 'isDoctor', 'isNurse')
+        
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()

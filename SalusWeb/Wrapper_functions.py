@@ -43,16 +43,19 @@ def WrappingData(decodedString:list) -> List:
         return []
     
     """
-    Room:
-        dht22 = decodedString[0]
-        wq_2 = decodedString[1]
-        wq_135 = decodedString[2]
-        dust_sensor = decodedString[3]
-    Paciente:
-    """
+    roomTemperature = decodedString[0]
+    patientTemperature = decodedString[1]
+    roomHumidity = decodedString[2]
+    roomDustLevel = decodedString[3]
+    roomAirQuality = decodedString[4]
+    patientPulse = decodedString[5]
+    patientElectro = decodedString[6]
+     """
+
     return [decodedString[0], decodedString[1],
             decodedString[2], decodedString[3],
-            decodedString[4], decodedString[5]]
+            decodedString[4], decodedString[5],
+            decodedString[6]]
 
 def SavingRoomData(
                roomTemperature: str,
@@ -61,6 +64,7 @@ def SavingRoomData(
                roomDustLevel: str,
                roomAirQuality: str,
                patientPulse: str,
+               patientElectro: str,
                roomId: str,
                db_cursor: sqlite3.Cursor) -> None:
     
@@ -73,34 +77,43 @@ def SavingRoomData(
     roomDustLevel = float(roomDustLevel) if len(roomDustLevel) != 0 else None
     roomAirQuality = float(roomAirQuality) if len(roomAirQuality) != 0 else None
     patientPulse = float(patientPulse) if len(patientPulse) != 0 else None
+    patientElectro = float(patientElectro) if len(patientElectro) != 0 else None
     
     """
     Trying to save the data!
     """
     if roomTemperature != None and patientTemperature != None and \
         roomHumidity != None and roomDustLevel != None and \
-            roomAirQuality != None and patientPulse != None:
-        db_cursor.execute("""
+        roomAirQuality != None and patientPulse != None and \
+        patientElectro != None:
+        
+        db_cursor.execute(
+        """
         INSERT INTO salusApp_sensores ( roomTemperature, patientTemperature, 
                                         roomHumidity, roomDustLevel, roomAirQuality,
-                                        patientPulse, room_id)
-        VALUES (?,?,?,?,?,?,?);
-                            """,
-        (roomTemperature, patientTemperature, roomHumidity, roomDustLevel,roomAirQuality, patientPulse, roomId))
+                                        patientPulse, patientElectro, room_id)
+        VALUES (?,?,?,?,?,?,?,?);
+        """,
+        (roomTemperature, patientTemperature, roomHumidity,\
+        roomDustLevel,roomAirQuality, patientPulse, patientElectro, roomId))
+    
     else:
         print(bcolors.WARNING + "[-] There's a value missing!" + bcolors.ENDC)
 
 def WhatsTheLastRowinRoom(cursor: sqlite3.Cursor) -> int:
-    cursor.execute("""
-    SELECT id FROM salusApp_sensores ORDER BY id DESC LIMIT 1
-                   """)
+    cursor.execute(
+    """
+    SELECT id FROM salusApp_sensores ORDER BY id DESC LIMIT 1;
+    """)
     id = int(cursor.fetchone()[0])
     return id
 
 def DeleteAllinRoom(cursor: sqlite3.Cursor) -> None:
-    cursor.execute("""
+    cursor.execute(
+    """
     DELETE FROM salusApp_sensores WHERE id < 20001;
-                       """)
-    cursor.execute("""
-                   UPDATE sqlite_sequence SET seq=0 WHERE name = 'salusApp_sensores';
-                   """)
+    """)
+    cursor.execute(
+    """
+    UPDATE sqlite_sequence SET seq=0 WHERE name = 'salusApp_sensores';
+    """)

@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+"""
+5 models or tables:
+    -User
+    -Person -> oneToMany
+    -Room -> oneToMany
+    -Sensores -> manyToOne
+    -Patient -> Use Person table
+"""
+
 class UserManager(BaseUserManager):
     def create_user(self,email, username, password):
         if not email:
@@ -55,9 +64,22 @@ class User(AbstractBaseUser):
 
     
 class Person(models.Model):
+    """
+    PERSON DATA:
+        -First name
+        -Last name
+        -Photo file
+        -Address direction
+        -Age
+        -Sex
+        -Phone number
+        -ID number
+        -isDoctor -> bool
+        -isNurse -> bool
+    """
     first_name = models.CharField("Person's first name", max_length=30)
     last_name = models.CharField("Person's last name",max_length=30)
-    photo = models.ImageField(blank=True, null=False)
+    photo = models.ImageField(blank=True, null=False, upload_to='salusApp/static/media/')
     age = models.IntegerField("Person's age")    
     address = models.CharField("Person's address", max_length=100)
     sexoChoices = [
@@ -72,10 +94,26 @@ class Person(models.Model):
 
 
 class Room(models.Model):
+    """
+    ROOM DATA:
+        -Room name
+        -isAvailable -> bool
+    """
     roomName = models.CharField(max_length=30)
     isAvailable = models.BooleanField(default=True)
     
 class Sensores(models.Model):
+    """
+    SENSOR'S DATA:
+        -Room -> Foreign Key
+        -Room Temperature
+        -Patient Temperature
+        -Room Humidity
+        -Room Dust level
+        -Room Air Quality
+        -Patient Pulse
+        -Patient Electro
+    """
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     roomTemperature = models.FloatField("Room's Temperature")
     patientTemperature = models.FloatField("Patient's Temperature")
@@ -83,8 +121,28 @@ class Sensores(models.Model):
     roomDustLevel = models.IntegerField("Room's dust level in %")
     roomAirQuality = models.IntegerField("Room's AirQuality in %")
     patientPulse = models.FloatField("Patient's pulse value")
+    patientElectro = models.IntegerField("Patient's elect")
     
 class Patient(models.Model):
+    """
+    PATIENT'S DATA:
+        -Person -> Foreign Key
+        -Nurse -> Foreign Key
+        -Doctor -> Foreign Key
+        -Room -> Foreign Key
+        -First name -> Patient's Reference (Parent, Friend or related)
+        -Last name -> Patient's Reference ...
+        -Kinship Reference -> Patient's Reference
+        -Phone number -> Patient's Reference
+        -BMI
+        -Weight in pounds
+        -Height in meters
+        -Blood type
+        -ARS
+        -Joining date -> Patient's joining date
+        -Illness -> Illness' name
+        -Hospitalization type -> Urgent, Programmed and Intrahospitalary
+    """
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="nurse")
     doctor = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="doctor")

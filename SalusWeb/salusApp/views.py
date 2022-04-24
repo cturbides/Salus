@@ -1,3 +1,4 @@
+"""Imports"""
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from requests import request
@@ -12,7 +13,7 @@ from django.contrib import messages
 from .forms import PersonCreateForm, PersonUpdateForm
 from datetime import datetime
 
-
+#=======================DASHBOARD=======================
 @login_required()
 def dashboard(request):
     contador_pacientes = len(Patient.objects.all()) if Patient.objects.all() else 0
@@ -30,10 +31,16 @@ def dashboard(request):
         "contador_habitaciones":contador_habitaciones,
         } 
     return render(request, 'salusApp/dashboard-Home.html', context=context)
+#=======================DASHBOARD=======================
 
+
+#=========================HOME==========================
 def home(request):
     return render(request,'salusApp/home.html')
+#=========================HOME==========================
 
+
+#====================LOGIN & REGISTER===================
 def register(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -62,7 +69,9 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'registration/login.html')
-        
+#====================LOGIN & REGISTER===================
+
+
 #=======================CHANGE PASSWORD=======================
 @login_required()
 def change_password_success(request):
@@ -79,12 +88,14 @@ def dashboard_clinica(request):
     habitaciones = Room.objects.filter(isAvailable=True) if Room.objects.filter(isAvailable=True) else 0
     sensores = Sensores.objects.all()
     sensores = sensores[len(sensores)-1]
+    ultimo_paciente = pacientes[len(pacientes)-1]
     context = {
         "contador_habitaciones":contador_habitaciones,
         "contador_miembros_equipo":contador_miembros_equipo,
         "pacientes":pacientes,
         "habitaciones":habitaciones,
-        "sensores":sensores
+        "sensores":sensores,
+        "ultimo_paciente":ultimo_paciente
         } 
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
@@ -213,7 +224,7 @@ def PacientesUpdate(request, pk):
         try:
             patient = Patient.objects.filter(pk=pk)[0]
             patient.person.first_name=request.POST['first_name']
-            last_name=request.POST['last_name']
+            patient.person.last_name=request.POST['last_name']
             if len(request.POST['photo']) > 2:
                 patient.person.photo=request.POST['photo']
             patient.person.age=request.POST['age']
@@ -420,5 +431,4 @@ def confirm_delete(request,pk):
     except:
         context = {"message":"You can't do that!"} #Sending an error message!
         return render(request, 'registration/delete.html', context)
-    
 #==========================CONFIGURACION=====================
