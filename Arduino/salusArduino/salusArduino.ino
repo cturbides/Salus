@@ -24,7 +24,6 @@ const int roomDust = 60;               // Fixed Value
 const int LED13 = 13;                  // On-board Arduino LED
 
 //Variables
-int electro = 0;                       // A0
 int pulso; 
 int Threshold = 550;                   //PulseSensor
 float calcR0 = 192.08;                 // MQ-135 R0 value
