@@ -79,6 +79,12 @@ Now just enter into [salusApp]
 > Note: You have to create an account to get into the system.
 
 
+## Captures
+
+![Home view](./screenshots/main.png?raw=true)
+![My Hospital](./screenshots/mi-clinica.png?raw=true)
+![Patient graphs](./screenshots/patient-graph.png?raw=true)
+
 ## License
 [MIT]
 
