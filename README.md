@@ -31,7 +31,7 @@ Salus requires [Python 3](https://www.python.org/) to run.
 Install the dependencies: 
 
 ```sh
-python3 pip install django channels channels-redis pyserial requests
+python3 pip install django channels channels-redis pyserial requests pillow
 ```
 
 To install redis:
