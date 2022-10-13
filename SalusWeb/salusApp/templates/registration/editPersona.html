@@ -8,7 +8,11 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Lista de enfermeras</h1>
+                    {% if person.is_doctor %}
+                    <h1>Lista de doctores</h1>
+                    {% else %}
+                    <h1>Lista de enfermeros</h1>
+                    {% endif %}
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -19,16 +23,16 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         
-                        {% if person.isNurse %}
+                        {% if person.is_nurse %}
                         <li>
-                            <a class="active" href="{% url 'enfermeros' %}">Enfermeras</a>
+                            <a class="active" href="{% url 'enfermeros' %}">Enfermeros</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
                             <a class="active" href="{% url 'enfermeros-edit' person.id %}">Editando a {{person.first_name}}</a>
                         </li>
 
-                        {% elif person.isDoctor%}
+                        {% elif person.is_doctor%}
                         <li>
                             <a class="active" href="{% url 'doctores' %}">Doctores</a>
                         </li>
@@ -152,7 +156,7 @@
                                 <!-- Cedula -->
                                 <span class="text">
                                     <h3>Numero de identidad</h3>
-                                    <input id="id_idNumber" type="text" value="{{person.idNumber}}" maxlength="10" name="idNumber" required=""
+                                    <input id="id_id_card_number" type="text" value="{{person.id_card_number}}" maxlength="10" name="id_card_number" required=""
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;

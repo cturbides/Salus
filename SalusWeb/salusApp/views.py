@@ -152,8 +152,8 @@ def dashboard_equipo(request):
 #===========================PACIENTES==========================
 @login_required()
 def Pacientes(request):
-    pacientes = Patient.objects.all()
-    context = {"pacientes":pacientes}
+    patients = Patient.objects.all()
+    context = {"patients":patients}
     return render(request, 'salusApp/dashboard-equipo-pacientes.html', context)
 
 @login_required()
@@ -168,60 +168,61 @@ def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo imple
                 address=request.POST['address'],
                 sex=request.POST['sex'],
                 phone=request.POST['phone'],
-                id_card_number=request.POST['idNumber'],
+                id_card_number=request.POST['id_card_number'],
                 is_doctor=False,
                 is_nurse=False
             )
-            nurse = Person.objects.filter(pk=request.POST['nurse'], isNurse=True)[0]
-            doctor = Person.objects.filter(pk=request.POST['doctor'], isDoctor=True)[0]
+            nurse = Person.objects.filter(pk=request.POST['nurse'], is_nurse=True)[0]
+            doctor = Person.objects.filter(pk=request.POST['doctor'], is_doctor=True)[0]
             room = Room.objects.filter(pk=request.POST['room'])[0]
-            name_reference = request.POST['first_nameReference']
-            lastName_reference = request.POST['last_nameReference']
-            phone_reference = request.POST['phone_reference']
-            kinship_reference = request.POST['kinshipReference']
+            reference_first_name = request.POST['reference_first_name']
+            reference_last_name = request.POST['reference_last_name']
+            reference_phone = request.POST['reference_phone']
+            reference_kindship = request.POST['reference_kindship']
             weight = float(request.POST['weight_in_pounds'])
             height = float(request.POST['height_in_meters'])
             weight_in_kg = weight*0.453592
             bmi = weight_in_kg/(height**2)
-            blood = request.POST['bloodType']
+            person_blood_type = request.POST['person_blood_type']
             ars = request.POST['ars']
             joining_date = datetime.today().strftime('%Y-%m-%d')
             illness = request.POST['illness']
             hospitalization = request.POST['hospitalization']
             
-            newPatient = Patient(
+            new_patient = Patient(
                 person=person,
                 nurse=nurse,
                 doctor=doctor,
                 room=room,
-                first_nameReference=name_reference,
-                last_nameReference=lastName_reference,
-                kinshipReference=kinship_reference,
-                phone_reference=phone_reference,
+                reference_first_name=reference_first_name,
+                reference_last_name=reference_last_name,
+                reference_kindship=reference_kindship,
+                reference_phone=reference_phone,
                 bmi=bmi,
                 weight_in_pounds=weight,
                 height_in_meters=height,
-                bloodType=blood,
+                person_blood_type=person_blood_type,
                 ars=ars,
                 join_date=joining_date,
                 illness=illness,
                 hospitalization=hospitalization
             )
+
             person.save()
-            newPatient.save()           
+            new_patient.save()           
             room.isAvailable = False
             room.save()
             return redirect('pacientes')
         except Exception as e:
             return HttpResponse(e)
     else:
-        enfermeras = Person.objects.filter(isNurse=True)
-        doctores = Person.objects.filter(isDoctor=True)
-        room = Room.objects.filter(isAvailable=True)
+        nurses = Person.objects.filter(is_nurse=True)
+        doctors = Person.objects.filter(is_doctor=True)
+        rooms = Room.objects.filter(is_available=True)
         context = {
-            "enfermeras":enfermeras, 
-            "doctors":doctores, 
-            "rooms":room
+            "nurses":nurses, 
+            "doctors":doctors, 
+            "rooms":rooms
         }
         return render(request, 'registration/addPaciente.html', context)
 
@@ -303,31 +304,28 @@ def PacientesUpdate(request, pk):
 #===========================DOCTORES========================
 @login_required()
 def Doctores(request):
-    doctores = Person.objects.filter(isDoctor=True)
-    context = {"doctors":doctores}
+    doctors = Person.objects.filter(is_doctor=True)
+    context = {"doctors":doctors}
     return render(request, 'salusApp/dashboard-equipo-doctores.html', context)
   
 @login_required()
 def DoctoresCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
-    context = {"isDoctor":True}
+    context = {"is_doctor":True}
     if request.method == "POST":
-        try:
-            person = Person(
-                first_name=request.POST['first_name'],
-                last_name=request.POST['last_name'],
-                photo=request.POST['photo'],
-                age=request.POST['age'],
-                address=request.POST['address'],
-                sex=request.POST['sex'],
-                phone=request.POST['phone'],
-                idNumber=request.POST['idNumber'],
-                isDoctor=True,
-                isNurse=False
-            )
-            person.save()
-            return redirect('doctores')
-        except:
-            return redirect('home')
+        person = Person(
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
+            photo=request.POST['photo'],
+            age=request.POST['age'],
+            address=request.POST['address'],
+            sex=request.POST['sex'],
+            phone=request.POST['phone'],
+            id_card_number=request.POST['id_card_number'],
+            is_doctor=True,
+            is_nurse=False
+        )
+        person.save()
+        return redirect('doctores')
     else:
         return render(request, 'registration/addPersona.html', context)
 
@@ -348,7 +346,7 @@ def DoctoresUpdate(request, pk):
         person.address = request.POST['address']
         person.sex = request.POST['sex']
         person.phone = request.POST['phone']
-        person.idNumber = request.POST['idNumber']
+        person.id_card_number = request.POST['id_card_number']
         if len(request.POST['photo']) > 2:
             person.photo = request.POST['photo']
         person.save()
@@ -364,13 +362,13 @@ def DoctoresUpdate(request, pk):
 #===========================ENFERMEROS==========================
 @login_required()
 def Enfermeros(request):
-    nurses = Person.objects.filter(isNurse=True)
+    nurses = Person.objects.filter(is_nurse=True)
     context = {"nurses":nurses}
     return render(request, 'salusApp/dashboard-equipo-enfermeros.html', context)
   
 @login_required()
 def EnfermerosCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
-    context = {"isEnfermera":True}
+    context = {"is_nurse":True}
     if request.method == "POST":
         try:
             person = Person(
@@ -381,9 +379,9 @@ def EnfermerosCreate(request): #Mejorar el agregado de datos -> Convertirlo impl
                 address=request.POST['address'],
                 sex=request.POST['sex'],
                 phone=request.POST['phone'],
-                idNumber=request.POST['idNumber'],
-                isDoctor=False,
-                isNurse=True
+                id_card_number=request.POST['id_card_number'],
+                is_doctor=False,
+                is_nurse=True
             )
             person.save()
             return redirect('enfermeros')
@@ -409,7 +407,7 @@ def EnfermerosUpdate(request, pk):
         person.address = request.POST['address']
         person.sex = request.POST['sex']
         person.phone = request.POST['phone']
-        person.idNumber = request.POST['idNumber']
+        person.id_card_number = request.POST['id_card_number']
         if len(request.POST['photo']) > 2:
             person.photo = request.POST['photo']
         person.save()

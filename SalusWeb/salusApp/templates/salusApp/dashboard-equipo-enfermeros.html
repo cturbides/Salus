@@ -8,7 +8,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Lista de enfermeras</h1>
+                    <h1>Lista de enfermeros</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -19,13 +19,13 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'enfermeros' %}">Enfermeras</a>
+                            <a class="active" href="{% url 'enfermeros' %}">Enfermeros</a>
                         </li>
                     </ul>
                 </div>
                 <a href="{% url 'enfermeros-add' %}" class="btn-download"><!-- Agregar enfermera -->
                     <i class='bx bx-heart' ></i>
-                    <span class="text">Agregar enfermera</span>
+                    <span class="text">Agregar enfermero</span>
                 </a>
             </div>
 
@@ -37,11 +37,7 @@
                             <img src="{% static nurse.photo.url %}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{nurse.first_name}} {{nurse.last_name}}</h3>
-                                {% if nurse.sex == 'M' %}
                                 <p>Nombre del Enfermero</p>
-                                {% elif nurse.sex == 'F' %}
-                                <p>Nombre de la Enfermera</p>
-                                {% endif %}
                             </span>
                         </li>
                         <li>

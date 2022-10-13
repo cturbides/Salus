@@ -29,19 +29,19 @@
                 </a>
             </div>
 
-            {% for paciente in pacientes %}
+            {% for patient in patients %}
             <div class="table-data">
                 <div class="order">
                     <ul class="box-info">
                         <li>
-                            <img src="{% static paciente.person.photo.url %}" style="height: 90px;">
+                            <img src="{% static patient.person.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>{{paciente.person.first_name}} {{paciente.person.last_name}}</h3>
+                                <h3>{{patient.person.first_name}} {{patient.person.last_name}}</h3>
                                 <p>Nombre del paciente</p>
-                                <p>{{paciente.person.age}} years</p>
-                                {% if paciente.person.sex == 'F' %}
+                                <p>{{patient.person.age}} years</p>
+                                {% if patient.person.sex == 'F' %}
                                     <p>Mujer</p>
-                                {% elif paciente.person.sex == 'M' %}
+                                {% elif patient.person.sex == 'M' %}
                                     <p>Hombre</p>
                                 {% endif %}
                                 
@@ -59,10 +59,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{paciente.illness}}</td>
-                                <td>{{paciente.ars}}</td>
-                                <td>{{paciente.weight_in_pounds}}</td>
-                                <td>{{paciente.height_in_meters}}</td>
+                                <td>{{patient.illness}}</td>
+                                <td>{{patient.ars}}</td>
+                                <td>{{patient.weight_in_pounds}} lb</td>
+                                <td>{{patient.height_in_meters}} m</td>
                             </tr>
                         </tbody>
                         <thead>
@@ -75,17 +75,17 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{paciente.bloodType}}</td>
-                                {% if paciente.hospitalization == 'U' %}
+                                <td>{{patient.person_blood_type}}</td>
+                                {% if patient.hospitalization == 'U' %}
                                     <td>Urgente</td>
-                                {% elif paciente.hospitalization == 'P' %}
+                                {% elif patient.hospitalization == 'P' %}
                                     <td>Programado</td>
-                                {% elif paciente.hospitalization == 'I' %}
+                                {% elif patient.hospitalization == 'I' %}
                                     <td>Intrahospitalario</td>
                                 {% endif %}
 
-                                <td>{{paciente.join_date}}</td>
-                                <td>{{paciente.first_nameReference}} {{paciente.last_nameReference}}</td>
+                                <td>{{patient.join_date}}</td>
+                                <td>{{patient.reference_first_name}} {{patient.reference_last_name}}</td>
                             </tr>
                         </tbody>
 
@@ -98,17 +98,17 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{paciente.phone_reference}}</td>
+                                <td>{{patient.reference_phone}}</td>
                                 
-                                {% if paciente.kinshipReference == 'H' %}
+                                {% if patient.reference_kindship == 'H' %}
                                     <td>Conyugue</td> <!-- Poner la tilde-->
-                                {% elif paciente.kinshipReference == 'A' %}
+                                {% elif patient.reference_kindship == 'A' %}
                                     <td>Amigo</td>
-                                {% elif paciente.kinshipReference == 'F' %}
+                                {% elif patient.reference_kindship == 'F' %}
                                     <td>Familiar</td>
                                 {% endif %}
 
-                                <td>{{paciente.room.roomName}}</td>
+                                <td>{{patient.room.room_name}}</td>
                             </tr>
                         </tbody>
 
@@ -118,10 +118,10 @@
                         <div class="left">
                             <ul class="breadcrumb">
                                 <li>
-                                    <a href="{% url 'pacientes-edit' paciente.id %}" class="active">Editar</a> <!-- Editar paciente-->
+                                    <a href="{% url 'pacientes-edit' patient.id %}" class="active">Editar</a> <!-- Editar paciente-->
                                 </li>
                                 <li>
-                                    <a href="{% url 'pacientes-delete' paciente.id %}" class="active">Eliminar</a><!-- Eliminar paciente-->
+                                    <a href="{% url 'pacientes-delete' patient.id %}" class="active">Eliminar</a><!-- Eliminar paciente-->
                                 </li>
                             </ul>
                         </div>
