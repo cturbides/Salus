@@ -3,3 +3,4 @@ channels
 channels-redis
 pyserial
 requests
+Pillow
