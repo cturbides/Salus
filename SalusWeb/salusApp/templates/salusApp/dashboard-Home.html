@@ -8,7 +8,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Bienvenido {{ name }}</h1>
+                    <h1>Bienvenido {{ user_name }}</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -25,21 +25,21 @@
                 <li>
                     <i class='bx bxs-calendar-check'></i>
                     <span class="text">
-						<h3>{{contador_pacientes}}</h3>
+						<h3>{{patient_counter}}</h3>
 						<p>Nuevos Pacientes</p>
 					</span>
                 </li>
                 <li>
                     <i class='bx bxs-group'></i>
                     <span class="text">
-						<h3>{{contador_miembros_equipo}}</h3>
+						<h3>{{member_team_counter}}</h3>
 						<p>Miembros del equipo</p>
 					</span>
                 </li>
                 <li>
                     <i class='bx bx-camera-home'></i>
                     <span class="text">
-						<h3>{{contador_habitaciones}}</h3>
+						<h3>{{room_counter}}</h3>
 						<p>Habitaciones disponibles</p>
 					</span>
                 </li>
@@ -60,21 +60,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for paciente in pacientes %}
+                            {% for patient in patients_list %}
                             <tr>
                                 <td>
                                     <img src="{% static paciente.person.photo.url %}">
-                                    <p>{{paciente.person.first_name}} {{paciente.person.last_name}}</p>
+                                    <p>{{patient.person.first_name}} {{patient.person.last_name}}</p>
                                 </td>
-                                <td>{{paciente.join_date}}</td>
-                                {% if paciente.hospitalization == 'U' %}
+                                <td>{{patient.join_date}}</td>
+                                {% if patient.hospitalization == 'U' %}
                                 <td><span class="status pending">Urgente</span></td>
-                                {% elif paciente.hospitalization == 'P' %}
+                                {% elif patient.hospitalization == 'P' %}
                                 <td><span class="status completed">Programado</span></td>
-                                {% elif paciente.hospitalization == 'I' %}
+                                {% elif patient.hospitalization == 'I' %}
                                 <td><span class="status process">Intrahospitalario</span></td>
                                 {% endif %}
-                                <td>{{paciente.room.roomName}}</td>
+                                <td>{{patient.room.room_name}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

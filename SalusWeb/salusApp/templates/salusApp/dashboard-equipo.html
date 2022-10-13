@@ -8,10 +8,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    {% if not persona %}
-                    <h1>Parece que todos estan de vacaciones!</h1>
+                    {% if not person %}
+                    <h1>Parece que todos estan de vacaciones</h1>
                     {% else %}
-                    <h1>La ultima persona agregada ha sido {{ persona.first_name }} {{ persona.last_name }}</h1>
+                    <h1>La ultima persona agregada ha sido {{ person.first_name }} {{ person.last_name }}</h1>
                     {% endif %}
                     <ul class="breadcrumb">
                         <li>
@@ -38,11 +38,7 @@
                             <img src="{% static doc.photo.url %}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{doc.first_name}} {{doc.last_name}}</h3>
-                                {% if doc.sex == 'M' %}
                                 <p>Ultimo doctor agregado</p>
-                                {% elif doc.sex == 'F' %}
-                                <p>Ultima doctora agregada</p>
-                                {% endif %}
                             </span>
                         </li>
                         <li>
@@ -86,11 +82,7 @@
                             <img src="{% static nurse.photo.url %}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{nurse.first_name}} {{nurse.last_name}}</h3>
-                                {% if nurse.sex == 'F' %}
-                                    <p>Ultima enfermera agregada</p>
-                                {% elif nurse.sex == 'M' %}
                                     <p>Ultimo enfermero agregado</p>
-                                {% endif %}
                             </span>
                         </li>
                         <li>
@@ -128,13 +120,13 @@
                         <h3>Pacientes</h3>
                     </div>
 
-                    {% if paciente %}
+                    {% if patient %}
                     <!-- Pacientes -->
                     <ul class="box-info">
                         <li>
                             <img src="{% static paciente.person.photo.url %}" style="height: 90px;">
                             <span class="text">
-                                <h3>{{paciente.person.first_name}} {{paciente.person.last_name}}</h3>
+                                <h3>{{patient.person.first_name}} {{patient.person.last_name}}</h3>
                                 <p>Ultimo paciente ingresado</p>
                             </span>
                         </li>
@@ -151,11 +143,11 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{paciente.person.age}}</p>
+                                            <p>{{patient.person.age}}</p>
                                         </td>
-                                        <td>{{paciente.illness}}</td>
-                                        <td>{{paciente.bloodType}}</td>
-                                        <td><span>{{paciente.room.roomName}}</span></td>
+                                        <td>{{patient.illness}}</td>
+                                        <td>{{patient.person_blood_type}}</td>
+                                        <td><span>{{patient.room.room_name}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>

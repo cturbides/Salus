@@ -2,7 +2,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from requests import request
-from .models import Person, Sensores, User, Patient, Room
+from .models import Person, Sensors, User, Patient, Room
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -10,26 +10,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import PersonCreateForm, PersonUpdateForm
 from datetime import datetime
 
 #=======================DASHBOARD=======================
 @login_required()
 def dashboard(request):
-    contador_pacientes = len(Patient.objects.all()) if Patient.objects.all() else 0
-    contador_miembros_equipo = len(Person.objects.filter(isNurse=True)) + len(Person.objects.filter(isDoctor=True))
-    contador_habitaciones = len(Room.objects.all()) - len(Patient.objects.all())
-    pacientes = Patient.objects.all()
+    patient_counter = len(Patient.objects.all()) if Patient.objects.all() else 0
+    member_team_counter = len(Person.objects.filter(is_nurse=True)) + len(Person.objects.filter(is_doctor=True))
+    room_counter = abs(len(Room.objects.all()) - len(Patient.objects.all())) if Room.objects.all() else 0
+    patients_list = Patient.objects.all()
     
-
     context = {
-        "name":request.user,
-        "contador_pacientes":contador_pacientes,
-        "contador_miembros_equipo":contador_miembros_equipo,
-        "contador_habitaciones":0,
-        "pacientes":pacientes,
-        "contador_habitaciones":contador_habitaciones,
-        } 
+        "user_name":request.user,
+        "patient_counter":patient_counter,
+        "member_team_counter":member_team_counter,
+        "room_counter": room_counter,
+        "patients_list":patients_list,
+    } 
     return render(request, 'salusApp/dashboard-Home.html', context=context)
 #=======================DASHBOARD=======================
 
@@ -82,29 +79,39 @@ def change_password_success(request):
 #==========================MI-CLINICA=========================
 @login_required()
 def dashboard_clinica(request):
-    contador_habitaciones = len(Patient.objects.all()) if Patient.objects.all() else 0
-    contador_miembros_equipo = len(Person.objects.filter(isNurse=True)) + len(Person.objects.filter(isDoctor=True)) 
-    pacientes = Patient.objects.all() if contador_habitaciones else 0
-    habitaciones = Room.objects.filter(isAvailable=True) if Room.objects.filter(isAvailable=True) else 0
-    sensores = Sensores.objects.all()
-    sensores = sensores[len(sensores)-1]
-    ultimo_paciente = pacientes[len(pacientes)-1]
+    room_counter = len(Patient.objects.all())
+    last_patient = None
+    patients_list, rooms, sensors = list(), list(), list()
+
+    if room_counter:
+        patient_list = Patient.objects.all()
+        last_patient = patients_list[room_counter-1]
+    
+    if Room.objects.filter(is_available=True):
+        rooms =  Room.objects.filter(is_available=True)
+
+    if len(Sensors.objects.all()):
+        sensors = Sensors.objects.all()
+        sensors = sensors[len(Sensor.objects.all())-1]
+
+    team_members_counter = room_counter - len(Person.objects.filter(is_doctor=False, is_nurse=False))
+
     context = {
-        "contador_habitaciones":contador_habitaciones,
-        "contador_miembros_equipo":contador_miembros_equipo,
-        "pacientes":pacientes,
-        "habitaciones":habitaciones,
-        "sensores":sensores,
-        "ultimo_paciente":ultimo_paciente
-        } 
+        "room_counter":room_counter,
+        "team_members_counter":team_members_counter,
+        "patients_list":patients_list,
+        "rooms":rooms,
+        "sensors":sensors,
+        "last_patient":last_patient
+    } 
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
 @login_required()
 def dashboard_clinica_room(request, room_id):
     room = Room.objects.filter(id=room_id)[0]
-    paciente = Patient.objects.filter(room=room)[0]
+    patient = Patient.objects.filter(room=room)[0]
     context = {
-        "paciente":paciente,
+        "patient":patient,
         "room_id":room_id,
     }
     return render(request, 'salusApp/dashboard-miClinica-room.html', context)
@@ -114,20 +121,29 @@ def dashboard_clinica_room(request, room_id):
 #=============================EQUIPO==========================
 @login_required()
 def dashboard_equipo(request):
-    personas =  Person.objects.all()
-    ultima_persona = personas[len(personas)-1] if personas else None
-    nurses = Person.objects.filter(isNurse=True)
-    ultima_nurse = nurses[len(nurses)-1] if nurses else None
-    doctors = Person.objects.filter(isDoctor=True)
-    ultimo_doc = doctors[len(doctors)-1] if doctors else None
-    patients = Patient.objects.all()
-    ultimo_paciente = patients[len(patients)-1] if patients else None
+    persons, nurses, doctors, patients = Person.objects.all(), \
+        Person.objects.filter(is_nurse=True), \
+        Person.objects.filter(is_doctor=True),\
+        Patient.objects.all()
+
+    last_person, last_nurse, last_doctor, last_patient = None, None, None, None
+
+    if len(persons):
+        last_person = persons[len(persons)-1]
+    if len(nurses):
+        last_nurse = nurses[len(nurses)-1]
+    if len(doctors):
+        last_doctor = doctors[len(doctors)-1]
+    if len(patients):
+        last_patient = patients[len(patients)-1]
+    
     context = {
-        "nurse":ultima_nurse,
-        "persona":ultima_persona,
-        "doc":ultimo_doc,
-        "paciente":ultimo_paciente 
-               }
+        "nurse":last_nurse,
+        "person":last_person,
+        "doc":last_doctor,
+        "patient":last_patient 
+    }
+
     return render(request, 'salusApp/dashboard-equipo.html', context)
 
 #=============================EQUIPO==========================
@@ -152,9 +168,9 @@ def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo imple
                 address=request.POST['address'],
                 sex=request.POST['sex'],
                 phone=request.POST['phone'],
-                idNumber=request.POST['idNumber'],
-                isDoctor=False,
-                isNurse=False
+                id_card_number=request.POST['idNumber'],
+                is_doctor=False,
+                is_nurse=False
             )
             nurse = Person.objects.filter(pk=request.POST['nurse'], isNurse=True)[0]
             doctor = Person.objects.filter(pk=request.POST['doctor'], isDoctor=True)[0]

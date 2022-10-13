@@ -1,7 +1,7 @@
 from asyncio import sleep
 
 from django.http import HttpResponse
-from .models import Sensores
+from .models import Sensors
 import json
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -13,7 +13,7 @@ the function calling from an AsyncWebsocketConsumer.
 """
 @database_sync_to_async
 def get_all_sensor_data():
-    return list(Sensores.objects.all().values())
+    return list(Sensors.objects.all().values())
 
 class ThrowingSensorData(AsyncJsonWebsocketConsumer):
     async def connect(self):

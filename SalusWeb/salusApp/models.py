@@ -77,20 +77,22 @@ class Person(models.Model):
         -isDoctor -> bool
         -isNurse -> bool
     """
-    first_name = models.CharField("Person's first name", max_length=30)
-    last_name = models.CharField("Person's last name",max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     photo = models.ImageField(blank=True, null=False, upload_to='salusApp/static/media/')
-    age = models.IntegerField("Person's age")    
-    address = models.CharField("Person's address", max_length=100)
-    sexoChoices = [
+    age = models.IntegerField()    
+    address = models.CharField(max_length=100)
+    sex_choices = [
         ('M', "Masculino"),
-        ('F', "Femenino")
+        ('F', "Femenino"),
+        ('O', 'Otro'),
+        ('NA', 'Prefiero no decirlo')
     ]
-    sex = models.CharField("Person's sex", choices=sexoChoices, max_length=1)
-    phone = models.CharField("Person's phone", max_length=15)
-    idNumber = models.CharField("Person's id", max_length=10) #Cedula
-    isDoctor = models.BooleanField("Is this Person a doctor?")
-    isNurse = models.BooleanField("Is this Person a nurse?")
+    sex = models.CharField(choices=sex_choices, max_length=2)
+    phone = models.CharField(max_length=15)
+    id_card_number = models.CharField(max_length=10) #Cedula
+    is_doctor = models.BooleanField()
+    is_nurse = models.BooleanField()
 
 
 class Room(models.Model):
@@ -99,10 +101,10 @@ class Room(models.Model):
         -Room name
         -isAvailable -> bool
     """
-    roomName = models.CharField(max_length=30)
-    isAvailable = models.BooleanField(default=True)
+    room_name = models.CharField(max_length=30)
+    is_available = models.BooleanField(default=True)
     
-class Sensores(models.Model):
+class Sensors(models.Model):
     """
     SENSOR'S DATA:
         -Room -> Foreign Key
@@ -115,13 +117,14 @@ class Sensores(models.Model):
         -Patient Electro
     """
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    roomTemperature = models.FloatField("Room's Temperature")
-    patientTemperature = models.FloatField("Patient's Temperature")
-    roomHumidity = models.FloatField("Room's relative humidity %")
-    roomDustLevel = models.IntegerField("Room's dust level in %")
-    roomAirQuality = models.IntegerField("Room's AirQuality in %")
-    patientPulse = models.FloatField("Patient's pulse value")
-    patientElectro = models.IntegerField("Patient's elect")
+    room_temperature = models.FloatField()
+    room_humidity = models.FloatField()
+    room_dust_level = models.IntegerField()
+    room_air_quality = models.IntegerField()
+    
+    patient_temperature = models.FloatField()
+    patient_pulse = models.FloatField()
+    patient_electro = models.IntegerField()
     
 class Patient(models.Model):
     """
@@ -147,19 +150,20 @@ class Patient(models.Model):
     nurse = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="nurse")
     doctor = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="doctor")
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
-    first_nameReference = models.CharField("Reference Person's first name", max_length=15)
-    last_nameReference = models.CharField("Reference Person's last name", max_length=15)
-    KinshipChoices = [
+    reference_first_name = models.CharField(max_length=15)
+    reference_last_name = models.CharField(max_length=15)
+    kindship_choices = [
         ('H', "Esposo"), #H -> Husband
         ('A', "Amigo"),
-        ('F', "Familiar")
+        ('F', "Familiar"),
+        ('O', "Otro")
     ]
-    kinshipReference = models.CharField("Reference Person's kinshipness", choices=KinshipChoices, max_length=1)
-    phone_reference = models.CharField("Reference person's phone number", max_length=15)
-    bmi = models.FloatField("Person's BMI") #IMC
-    weight_in_pounds = models.FloatField("Perons's Weight")
-    height_in_meters = models.FloatField("Perons's Height")
-    bloodTypes = [
+    reference_kindship = models.CharField(choices=kindship_choices, max_length=1)
+    reference_phone = models.CharField(max_length=15)
+    bmi = models.FloatField() #IMC
+    weight_in_pounds = models.FloatField()
+    height_in_meters = models.FloatField()
+    blood_types = [
         ('O+', 'O Positivo'),
         ('O-', 'O Negativo'),
         ('A+', 'A Positivo'),
@@ -169,14 +173,13 @@ class Patient(models.Model):
         ('AB+','AB Positivo'),
         ('AB-','AB Negativo')
     ]
-    bloodType = models.CharField(choices=bloodTypes, max_length=3)
-    ars = models.CharField("Person's ARS type", max_length=15)
-    join_date = models.DateField("Person's joining date")
-    illness = models.CharField("Persons's illness", max_length=50)
-    hospitalizationChoices = [
+    person_blood_type = models.CharField(choices=blood_types, max_length=3)
+    ars = models.CharField(max_length=15)
+    join_date = models.DateField()
+    illness = models.CharField(max_length=50)
+    hospitalization_choices = [
         ('U', "Urgente"),
         ('P', "Programado"),
         ('I', "Intrahospitalario")
     ]
-    hospitalization = models.CharField("Patient's type of hospitalization", max_length=1, choices=hospitalizationChoices)
-    
+    hospitalization = models.CharField(max_length=1, choices=hospitalization_choices)

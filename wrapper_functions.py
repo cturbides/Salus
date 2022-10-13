@@ -89,9 +89,9 @@ def saving_room_data(
         
         db_cursor.execute(
         """
-        INSERT INTO salusApp_sensores ( roomTemperature, patientTemperature, 
-                                        roomHumidity, roomDustLevel, roomAirQuality,
-                                        patientPulse, patientElectro, room_id)
+        INSERT INTO salusApp_sensores ( room_temperature, patient_temperature, 
+                                        room_humidity, room_dust_level, room_air_quality,
+                                        patient_pulse, patient_electro, room_id)
         VALUES (?,?,?,?,?,?,?,?);
         """,
         (room_temperature, patient_temperature, room_humidity, \
