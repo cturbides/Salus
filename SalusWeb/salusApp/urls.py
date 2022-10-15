@@ -1,37 +1,37 @@
 from django.urls import path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from . import views
+from salusApp import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("", views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('signup/', views.register, name='signup'),
-    path('changepass/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html', success_url='changepass-success'), name='changepass'),
-    path('changepass/changepass-success', views.change_password_success, name='changepass-success'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('dashboard/mi-clinica', views.dashboard_clinica, name='mi-clinica'),
-    path('dashboard/mi-clinica/<int:room_id>', views.dashboard_clinica_room, name='mi-clinica-room'),
-    path('dashboard/equipo', views.dashboard_equipo, name='equipo'),
-    path('dashboard/equipo/enfermeros', views.Enfermeros, name='enfermeros'),
-    path('dashboard/equipo/enfermeros/add', views.EnfermerosCreate, name='enfermeros-add'),
-    path('dashboard/equipo/enfermeros/delete/<int:pk>', views.EnfermerosDelete, name='enfermeros-delete'),
-    path('dashboard/equipo/enfermeros/edit/<int:pk>', views.EnfermerosUpdate, name='enfermeros-edit'),
-    path('dashboard/equipo/doctores', views.Doctores, name='doctores'),
-    path('dashboard/equipo/doctores/add', views.DoctoresCreate, name='doctores-add'),
-    path('dashboard/equipo/doctores/delete/<int:pk>', views.DoctoresDelete, name='doctores-delete'),
-    path('dashboard/equipo/doctores/edit/<int:pk>', views.DoctoresUpdate, name='doctores-edit'),
-    path('dashboard/equipo/pacientes', views.Pacientes, name='pacientes'),
-    path('dashboard/equipo/pacientes/add', views.PacientesCreate, name='pacientes-add'),
-    path('dashboard/equipo/pacientes/edit/<int:pk>', views.PacientesUpdate, name='pacientes-edit'),
-    path('dashboard/equipo/pacientes/delete/<int:pk>', views.PacientesDelete, name='pacientes-delete'),
-    path('dashboard/settings', views.dashboard_configuracion, name='settings'),
-    path('dashboard/settings/delete/<int:pk>', views.delete_user, name='delete'),
-    path('dashboard/settings/delete/<int:pk>#', views.confirm_delete, name='confirm-delete'),
+    path('iniciar-sesion/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('salir-cuenta/', auth_views.LogoutView.as_view(), name='logout'),
+    path('registrarse/', views.register, name='signup'),
+    path('cambiar-clave/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html', success_url='changepass-success'), name='changepass'),
+    path('cambiar-clave/logrado', views.change_password_success, name='changepass-success'),
+    path('menu-principal/', views.show_dashboard, name='dashboard'),
+    path('menu-principal/mi-clinica', views.show_clinic, name='mi-clinica'),
+    path('menu-principal/mi-clinica/<int:room_id>', views.show_clinic_room, name='mi-clinica-room'),
+    path('menu-principal/equipo', views.show_team, name='equipo'),
+    path('menu-principal/equipo/enfermeros', views.show_nurses_list, name='enfermeros'),
+    path('menu-principal/equipo/enfermeros/nuevo', views.create_nurses, name='enfermeros-add'),
+    path('menu-principal/equipo/enfermeros/eliminar/<int:pk>', views.delete_nurses, name='enfermeros-delete'),
+    path('menu-principal/equipo/enfermeros/editar/<int:pk>', views.update_nurses, name='enfermeros-edit'),
+    path('menu-principal/equipo/doctores', views.show_doctors_list, name='doctores'),
+    path('menu-principal/equipo/doctores/nuevo', views.create_doctor, name='doctores-add'),
+    path('menu-principal/equipo/doctores/eliminar/<int:pk>', views.delete_doctor, name='doctores-delete'),
+    path('menu-principal/equipo/doctores/editar/<int:pk>', views.update_doctor, name='doctores-edit'),
+    path('menu-principal/equipo/pacientes', views.show_patient_list, name='pacientes'),
+    path('menu-principal/equipo/pacientes/nuevo', views.create_patient, name='pacientes-add'),
+    path('menu-principal/equipo/pacientes/editar/<int:pk>', views.update_patient, name='pacientes-edit'),
+    path('menu-principal/equipo/pacientes/eliminar/<int:pk>', views.delete_patient, name='pacientes-delete'),
+    path('menu-principal/configuracion', views.show_settings, name='settings'),
+    path('menu-principal/configuracion/eliminar/<int:pk>', views.delete_user, name='delete'),
+    path('menu-principal/configuracion/eliminar/<int:pk>#', views.confirm_delete, name='confirm-delete'),
     ]
 
 if settings.DEBUG:

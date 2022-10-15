@@ -1,23 +1,23 @@
 """Imports"""
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from requests import request
-from .models import Person, Sensors, User, Patient, Room
-from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from salusApp.models import Person, Sensors, User, Patient, Room
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import login, authenticate
-from django.contrib.auth import logout
-from django.contrib import messages
 from datetime import datetime
 
 #=======================DASHBOARD=======================
 @login_required()
-def dashboard(request):
-    patient_counter = len(Patient.objects.all()) if Patient.objects.all() else 0
+def show_dashboard(request):
+    patient_counter, room_counter = 0, 0
+    
+    if len(Patient.objects.all()):
+        patient_counter = len(Patient.objects.all()) 
+    
+    if len(Room.objects.all()):
+        room_counter = abs(len(Room.objects.all()) - len(Patient.objects.all()))
+        
     member_team_counter = len(Person.objects.filter(is_nurse=True)) + len(Person.objects.filter(is_doctor=True))
-    room_counter = abs(len(Room.objects.all()) - len(Patient.objects.all())) if Room.objects.all() else 0
     patients_list = Patient.objects.all()
     
     context = {
@@ -78,7 +78,7 @@ def change_password_success(request):
 
 #==========================MI-CLINICA=========================
 @login_required()
-def dashboard_clinica(request):
+def show_clinic(request):
     active_room_counter = len(Patient.objects.all())
     last_patient = None
     patients_list, rooms, sensors = list(), list(), dict()
@@ -110,7 +110,7 @@ def dashboard_clinica(request):
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
 @login_required()
-def dashboard_clinica_room(request, room_id):
+def show_clinic_room(request, room_id):
     room = Room.objects.filter(id=room_id)[0]
     patient = Patient.objects.filter(room=room)[0]
     context = {
@@ -123,7 +123,7 @@ def dashboard_clinica_room(request, room_id):
 
 #=============================EQUIPO==========================
 @login_required()
-def dashboard_equipo(request):
+def show_team(request):
     persons, nurses, doctors, patients = Person.objects.all(), \
         Person.objects.filter(is_nurse=True), \
         Person.objects.filter(is_doctor=True),\
@@ -154,13 +154,13 @@ def dashboard_equipo(request):
 
 #===========================PACIENTES==========================
 @login_required()
-def Pacientes(request):
+def show_patient_list(request):
     patients = Patient.objects.all()
     context = {"patients":patients}
     return render(request, 'salusApp/dashboard-equipo-pacientes.html', context)
 
 @login_required()
-def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
+def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
     if request.method == "POST":
         try:
             person = Person(
@@ -230,7 +230,7 @@ def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo imple
         return render(request, 'registration/addPaciente.html', context)
 
 @login_required()
-def PacientesDelete(request, pk):
+def delete_patient(request, pk):
     if request.method == "GET":
         patient = Patient.objects.filter(pk=pk)[0]
         patient.room.isAvailable = True
@@ -239,7 +239,7 @@ def PacientesDelete(request, pk):
         return redirect('pacientes')
 
 @login_required()
-def PacientesUpdate(request, pk):
+def update_patient(request, pk):
     if request.method == "POST":
         try:
             patient = Patient.objects.filter(pk=pk)[0]
@@ -307,13 +307,13 @@ def PacientesUpdate(request, pk):
 
 #===========================DOCTORES========================
 @login_required()
-def Doctores(request):
+def show_doctors_list(request):
     doctors = Person.objects.filter(is_doctor=True)
     context = {"doctors":doctors}
     return render(request, 'salusApp/dashboard-equipo-doctores.html', context)
   
 @login_required()
-def DoctoresCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
+def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
     context = {"is_doctor":True}
     if request.method == "POST":
         person = Person(
@@ -334,14 +334,14 @@ def DoctoresCreate(request): #Mejorar el agregado de datos -> Convertirlo implem
         return render(request, 'registration/addPersona.html', context)
 
 @login_required()
-def DoctoresDelete(request, pk):
+def delete_doctor(request, pk):
     if request.method == "GET":
         doctor = Person.objects.filter(pk=pk)
         doctor.delete()
         return redirect('doctores')
 
 @login_required()
-def DoctoresUpdate(request, pk):
+def update_doctor(request, pk):
     if request.method == "POST":
         person = Person.objects.filter(pk=pk)[0]
         person.first_name = request.POST['first_name']
@@ -365,13 +365,13 @@ def DoctoresUpdate(request, pk):
 
 #===========================ENFERMEROS==========================
 @login_required()
-def Enfermeros(request):
+def show_nurses_list(request):
     nurses = Person.objects.filter(is_nurse=True)
     context = {"nurses":nurses}
     return render(request, 'salusApp/dashboard-equipo-enfermeros.html', context)
   
 @login_required()
-def EnfermerosCreate(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
+def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
     context = {"is_nurse":True}
     if request.method == "POST":
         try:
@@ -395,14 +395,14 @@ def EnfermerosCreate(request): #Mejorar el agregado de datos -> Convertirlo impl
         return render(request, 'registration/addPersona.html', context)
 
 @login_required()
-def EnfermerosDelete(request, pk):
+def delete_nurses(request, pk):
     if request.method == "GET":
         nurse = Person.objects.filter(pk=pk)
         nurse.delete()
         return redirect('enfermeros')
 
 @login_required()
-def EnfermerosUpdate(request, pk):
+def update_nurses(request, pk):
     if request.method == "POST":
         person = Person.objects.filter(pk=pk)[0]
         person.first_name = request.POST['first_name']
@@ -426,7 +426,7 @@ def EnfermerosUpdate(request, pk):
 
 #==========================CONFIGURACION=====================
 @login_required()
-def dashboard_configuracion(request):
+def show_settings(request):
     context = {
         "name":request.user.username,
         "password":request.user.password,
@@ -436,7 +436,7 @@ def dashboard_configuracion(request):
     return render(request, 'salusApp/dashboard_configuracion.html', context)
 
 @login_required()
-def delete_user(request, pk):
+def delete_user(request):
     context = {"id":request.user.id}
     return render(request, 'registration/delete.html', context)
 
