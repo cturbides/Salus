@@ -6,7 +6,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
     -User
     -Person -> oneToMany
     -Room -> oneToMany
-    -Sensores -> manyToOne
+    -Sensors -> manyToOne
     -Patient -> Use Person table
 """
 
@@ -73,9 +73,9 @@ class Person(models.Model):
         -Age
         -Sex
         -Phone number
-        -ID number
-        -isDoctor -> bool
-        -isNurse -> bool
+        -id_card_number
+        -is_doctor -> bool
+        -is_nurse -> bool
     """
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

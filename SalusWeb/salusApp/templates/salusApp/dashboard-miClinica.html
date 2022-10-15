@@ -1,5 +1,6 @@
 {% extends 'salusApp/dashboard_base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block content %}
     <!-- CONTENT -->
@@ -8,7 +9,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    {% if room_counter %}
+                    {% if active_room_counter %}
                     <h1>El ultimo paciente ingresado ha sido {{ last_patient.person.first_name }}</h1>
                     {% else %}
                     <h1>La clinica esta limpia por hoy</h1>
@@ -29,7 +30,7 @@
                 <li>
                     <i class='bx bx-camera-home'></i>
                     <span class="text">
-						<h3>{{room_counter}}</h3><!--reemplazar-->
+						<h3>{{active_room_counter}}</h3><!--reemplazar-->
 						<p>Habitaciones activas</p>
 					</span>
                 </li>
@@ -45,11 +46,17 @@
             {% for patient in patients_list %}
             <div class="table-data">
                 <div class="order">
+                    {% if sensors|is_here:patient.room.id != False %}
                     <a href="{% url 'mi-clinica-room' patient.room.id %}"> <!--Redireccionar a pagina monitor-->
                         <div class="head">
-                        <h3>{{patient.room.roomName}}</h3>
+                            <h3>{{patient.room.room_name}}</h3>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="head">
+                        <h3>{{patient.room.room_name}}</h3>
                     </div>
-                </a>
+                    {% endif %}
                     <!-- HABITACION 1 -->
                     <ul class="box-info">
                         <li>
@@ -75,6 +82,7 @@
                         </li>
                     </ul>
                     <!-- HABITACION -->
+                    {% if sensors|is_here:patient.room.id != False %}
                     <ul class="box-info">
                         <li>
                             <table>
@@ -88,10 +96,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{sensors.room_temperature}}</p>
+                                            <p>{% get_item sensors|is_here:patient.room.id "room_temperature" %}</p>
                                         </td>
-                                        <td>{{sensors.room_humidity}}</td>
-                                        <td><span>{{sensors.room_air_quality}} %</span></td>
+                                        <td>{% get_item sensors|is_here:patient.room.id "room_humidity" %}</td>
+                                        <td><span>{% get_item sensors|is_here:patient.room.id "room_air_quality" %} %</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -108,20 +116,22 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{sensors.patient_temperature}}</p>
+                                            <p>{% get_item sensors|is_here:patient.room.id "patient_temperature" %}</p>
                                         </td>
-                                        <td>{{sensors.patient_pulse}} ppm</td>
+                                        <td>{% get_item sensors|is_here:patient.room.id "patient_pulse" %} ppm</td>
                                         <td><span class="status pending">Tensos</span></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
 
             {% for room in rooms %}
+            {% if room.is_available %}
             <div class="table-data">
                 <div class="order">
                     <h3>{{room.room_name}}</h3>
@@ -137,6 +147,7 @@
                     <!-- HABITACION -->
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </main>
         <!-- MAIN -->

@@ -79,25 +79,28 @@ def change_password_success(request):
 #==========================MI-CLINICA=========================
 @login_required()
 def dashboard_clinica(request):
-    room_counter = len(Patient.objects.all())
+    active_room_counter = len(Patient.objects.all())
     last_patient = None
-    patients_list, rooms, sensors = list(), list(), list()
+    patients_list, rooms, sensors = list(), list(), dict()
 
-    if room_counter:
-        patient_list = Patient.objects.all()
-        last_patient = patients_list[room_counter-1]
+    if active_room_counter:
+        patients_list = Patient.objects.all()
+        last_patient = patients_list[active_room_counter-1]
+        
+        is_sensors_data = Sensors.objects.all()
+        if len(is_sensors_data):
+            for patient in patients_list:
+                sensor_data = Sensors.objects.filter(room=patient.room)
+                if sensor_data:
+                    sensors[patient.room.id] = sensor_data[len(sensor_data)-1]
     
     if Room.objects.filter(is_available=True):
-        rooms =  Room.objects.filter(is_available=True)
+        rooms = Room.objects.filter(is_available=True)
 
-    if len(Sensors.objects.all()):
-        sensors = Sensors.objects.all()
-        sensors = sensors[len(Sensor.objects.all())-1]
-
-    team_members_counter = room_counter - len(Person.objects.filter(is_doctor=False, is_nurse=False))
+    team_members_counter = len(Person.objects.filter(is_doctor=True)) + len(Person.objects.filter(is_nurse=True))
 
     context = {
-        "room_counter":room_counter,
+        "active_room_counter":active_room_counter,
         "team_members_counter":team_members_counter,
         "patients_list":patients_list,
         "rooms":rooms,
@@ -210,7 +213,7 @@ def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo imple
 
             person.save()
             new_patient.save()           
-            room.isAvailable = False
+            room.is_available = False
             room.save()
             return redirect('pacientes')
         except Exception as e:
@@ -229,10 +232,10 @@ def PacientesCreate(request): #Mejorar el agregado de datos -> Convertirlo imple
 @login_required()
 def PacientesDelete(request, pk):
     if request.method == "GET":
-        paciente = Patient.objects.filter(pk=pk)[0]
-        paciente.room.isAvailable = True
-        paciente.room.save()
-        paciente.persona.delete()
+        patient = Patient.objects.filter(pk=pk)[0]
+        patient.room.isAvailable = True
+        patient.room.save()
+        patient.person.delete()
         return redirect('pacientes')
 
 @login_required()
@@ -248,27 +251,27 @@ def PacientesUpdate(request, pk):
             patient.person.address=request.POST['address']
             patient.person.sex=request.POST['sex']
             patient.person.phone=request.POST['phone']
-            patient.person.idNumber=request.POST['idNumber']
+            patient.person.id_card_number=request.POST['id_card_number']
             
-            patient.nurse = Person.objects.filter(pk=request.POST['nurse'], isNurse=True)[0]
-            patient.doctor = Person.objects.filter(pk=request.POST['doctor'], isDoctor=True)[0]
+            patient.nurse = Person.objects.filter(pk=request.POST['nurse'], is_nurse=True)[0]
+            patient.doctor = Person.objects.filter(pk=request.POST['doctor'], is_doctor=True)[0]
             
             if request.POST['room'] != 'None':
-                patient.room.isAvailable = True
+                patient.room.is_available = True
                 patient.room.save()
                 patient.room = Room.objects.filter(pk=request.POST['room'])[0]
-                patient.room.isAvailable = False
+                patient.room.is_available = False
                 patient.room.save()
                 
-            patient.name_reference = request.POST['first_nameReference']
-            patient.lastName_reference = request.POST['last_nameReference']
-            patient.phone_reference = request.POST['phone_reference']
-            patient.kinship_reference = request.POST['kinshipReference']
-            patient.weight = float(request.POST['weight_in_pounds'])
-            patient.height = float(request.POST['height_in_meters'])
-            weight_in_kg = patient.weight*0.453592
-            patient.bmi = weight_in_kg/(patient.height**2)
-            patient.blood = request.POST['bloodType']
+            patient.reference_first_name = request.POST['reference_first_name']
+            patient.reference_last_name = request.POST['reference_last_name']
+            patient.reference_phone = request.POST['reference_phone']
+            patient.reference_kindship = request.POST['reference_kindship']
+            patient.weight_in_pounds = float(request.POST['weight_in_pounds'])
+            patient.height_in_meters = float(request.POST['height_in_meters'])
+            weight_in_kg = patient.weight_in_pounds*0.453592
+            patient.bmi = weight_in_kg/(patient.height_in_meters**2)
+            patient.person_blood_type = request.POST['person_blood_type']
             patient.ars = request.POST['ars']
             patient.illness = request.POST['illness']
             patient.hospitalization = request.POST['hospitalization']
@@ -279,21 +282,22 @@ def PacientesUpdate(request, pk):
         except Exception as e:
             return HttpResponse(e)
     else:
-        enfermeras = Person.objects.filter(isNurse=True)
-        doctores = Person.objects.filter(isDoctor=True)
-        room = Room.objects.filter(isAvailable=True)
-        paciente = Patient.objects.filter(pk=pk)[0]
-        KinshipTypes = [['H','Conyugue'], ['A','Amigo'],['F','Familiar']]
-        bloodTypes = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
-        hospitalizacionChoices = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
+        nurses = Person.objects.filter(is_nurse=True)
+        doctors = Person.objects.filter(is_doctor=True)
+        rooms = Room.objects.filter(is_available=True)
+        patient = Patient.objects.filter(pk=pk)[0]
+        kindship_types = [['H','Conyugue'], ['A','Amigo'],['F','Familiar']]
+        blood_types = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
+        hospitalization_types = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
+        
         context = {
-            "enfermeras":enfermeras, 
-            "doctors":doctores, 
-            "rooms":room,
-            "patient":paciente,
-            "KinshipTypes":KinshipTypes,
-            "bloodTypes":bloodTypes,
-            "hospitalizacionChoices":hospitalizacionChoices
+            "nurses":nurses, 
+            "doctors":doctors, 
+            "rooms":rooms,
+            "patient":patient,
+            "kindship_types":kindship_types,
+            "blood_types":blood_types,
+            "hospitalization_types":hospitalization_types
         }
         return render(request, 'registration/editPaciente.html', context)
 
@@ -426,7 +430,7 @@ def dashboard_configuracion(request):
     context = {
         "name":request.user.username,
         "password":request.user.password,
-        "isAdmin":bool(request.user.is_super),
+        "is_admin":bool(request.user.is_super),
         "id":request.user.id
     }
     return render(request, 'salusApp/dashboard_configuracion.html', context)

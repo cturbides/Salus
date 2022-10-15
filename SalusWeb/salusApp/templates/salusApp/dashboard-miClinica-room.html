@@ -10,7 +10,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>{{ paciente.room.roomName }}</h1>
+                    <h1>{{ patient.room.room_name }}</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -21,7 +21,7 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'mi-clinica-room' paciente.room.id %}">{{ paciente.room.roomName}}</a>
+                            <a class="active" href="{% url 'mi-clinica-room' patient.room.id %}">{{ patient.room.room_name}}</a>
                         </li>
                     </ul>
                 </div>
@@ -34,21 +34,21 @@
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.doctor.first_name}} {{paciente.doctor.last_name}}</h3>
+                                <h3>{{patient.doctor.first_name}} {{patient.doctor.last_name}}</h3>
                                 <p>Doctor a cargo</p>
                             </span>
                         </li>
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.nurse.first_name}} {{paciente.nurse.last_name}}</h3>
+                                <h3>{{patient.nurse.first_name}} {{patient.nurse.last_name}}</h3>
                                 <p>Enfermera a cargo</p>
                             </span>
                         </li>
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.illness}}</h3>
+                                <h3>{{patient.illness}}</h3>
                                 <p>Enfermedad del paciente</p>
                             </span>
                         </li>
@@ -451,15 +451,12 @@
         let patientElectro_html = document.querySelector('#patient_muscles_state');
     
          //Defining a counter for graph's label
-        var counter = 1;
+        let counter = 1;
     
         //Creating a new Websocket
-        const socket = new WebSocket(
-            'ws://'
-            +window.location.host
-            +'/ws/salusApp/room/'
-            +window.location.href.split('/')[6]);
-
+        const socket_url = 'ws://' + window.location.host + '/ws/salusApp/room/' + window.location.href.split('/').slice(-1); 
+        const socket = new WebSocket(socket_url);
+        
         socket.onmessage =  function(e) {
             if (counter == 10){
                 counter = 0; 
@@ -484,13 +481,13 @@
             let sensorData = result[result.length-1];
             
             //Taking out result's data
-            let roomHumidity = sensorData['roomHumidity'];
-            let roomTemperature = sensorData['roomTemperature'];
-            let roomDustLevel = sensorData['roomDustLevel'];
-            let roomAirQuality = sensorData['roomAirQuality'];
-            let patientTemperature = sensorData['patientTemperature'];
-            let patientPulse = sensorData['patientPulse'];
-            let patientElectro = sensorData['patientElectro'];
+            let roomHumidity = sensorData['room_humidity'];
+            let roomTemperature = sensorData['room_temperature'];
+            let roomDustLevel = sensorData['room_dust_level'];
+            let roomAirQuality = sensorData['room_air_quality'];
+            let patientTemperature = sensorData['patient_temperature'];
+            let patientPulse = sensorData['patient_pulse'];
+            let patientElectro = sensorData['patient_electro'];
             //console.log(sensorData);
 
             //Parse data to HTML

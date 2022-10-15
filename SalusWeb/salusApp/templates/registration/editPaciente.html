@@ -131,7 +131,7 @@
                                 <!-- Cedula -->
                                 <span class="text">
                                     <h3>Numero de identidad</h3>
-                                    <input id="id_idNumber" type="text" maxlength="10" name="idNumber" required="" value="{{patient.person.idNumber}}"
+                                    <input id="id_id_card_number" type="text" maxlength="10" name="id_card_number" required="" value="{{patient.person.id_card_number}}"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -174,11 +174,11 @@
                                     color: #000!important;
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
-                                        {% for enfermera in enfermeras %}
-                                        {% if enfermera == patient.nurse %}
-                                        <option selected value="{{enfermera.id}}">{{enfermera.first_name}}</option>
+                                        {% for nurse in nurses %}
+                                        {% if nurse == patient.nurse %}
+                                        <option selected value="{{nurse.id}}">{{nurse.first_name}}</option>
                                         {% else %}
-                                        <option value="{{enfermera.id}}">{{enfermera.first_name}}</option>
+                                        <option value="{{nurse.id}}">{{nurse.first_name}}</option>
                                         {% endif %}
                                         {% endfor %}
                                     </select>
@@ -207,7 +207,7 @@
                                 <!-- Nombre - Referencia -->
                                 <span class="text">
                                     <h3>Nombre - Referencia</h3>
-                                    <input id="id_idfirst_nameReference" type="text" name="first_nameReference" maxlength="30" required="" value="{{patient.first_nameReference}}"
+                                    <input id="id_reference_first_name" type="text" name="reference_first_name" maxlength="30" required="" value="{{patient.reference_first_name}}"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -222,7 +222,7 @@
                                 <!-- Apellido - Referencia -->
                                 <span class="text">
                                     <h3>Apellido - Referencia</h3>
-                                    <input id="id_idlast_nameReference" type="text" name="last_nameReference" required="" value="{{patient.last_nameReference}}"
+                                    <input id="id_reference_last_name" type="text" name="reference_last_name" required="" value="{{patient.reference_last_name}}"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -237,7 +237,7 @@
                                 <!-- Telefono - Referencia -->
                                 <span class="text">
                                     <h3>Telefono - Referencia</h3>
-                                    <input id="id_idphone_reference" type="text" maxlength="15" name="phone_reference" required="" value="{{patient.phone_reference}}"
+                                    <input id="id_reference_phone" type="text" maxlength="15" name="reference_phone" required="" value="{{patient.reference_phone}}"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -255,7 +255,7 @@
                                 <!-- Parentesco -->
                                 <span class="text">
                                     <h3>Parentesto - Referencia</h3>
-                                    <select id="id_idkinshipReference" name="kinshipReference" 
+                                    <select id="id_reference_kindship" name="reference_kindship" 
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -264,11 +264,11 @@
                                     color: #000!important;
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
-                                        {% for kinshipType in KinshipTypes %}
-                                        {% if patient.kinshipReference == kinshipType.0 %}
-                                        <option selected value="kinshipType.0">{{kinshipType.1}}</option>
+                                        {% for kinship_type in kindship_types %}
+                                        {% if patient.reference_kindship == kinship_type.0 %}
+                                        <option selected value="kinship_type.0">{{kinship_type.1}}</option>
                                         {% else %}
-                                        <option value="kinshipType.0">{{kinshipType.1}}</option>
+                                        <option value="kinship_type.0">{{kinship_type.1}}</option>
                                         {% endif %}
                                         {% endfor %}
                                     </select>
@@ -329,7 +329,7 @@
                                 <!-- Tipo de sangre -->
                                 <span class="text">
                                     <h3>Tipo de sangre</h3>
-                                    <select id="id_idbloodType" name="bloodType" 
+                                    <select id="id_person_blood_type" name="person_blood_type" 
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -338,11 +338,11 @@
                                     color: #000!important;
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
-                                    {% for bloodType in bloodTypes  %}
-                                    {% if bloodType == patient.bloodType %}
-                                    <option selected value="{{bloodType}}">{{bloodType}}</option>
+                                    {% for blood_type in blood_types  %}
+                                    {% if blood_type == patient.person_blood_type %}
+                                    <option selected value="{{blood_type}}">{{blood_type}}</option>
                                     {% else %}
-                                    <option value="{{bloodType}}">{{bloodType}}</option>
+                                    <option value="{{blood_type}}">{{blood_type}}</option>
                                     {% endif %}
                                     {% endfor %}
                                     </select>
@@ -381,11 +381,11 @@
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
                                                                         <!-- hospitalizacion choices-->
-                                    {% for hospitalizationChoice in hospitalizacionChoices %}
-                                    {% if patient.hospitalization == hospitalizationChoice.0 %}
-                                    <option selected value="{{hospitalizationChoice.0}}">{{hospitalizationChoice.1}}</option>
+                                    {% for hospitalization_type in hospitalization_types %}
+                                    {% if patient.hospitalization == hospitalization_type.0 %}
+                                    <option selected value="{{hospitalization_type.0}}">{{hospitalization_type.1}}</option>
                                     {% else %}
-                                    <option value="{{hospitalizationChoice.0}}">{{hospitalizationChoice.1}}</option>
+                                    <option value="{{hospitalization_type.0}}">{{hospitalization_type.1}}</option>
                                     {% endif %}
                                     {% endfor %}
                                     </select>
@@ -432,7 +432,7 @@
                                     <option value="None" selected>--</option>
     
                                         {% for room in rooms %}
-                                        <option value="{{room.id}}">{{room.roomName}}</option>
+                                        <option value="{{room.id}}">{{room.room_name}}</option>
                                         {% endfor %}
                                     </select>
                                 </span>  

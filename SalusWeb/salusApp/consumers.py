@@ -1,7 +1,7 @@
 from asyncio import sleep
 
 from django.http import HttpResponse
-from .models import Sensors
+from salusApp.models import Sensors
 import json
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
