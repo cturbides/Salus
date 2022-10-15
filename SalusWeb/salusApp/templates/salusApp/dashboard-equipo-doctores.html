@@ -8,7 +8,7 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Lista de Doctores</h1>
+                    <h1>Lista de doctores</h1>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -37,11 +37,7 @@
                             <img src="{% static doc.photo.url %}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{doc.first_name}} {{doc.last_name}}</h3>
-                                {% if doc.sex == 'M' %}
                                 <p>Nombre del doctor</p>
-                                {% elif doc.sex == 'F' %}
-                                <p>Nombre de la doctora</p>
-                                {% endif %}
                             </span>
                         </li>
                         <li>

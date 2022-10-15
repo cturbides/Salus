@@ -1,5 +1,6 @@
 {% extends 'salusApp/dashboard_base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block content %}
     <!-- CONTENT -->
@@ -8,7 +9,11 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>El ultimo paciente ingresado ha sido {{ ultimo_paciente.person.first_name }}</h1>
+                    {% if active_room_counter %}
+                    <h1>El ultimo paciente ingresado ha sido {{ last_patient.person.first_name }}</h1>
+                    {% else %}
+                    <h1>La clinica esta limpia por hoy</h1>
+                    {% endif %}
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Dashboard</a>
@@ -25,52 +30,59 @@
                 <li>
                     <i class='bx bx-camera-home'></i>
                     <span class="text">
-						<h3>{{contador_habitaciones}}</h3><!--reemplazar-->
+						<h3>{{active_room_counter}}</h3><!--reemplazar-->
 						<p>Habitaciones activas</p>
 					</span>
                 </li>
                 <li>
                     <i class='bx bxs-group'></i>
                     <span class="text">
-						<h3>{{contador_miembros_equipo}}</h3><!--reemplazar-->
+						<h3>{{team_members_counter}}</h3><!--reemplazar-->
 						<p>Miembros activos</p>
 					</span>
                 </li>
             </ul>
             
-            {% for paciente in pacientes %}
+            {% for patient in patients_list %}
             <div class="table-data">
                 <div class="order">
-                    <a href="{% url 'mi-clinica-room' paciente.room.id %}"> <!--Redireccionar a pagina monitor-->
+                    {% if sensors|is_here:patient.room.id != False %}
+                    <a href="{% url 'mi-clinica-room' patient.room.id %}"> <!--Redireccionar a pagina monitor-->
                         <div class="head">
-                        <h3>{{paciente.room.roomName}}</h3>
+                            <h3>{{patient.room.room_name}}</h3>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="head">
+                        <h3>{{patient.room.room_name}}</h3>
                     </div>
-                </a>
+                    {% endif %}
                     <!-- HABITACION 1 -->
                     <ul class="box-info">
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.doctor.first_name}} {{paciente.doctor.last_name}}</h3>
+                                <h3>{{patient.doctor.first_name}} {{patient.doctor.last_name}}</h3>
                                 <p>Doctor a cargo</p>
                             </span>
                         </li>
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.nurse.first_name}} {{paciente.nurse.last_name}}</h3>
+                                <h3>{{patient.nurse.first_name}} {{patient.nurse.last_name}}</h3>
                                 <p>Enfermera a cargo</p>
                             </span>
                         </li>
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>{{paciente.illness}}</h3>
+                                <h3>{{patient.illness}}</h3>
                                 <p>Enfermedad del paciente</p>
                             </span>
                         </li>
                     </ul>
                     <!-- HABITACION -->
+                    {% if sensors|is_here:patient.room.id != False %}
                     <ul class="box-info">
                         <li>
                             <table>
@@ -84,10 +96,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{sensores.roomTemperature}}</p>
+                                            <p>{% get_item sensors|is_here:patient.room.id "room_temperature" %}</p>
                                         </td>
-                                        <td>{{sensores.roomHumidity}}</td>
-                                        <td><span>{{sensores.roomAirQuality}} %</span></td>
+                                        <td>{% get_item sensors|is_here:patient.room.id "room_humidity" %}</td>
+                                        <td><span>{% get_item sensors|is_here:patient.room.id "room_air_quality" %} %</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -104,23 +116,25 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>{{sensores.patientTemperature}}</p>
+                                            <p>{% get_item sensors|is_here:patient.room.id "patient_temperature" %}</p>
                                         </td>
-                                        <td>{{sensores.patientPulse}} ppm</td>
+                                        <td>{% get_item sensors|is_here:patient.room.id "patient_pulse" %} ppm</td>
                                         <td><span class="status pending">Tensos</span></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
 
-            {% for habitacion in habitaciones %}
+            {% for room in rooms %}
+            {% if room.is_available %}
             <div class="table-data">
                 <div class="order">
-                    <h3>{{habitacion.roomName}}</h3>
+                    <h3>{{room.room_name}}</h3>
                     <!--  HABITACION  -->
                     <ul class="box-info">
                         <li>
@@ -133,6 +147,7 @@
                     <!-- HABITACION -->
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </main>
         <!-- MAIN -->
