@@ -16,6 +16,7 @@ urlpatterns = [
     path('menu-principal/', views.show_dashboard, name='dashboard'),
     path('menu-principal/mi-clinica', views.show_clinic, name='mi-clinica'),
     path('menu-principal/mi-clinica/<int:room_id>', views.show_clinic_room, name='mi-clinica-room'),
+    path('menu-principal/mi-clinica/<int:room_id>/delete', views.delete_room, name='room-delete'),
     path('menu-principal/equipo', views.show_team, name='equipo'),
     path('menu-principal/equipo/enfermeros', views.show_nurses_list, name='enfermeros'),
     path('menu-principal/equipo/enfermeros/nuevo', views.create_nurses, name='enfermeros-add'),

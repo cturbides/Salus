@@ -15,7 +15,8 @@ def show_dashboard(request):
         patient_counter = len(Patient.objects.all()) 
     
     if len(Room.objects.all()):
-        room_counter = abs(len(Room.objects.all()) - len(Patient.objects.all()))
+        room_counter = len(Room.objects.all()) - len(Patient.objects.all())
+        room_counter = 0 if room_counter < 0 else room_counter
         
     member_team_counter = len(Person.objects.filter(is_nurse=True)) + len(Person.objects.filter(is_doctor=True))
     patients_list = Patient.objects.all()
@@ -233,7 +234,7 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
 def delete_patient(request, pk):
     if request.method == "GET":
         patient = Patient.objects.filter(pk=pk)[0]
-        patient.room.isAvailable = True
+        patient.room.is_available = True
         patient.room.save()
         patient.person.delete()
         return redirect('pacientes')
@@ -450,3 +451,54 @@ def confirm_delete(request,pk):
         context = {"message":"You can't do that!"} #Sending an error message!
         return render(request, 'registration/delete.html', context)
 #==========================CONFIGURACION=====================
+
+#===========================ROOMS & SENSORS==================
+@login_required
+def create_room(request):
+    if request.method == 'POST':
+        name = request.form['room_name']
+        if name:
+            new_room = Room(room_name=name)
+            new_room.save()
+            #Proof Sensors
+            new_sensor_data = Sensors(room=new_room, room_temperature=18.5, room_humidity=60, room_dust_level=30, room_air_quality=79, patient_temperature=28, patient_pulse=83, patient_electro=34)
+            new_sensor_data.save()
+            return redirect('mi-clinica')
+        else:
+            None # Flash message
+        return redirect('mi-clinica')
+
+@login_required
+def edit_room(request, pk):
+    if request.method == 'POST':
+        room = Room.objects.get(id=pk)
+        if room:
+            name = request.form['room_name']
+            
+            if name:
+                room.room_name = name
+                room.save()
+            else:
+                None #Error message
+            return redirect('mi-clinica')
+        else:
+            None #Error message
+        return redirect('mi-clinica')
+            
+
+@login_required
+def delete_room(request, room_id):
+    try:
+        room = Room.objects.get(id=room_id)
+        
+        if len(Patient.objects.filter(room=room)):
+            raise Exception
+        
+        sensors = Sensors.objects.filter(room=room)
+        for sensor_data in sensors:
+            sensor_data.delete()
+        room.delete()
+        return redirect('mi-clinica')
+    except:
+        #Flash message
+        return redirect('mi-clinica')
