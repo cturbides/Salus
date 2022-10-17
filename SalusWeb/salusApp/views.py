@@ -456,7 +456,7 @@ def confirm_delete(request,pk):
 @login_required
 def create_room(request):
     if request.method == 'POST':
-        name = request.form['room_name']
+        name = request.POST['room_name']
         if name:
             new_room = Room(room_name=name)
             new_room.save()
@@ -467,24 +467,26 @@ def create_room(request):
         else:
             None # Flash message
         return redirect('mi-clinica')
+    return render(request, 'registration/addRoom.html')
 
 @login_required
-def edit_room(request, pk):
+def edit_room(request, room_id):
+    try:
+        room = Room.objects.get(id=room_id)
+    except:
+        return redirect('mi-clinica')
+    
     if request.method == 'POST':
-        room = Room.objects.get(id=pk)
-        if room:
-            name = request.form['room_name']
-            
-            if name:
-                room.room_name = name
-                room.save()
-            else:
-                None #Error message
-            return redirect('mi-clinica')
+        name = request.POST['room_name']
+        if name:
+            room.room_name = name
+            room.save()
         else:
             None #Error message
         return redirect('mi-clinica')
-            
+
+    context = {'room_name':room.room_name}
+    return render(request, 'registration/addRoom.html', context)
 
 @login_required
 def delete_room(request, room_id):

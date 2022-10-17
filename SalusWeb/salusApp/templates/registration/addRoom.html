@@ -1,0 +1,84 @@
+{% extends 'salusApp/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- CONTENT -->
+    
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Crear una habitacion</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        
+                        <li>
+                            <a class="active" href="{% url 'room-add' %}">Nueva habitacion</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- Head title -->
+
+            <!-- For enfermera en blabla-->
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Formulario</h3>
+                    </div>
+                    <form method="POST" action="" class="form">
+                        {% csrf_token %}
+                        <ul class="box-info">
+                            <li>
+                                <!-- Primer Nombre-->
+                                <span class="text">
+                                    <h3>Nombre de la habitacion</h3>
+                                    <input id="id_room_name" type="text" name="room_name" maxlength="20" required="" 
+                                    value="{{ room_name }}"
+                                    style="border: none !important;
+                                    border-bottom: 1px solid #000!important;
+                                    background: transparent!important;
+                                    outline: none!important;
+                                    height: 40px!important;
+                                    color: #000!important;
+                                    font-size: 16px!important;
+                                    margin-bottom: 20px!important;">
+                                </span>  
+                            </li>
+                        </ul>
+                        <div class="head-title">
+                            <div class="left">
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <input type="submit" value="Enviar"
+                                        style="border: none !important;
+                                            border-bottom: 1px solid #000!important;
+                                            background: transparent!important;
+                                            outline: none!important;
+                                            height: 40px!important;
+                                            color: #000!important;
+                                            font-size: 16px!important;
+                                            margin-bottom: 20px!important;" 
+                                            onMouseOver="this.style.color='#fff'; this.style.cursor='pointer';" onMouseOut="this.style.color='#000'">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+{% endblock content %}
