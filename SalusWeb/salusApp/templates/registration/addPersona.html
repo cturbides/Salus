@@ -137,7 +137,9 @@
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
                                         <option value="M">Hombre</option>
-                                        <option value="F" selected>Mujer</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA" selected>Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
                                     </select>
                                 </span>  
                             </li>
@@ -163,7 +165,9 @@
                                 <!-- Numero de telefono -->
                                 <span class="text">
                                     <h3>Numero de telefono</h3>
-                                    <input id="id_phone" type="text" maxlength="15" name="phone" required=""
+                                    <input id="id_phone" type="tel" name="phone" 
+                                    required="El numero deberia seguir el formato zzz-zzz-zzzz"
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;

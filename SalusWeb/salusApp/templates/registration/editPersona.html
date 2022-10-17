@@ -122,7 +122,6 @@
                                 <!-- Sexo -->
                                 <span class="text">
                                     <h3>Sexo</h3>
-                                    {% if person.sex == 'M' %}
                                     <select id="id_sex" name="sex"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
@@ -132,24 +131,28 @@
                                     color: #000!important;
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
+                                    {% if person.sex == 'M' %}
                                         <option value="M" selected>Hombre</option>
                                         <option value="F">Mujer</option>
-                                    </select>
-
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
                                     {% elif person.sex == 'F' %}
-                                    <select id="id_sex" name="sex"
-                                    style="border: none !important;
-                                    border-bottom: 1px solid #000!important;
-                                    background: transparent!important;
-                                    outline: none!important;
-                                    height: 40px!important;
-                                    color: #000!important;
-                                    font-size: 16px!important;
-                                    margin-bottom: 20px!important;">
                                         <option value="M">Hombre</option>
                                         <option value="F" selected>Mujer</option>
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
+                                    {% elif person.sex == 'O' %}
+                                        <option value="M" selected>Hombre</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O" selected>Otro</option>
+                                    {% else %}
+                                        <option value="M">Hombre</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA" selected>Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
+                                    {% endif %}    
                                     </select>
-                                    {% endif %}
                                 </span>  
                             </li>
                             <li>
@@ -174,7 +177,8 @@
                                 <!-- Numero de telefono -->
                                 <span class="text">
                                     <h3>Numero de telefono</h3>
-                                    <input value="{{person.phone}}" id="id_phone" type="text" maxlength="15" name="phone" required=""
+                                    <input value="{{person.phone}}" id="id_phone" maxlength="15" name="phone" required=""
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;

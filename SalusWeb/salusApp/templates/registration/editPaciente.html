@@ -117,13 +117,26 @@
                                     font-size: 16px!important;
                                     margin-bottom: 20px!important;">
                                     {% if patient.person.sex == 'M' %}
-                                    <option selected value="M">Hombre</option>
-                                    <option value="F">Mujer</option>
+                                        <option value="M" selected>Hombre</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
+                                    {% elif patient.person.sex == 'F' %}
+                                        <option value="M">Hombre</option>
+                                        <option value="F" selected>Mujer</option>
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
+                                    {% elif patient.person.sex == 'O' %}
+                                        <option value="M" selected>Hombre</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA">Prefiero no decirlo</option>
+                                        <option value="O" selected>Otro</option>
                                     {% else %}
-                                    <option value="M">Hombre</option>
-                                    <option selected value="F">Mujer</option>
+                                        <option value="M">Hombre</option>
+                                        <option value="F">Mujer</option>
+                                        <option value="NA" selected>Prefiero no decirlo</option>
+                                        <option value="O">Otro</option>
                                     {% endif %}    
-                                    
                                     </select>
                                 </span>  
                             </li>
@@ -149,7 +162,8 @@
                                 <!-- Numero de telefono -->
                                 <span class="text">
                                     <h3>Numero de telefono</h3>
-                                    <input id="id_phone" type="text" maxlength="15" name="phone" required="" value="{{patient.person.phone}}"
+                                    <input id="id_phone" maxlength="15" name="phone" required="" value="{{patient.person.phone}}"
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
@@ -237,7 +251,8 @@
                                 <!-- Telefono - Referencia -->
                                 <span class="text">
                                     <h3>Telefono - Referencia</h3>
-                                    <input id="id_reference_phone" type="text" maxlength="15" name="reference_phone" required="" value="{{patient.reference_phone}}"
+                                    <input id="id_reference_phone" maxlength="15" name="reference_phone" required="" value="{{patient.reference_phone}}"
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel"
                                     style="border: none !important;
                                     border-bottom: 1px solid #000!important;
                                     background: transparent!important;
