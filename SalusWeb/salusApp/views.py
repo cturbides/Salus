@@ -112,13 +112,18 @@ def show_clinic(request):
 
 @login_required()
 def show_clinic_room(request, room_id):
-    room = Room.objects.filter(id=room_id)[0]
-    patient = Patient.objects.filter(room=room)[0]
-    context = {
-        "patient":patient,
-        "room_id":room_id,
-    }
-    return render(request, 'salusApp/dashboard-miClinica-room.html', context)
+    try:
+        room = Room.objects.get(id=room_id)
+        sensor = Sensors.objects.get(room=room)
+        patient = Patient.objects.get(room=room)
+        
+        context = {
+            "patient":patient,
+            "room_id":room_id,
+        }
+        return render(request, 'salusApp/dashboard-miClinica-room.html', context)
+    except:
+        return redirect('mi-clinica') # Flash message
 #==========================MI-CLINICA=========================
 
 
@@ -219,31 +224,38 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
             return redirect('pacientes')
         except Exception as e:
             return HttpResponse(e)
-    else:
-        nurses = Person.objects.filter(is_nurse=True)
-        doctors = Person.objects.filter(is_doctor=True)
-        rooms = Room.objects.filter(is_available=True)
-        context = {
-            "nurses":nurses, 
-            "doctors":doctors, 
-            "rooms":rooms
-        }
-        return render(request, 'registration/addPaciente.html', context)
+    
+    nurses = Person.objects.filter(is_nurse=True)
+    doctors = Person.objects.filter(is_doctor=True)
+    rooms = Room.objects.filter(is_available=True)
+    context = {
+        "nurses":nurses, 
+        "doctors":doctors, 
+        "rooms":rooms
+    }
+    return render(request, 'registration/addPaciente.html', context)
 
 @login_required()
 def delete_patient(request, pk):
-    if request.method == "GET":
-        patient = Patient.objects.filter(pk=pk)[0]
-        patient.room.is_available = True
-        patient.room.save()
-        patient.person.delete()
+    try:
+        patient = Patient.objects.get(id=pk)
+    except:
         return redirect('pacientes')
+    
+    patient.room.is_available = True
+    patient.room.save()
+    patient.person.delete()
+    return redirect('pacientes')
 
 @login_required()
 def update_patient(request, pk):
+    try:
+        patient = Patient.objects.get(id=pk)
+    except:
+        return redirect('pacientes')
+    
     if request.method == "POST":
         try:
-            patient = Patient.objects.filter(pk=pk)[0]
             patient.person.first_name=request.POST['first_name']
             patient.person.last_name=request.POST['last_name']
             if len(request.POST['photo']) > 2:
@@ -280,28 +292,26 @@ def update_patient(request, pk):
             patient.person.save()
             patient.save()           
             return redirect('pacientes')
-        except Exception as e:
-            return HttpResponse(e)
-    else:
-        nurses = Person.objects.filter(is_nurse=True)
-        doctors = Person.objects.filter(is_doctor=True)
-        rooms = Room.objects.filter(is_available=True)
-        patient = Patient.objects.filter(pk=pk)[0]
-        kindship_types = [['H','Conyugue'], ['A','Amigo'],['F','Familiar'], ['O', 'Otro']]
-        blood_types = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
-        hospitalization_types = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
+        except:
+            return redirect('pacientes')
+    
+    nurses = Person.objects.filter(is_nurse=True)
+    doctors = Person.objects.filter(is_doctor=True)
+    rooms = Room.objects.filter(is_available=True)
+    kindship_types = [['H','Conyugue'], ['A','Amigo'],['F','Familiar'], ['O', 'Otro']]
+    blood_types = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
+    hospitalization_types = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
         
-        context = {
-            "nurses":nurses, 
-            "doctors":doctors, 
-            "rooms":rooms,
-            "patient":patient,
-            "kindship_types":kindship_types,
-            "blood_types":blood_types,
-            "hospitalization_types":hospitalization_types
-        }
-        return render(request, 'registration/editPaciente.html', context)
-
+    context = {
+        "nurses":nurses, 
+        "doctors":doctors, 
+        "rooms":rooms,
+        "patient":patient,
+        "kindship_types":kindship_types,
+        "blood_types":blood_types,
+        "hospitalization_types":hospitalization_types
+    }
+    return render(request, 'registration/editPaciente.html', context)
 #===========================PACIENTES=======================
 
 
@@ -315,7 +325,7 @@ def show_doctors_list(request):
   
 @login_required()
 def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
-    context = {"is_doctor":True}
+    context = {"is_doctor": True}
     if request.method == "POST":
         person = Person(
             first_name=request.POST['first_name'],
@@ -331,20 +341,25 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
         )
         person.save()
         return redirect('doctores')
-    else:
-        return render(request, 'registration/addPersona.html', context)
+    return render(request, 'registration/addPersona.html', context)
 
 @login_required()
 def delete_doctor(request, pk):
-    if request.method == "GET":
-        doctor = Person.objects.filter(pk=pk)
+    try:
+        doctor = Person.objects.get(id=pk)
         doctor.delete()
         return redirect('doctores')
+    except:
+        return redirect('equipo')
 
 @login_required()
 def update_doctor(request, pk):
+    try:
+        person = Person.objects.get(id=pk)
+    except:
+        return redirect('doctores')
+        
     if request.method == "POST":
-        person = Person.objects.filter(pk=pk)[0]
         person.first_name = request.POST['first_name']
         person.last_name = request.POST['last_name']
         person.age = request.POST['age']
@@ -356,10 +371,9 @@ def update_doctor(request, pk):
             person.photo = request.POST['photo']
         person.save()
         return redirect('doctores')
-    else:
-        doctor = Person.objects.filter(pk=pk)[0]
-        context = {"person":doctor}
-        return render(request, 'registration/editPersona.html', context)
+
+    context = {"person":person}
+    return render(request, 'registration/editPersona.html', context)
 
 #===========================DOCTORES========================
 
@@ -373,7 +387,7 @@ def show_nurses_list(request):
   
 @login_required()
 def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo implementando el CreateView y Form
-    context = {"is_nurse":True}
+    context = {"is_nurse": True}
     if request.method == "POST":
         try:
             person = Person(
@@ -391,21 +405,25 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
             person.save()
             return redirect('enfermeros')
         except:
-            return redirect('home')
-    else:
-        return render(request, 'registration/addPersona.html', context)
+            return redirect('equipo')
+    return render(request, 'registration/addPersona.html', context)
 
 @login_required()
 def delete_nurses(request, pk):
-    if request.method == "GET":
-        nurse = Person.objects.filter(pk=pk)
+    try:
+        nurse = Person.objects.get(id=pk)
         nurse.delete()
+    except:
         return redirect('enfermeros')
 
 @login_required()
 def update_nurses(request, pk):
+    try:
+        person = Person.objects.get(id=pk)
+    except:
+        return redirect('enfermeros')
+    
     if request.method == "POST":
-        person = Person.objects.filter(pk=pk)[0]
         person.first_name = request.POST['first_name']
         person.last_name = request.POST['last_name']
         person.age = request.POST['age']
@@ -417,11 +435,9 @@ def update_nurses(request, pk):
             person.photo = request.POST['photo']
         person.save()
         return redirect('enfermeros')
-    else:
-        nurse = Person.objects.filter(pk=pk)[0]
-        context = {"person":nurse}
-        return render(request, 'registration/editPersona.html', context)
-
+    
+    context = {"person":person}
+    return render(request, 'registration/editPersona.html', context)
 #===========================ENFERMEROS=======================
 
 
@@ -495,12 +511,12 @@ def delete_room(request, room_id):
         
         if len(Patient.objects.filter(room=room)):
             raise Exception
-        
-        sensors = Sensors.objects.filter(room=room)
-        for sensor_data in sensors:
-            sensor_data.delete()
-        room.delete()
-        return redirect('mi-clinica')
     except:
         #Flash message
         return redirect('mi-clinica')
+    
+    sensors = Sensors.objects.filter(room=room)
+    for sensor_data in sensors:
+        sensor_data.delete()
+    room.delete()
+    return redirect('mi-clinica')
