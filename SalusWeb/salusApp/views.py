@@ -287,7 +287,7 @@ def update_patient(request, pk):
         doctors = Person.objects.filter(is_doctor=True)
         rooms = Room.objects.filter(is_available=True)
         patient = Patient.objects.filter(pk=pk)[0]
-        kindship_types = [['H','Conyugue'], ['A','Amigo'],['F','Familiar']]
+        kindship_types = [['H','Conyugue'], ['A','Amigo'],['F','Familiar'], ['O', 'Otro']]
         blood_types = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
         hospitalization_types = [['U','Urgente'], ['P','Programado'],['I','Intrahospitalario']]
         

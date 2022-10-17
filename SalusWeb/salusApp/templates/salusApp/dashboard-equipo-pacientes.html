@@ -106,6 +106,8 @@
                                     <td>Amigo</td>
                                 {% elif patient.reference_kindship == 'F' %}
                                     <td>Familiar</td>
+                                {% elif patient.reference_kindship == 'O' %}
+                                    <td>Otro</td>
                                 {% endif %}
 
                                 <td>{{patient.room.room_name}}</td>

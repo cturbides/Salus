@@ -281,9 +281,9 @@
                                     margin-bottom: 20px!important;">
                                         {% for kinship_type in kindship_types %}
                                         {% if patient.reference_kindship == kinship_type.0 %}
-                                        <option selected value="kinship_type.0">{{kinship_type.1}}</option>
+                                        <option selected value="{{kinship_type.0}}">{{kinship_type.1}}</option>
                                         {% else %}
-                                        <option value="kinship_type.0">{{kinship_type.1}}</option>
+                                        <option value="{{kinship_type.0}}">{{kinship_type.1}}</option>
                                         {% endif %}
                                         {% endfor %}
                                     </select>
