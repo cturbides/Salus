@@ -24,6 +24,10 @@
                         </li>
                     </ul>
                 </div>
+                <a href="{%url 'room-add' %}" class="btn-download"><!-- Agregar Doctores -->
+                    <i class='bx bx-pulse' ></i>
+                    <span class="text">Agregar habitacion</span>
+                </a>
             </div>
 
             <ul class="box-info">
@@ -126,6 +130,8 @@
                         </li>
                     </ul>
                     {% endif %}
+                    <a href="{% url 'room-edit' patient.room.id %}">Editar</a>
+                    <a href="{% url 'room-delete' patient.room.id %}">Eliminar</a>
                 </div>
             </div>
             {% endfor %}
@@ -144,6 +150,8 @@
                             </span>
                         </li>
                     </ul>
+                    <a href="{% url 'room-edit' room.id %}">Editar</a>
+                    <a href="{% url 'room-delete' room.id %}">Eliminar</a>
                     <!-- HABITACION -->
                 </div>
             </div>
