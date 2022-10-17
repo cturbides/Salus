@@ -1,5 +1,5 @@
 from asyncio import sleep
-from salusApp.models import Sensors
+from salusApp.models import Sensors, Room
 import json
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -10,8 +10,9 @@ decorator to make them async contextualized. This will make possible
 the function calling from an AsyncWebsocketConsumer.  
 """
 @database_sync_to_async
-def get_all_sensor_data():
-    return list(Sensors.objects.all().values())
+def get_all_sensor_data(room_id: str):
+    room = Room.objects.get(id=room_id)
+    return list(Sensors.objects.filter(room=room).values())
 
 class ThrowingSensorData(AsyncJsonWebsocketConsumer):
     async def connect(self):
@@ -23,9 +24,9 @@ class ThrowingSensorData(AsyncJsonWebsocketConsumer):
         await self.accept()
         sensors_data_list = list()
         while True:
-            sensors_data_list = await get_all_sensor_data()
-            await self.send(text_data=json.dumps({"sensors_data":sensors_data_list}))
+            sensors_data = await get_all_sensor_data(self.scope['url_route']['kwargs']['room_id'])
+            await self.send(text_data=json.dumps({"sensors_data":sensors_data}))
             await sleep(1.5)
-            
+    
     async def disconnect(self, code):
         await self.disconnect()
