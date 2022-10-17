@@ -94,7 +94,7 @@
                                     <tr>
                                         <td id="patient_temperature">35 Celsius</td>
                                         <td id="patient_heartbeat">30%</td>
-                                        <td><span class="status pending" id="patient_muscles_state">Tensos</span></td>
+                                        <td><span class="status" id="patient_muscles_state">Tensos</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -497,7 +497,26 @@
             roomAirQuality_html.innerHTML = (roomAirQuality + "% puro");
             patientTemperature_html.innerHTML = (patientTemperature + " grados");
             patientHeartBeat_html.innerHTML = (patientPulse + "PPM");
-            patientElectro_html.innerHTML = (patientElectro);
+
+            if (patientElectro_html.classList.contains('process'))
+                patientElectro_html.classList.remove('process')
+
+            if (patientElectro_html.classList.contains('pending'))
+                patientElectro_html.classList.remove('pending')
+
+            if (patientElectro_html.classList.contains('completed'))
+                patientElectro_html.classList.remove('completed')
+
+            if (patientElectro < 30) {
+                patientElectro_html.innerHTML = "Relajado";
+                patientElectro_html.classList.add('completed');
+            } else if (patientElectro < 60) {
+                patientElectro_html.innerHTML = "Tensos";
+                patientElectro_html.classList.add('process');
+            } else {
+                patientElectro_html.innerHTML = "Rígido";
+                patientElectro_html.classList.add('pending');
+            }
 
             counter++;  //Increasing the counter
             

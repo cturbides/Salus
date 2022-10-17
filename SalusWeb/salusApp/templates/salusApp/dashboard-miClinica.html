@@ -123,7 +123,8 @@
                                             <p>{% get_item sensors|is_here:patient.room.id "patient_temperature" %}</p>
                                         </td>
                                         <td>{% get_item sensors|is_here:patient.room.id "patient_pulse" %} ppm</td>
-                                        <td><span class="status pending">Tensos</span></td>
+
+                                        <td><span class="{% muscle_state_class sensors|is_here:patient.room.id "patient_electro" %}">{% muscle_state_message sensors|is_here:patient.room.id "patient_electro" %}</span></td>    
                                     </tr>
                                 </tbody>
                             </table>
