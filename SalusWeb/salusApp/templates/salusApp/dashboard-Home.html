@@ -63,7 +63,7 @@
                             {% for patient in patients_list %}
                             <tr>
                                 <td>
-                                    <img src="{% static patient.person.photo.url %}">
+                                    <img src="{{ patient.person.photo.url }}">
                                     <p>{{patient.person.first_name}} {{patient.person.last_name}}</p>
                                 </td>
                                 <td>{{patient.join_date}}</td>

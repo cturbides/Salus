@@ -172,7 +172,7 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
             person = Person(
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                photo=request.POST['photo'],
+                photo=request.FILES['photo'],
                 age=request.POST['age'],
                 address=request.POST['address'],
                 sex=request.POST['sex'],
@@ -258,8 +258,9 @@ def update_patient(request, pk):
         try:
             patient.person.first_name=request.POST['first_name']
             patient.person.last_name=request.POST['last_name']
-            if len(request.POST['photo']) > 2:
-                patient.person.photo=request.POST['photo']
+            photo = request.FILES.get('photo', None)
+            if photo:
+                    patient.person.photo=request.FILES['photo']                    
             patient.person.age=request.POST['age']
             patient.person.address=request.POST['address']
             patient.person.sex=request.POST['sex']
@@ -330,7 +331,7 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
         person = Person(
             first_name=request.POST['first_name'],
             last_name=request.POST['last_name'],
-            photo=request.POST['photo'],
+            photo=request.FILES['photo'],
             age=request.POST['age'],
             address=request.POST['address'],
             sex=request.POST['sex'],
@@ -367,8 +368,9 @@ def update_doctor(request, pk):
         person.sex = request.POST['sex']
         person.phone = request.POST['phone']
         person.id_card_number = request.POST['id_card_number']
-        if len(request.POST['photo']) > 2:
-            person.photo = request.POST['photo']
+        photo = request.FILES.get('photo', None)
+        if photo:
+            person.photo = request.FILES['photo']
         person.save()
         return redirect('doctores')
 
@@ -393,7 +395,7 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
             person = Person(
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                photo=request.POST['photo'],
+                photo=request.FILES['photo'],
                 age=request.POST['age'],
                 address=request.POST['address'],
                 sex=request.POST['sex'],
@@ -431,8 +433,9 @@ def update_nurses(request, pk):
         person.sex = request.POST['sex']
         person.phone = request.POST['phone']
         person.id_card_number = request.POST['id_card_number']
-        if len(request.POST['photo']) > 2:
-            person.photo = request.POST['photo']
+        photo = request.FILES.get('photo', None)
+        if photo:
+            person.photo = request.FILES['photo']
         person.save()
         return redirect('enfermeros')
     

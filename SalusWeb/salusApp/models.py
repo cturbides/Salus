@@ -79,7 +79,7 @@ class Person(models.Model):
     """
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    photo = models.ImageField(blank=True, null=False, upload_to='salusApp/static/media/')
+    photo = models.ImageField(blank=True, null=True, upload_to='images/')
     age = models.IntegerField()    
     address = models.CharField(max_length=100)
     sex_choices = [

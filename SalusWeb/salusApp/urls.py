@@ -35,8 +35,4 @@ urlpatterns = [
     path('menu-principal/configuracion', views.show_settings, name='settings'),
     path('menu-principal/configuracion/eliminar/<int:pk>', views.delete_user, name='delete'),
     path('menu-principal/configuracion/eliminar/<int:pk>#', views.confirm_delete, name='confirm-delete'),
-    ]
-
-if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+]

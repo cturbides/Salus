@@ -35,7 +35,7 @@
                     <!-- Doctores -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static doc.photo.url %}" style="height: 90px;">
+                            <img src="{{ doc.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{doc.first_name}} {{doc.last_name}}</h3>
                                 <p>Ultimo doctor agregado</p>
@@ -79,7 +79,7 @@
                     <!-- Enfermeras -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static nurse.photo.url %}" style="height: 90px;">
+                            <img src="{{ nurse.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{nurse.first_name}} {{nurse.last_name}}</h3>
                                     <p>Ultimo enfermero agregado</p>
@@ -124,7 +124,7 @@
                     <!-- Pacientes -->
                     <ul class="box-info">
                         <li>
-                            <img src="{% static patient.person.photo.url %}" style="height: 90px;">
+                            <img src="{{ patient.person.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{patient.person.first_name}} {{patient.person.last_name}}</h3>
                                 <p>Ultimo paciente ingresado</p>
