@@ -135,7 +135,7 @@ body {
     box-shadow: 20px 20px 0 var(--grey);
     z-index: -1;
 }
-
+.btn-download
 #sidebar .side-menu li.active::after {
     content: '';
     position: absolute;
@@ -394,7 +394,7 @@ body {
 #content main .head-title .btn-download {
     height: 36px;
     padding: 0 16px;
-    border-radius: 36px;
+    border-radius: 15px;
     background: #B898C6 !important;
     color: var(--light);
     display: flex;
@@ -402,6 +402,24 @@ body {
     align-items: center;
     grid-gap: 10px;
     font-weight: 500;
+}
+
+#content main .head-title .btn-room {
+    height: 36px;
+    width: 100vw;
+    padding: 0 16px;
+    border-radius: 30px;
+    background: #B898C6 !important;
+    color: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 1px;
+    font-weight: 500;
+}
+
+#content main .head-title .btn-room:hover {
+    background: #6f5679 !important;
 }
 
 #content main .box-info {
