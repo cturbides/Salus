@@ -120,10 +120,10 @@
                         <div class="left">
                             <ul class="breadcrumb">
                                 <li>
-                                    <a href="{% url 'pacientes-edit' patient.id %}" class="active">Editar</a> <!-- Editar paciente-->
+                                    <a href="{% url 'pacientes-edit' patient.uuid %}" class="active">Editar</a> <!-- Editar paciente-->
                                 </li>
                                 <li>
-                                    <a href="{% url 'pacientes-delete' patient.id %}" class="active">Eliminar</a><!-- Eliminar paciente-->
+                                    <a href="{% url 'pacientes-delete' patient.uuid %}" class="active">Eliminar</a><!-- Eliminar paciente-->
                                 </li>
                             </ul>
                         </div>

@@ -5,6 +5,7 @@ from salusApp.models import Person, Sensors, User, Patient, Room
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from datetime import datetime
+import uuid
 
 #=======================DASHBOARD=======================
 @login_required()
@@ -111,19 +112,19 @@ def show_clinic(request):
     return render(request, 'salusApp/dashboard-miClinica.html', context)
 
 @login_required()
-def show_clinic_room(request, room_id):
+def show_clinic_room(request, room_uuid):
     try:
-        room = Room.objects.get(id=room_id)
+        room = Room.objects.get(uuid=room_uuid)
         sensor = Sensors.objects.get(room=room)
         patient = Patient.objects.get(room=room)
         
         context = {
             "patient":patient,
-            "room_id":room_id,
+            "room_uuid":room_uuid,
         }
         return render(request, 'salusApp/dashboard-miClinica-room.html', context)
     except:
-        return redirect('mi-clinica') # Flash message
+        None
 #==========================MI-CLINICA=========================
 
 
@@ -199,6 +200,7 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
             hospitalization = request.POST['hospitalization']
             
             new_patient = Patient(
+                uuid=str(uuid.uuid4()),
                 person=person,
                 nurse=nurse,
                 doctor=doctor,
@@ -236,9 +238,9 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
     return render(request, 'registration/addPaciente.html', context)
 
 @login_required()
-def delete_patient(request, pk):
+def delete_patient(request, patient_uuid):
     try:
-        patient = Patient.objects.get(id=pk)
+        patient = Patient.objects.get(uuid=patient_uuid)
     except:
         return redirect('pacientes')
     
@@ -248,9 +250,9 @@ def delete_patient(request, pk):
     return redirect('pacientes')
 
 @login_required()
-def update_patient(request, pk):
+def update_patient(request, patient_uuid):
     try:
-        patient = Patient.objects.get(id=pk)
+        patient = Patient.objects.get(uuid=patient_uuid)
     except:
         return redirect('pacientes')
     
@@ -329,6 +331,7 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
     context = {"is_doctor": True}
     if request.method == "POST":
         person = Person(
+            uuid=str(uuid.uuid4()),
             first_name=request.POST['first_name'],
             last_name=request.POST['last_name'],
             photo=request.FILES['photo'],
@@ -345,18 +348,18 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
     return render(request, 'registration/addPersona.html', context)
 
 @login_required()
-def delete_doctor(request, pk):
+def delete_doctor(request, doctor_uuid):
     try:
-        doctor = Person.objects.get(id=pk)
+        doctor = Person.objects.get(uuid=doctor_uuid)
         doctor.delete()
         return redirect('doctores')
     except:
         return redirect('equipo')
 
 @login_required()
-def update_doctor(request, pk):
+def update_doctor(request, doctor_uuid):
     try:
-        person = Person.objects.get(id=pk)
+        person = Person.objects.get(uuid=doctor_uuid)
     except:
         return redirect('doctores')
         
@@ -393,6 +396,7 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
     if request.method == "POST":
         try:
             person = Person(
+                uuid=str(uuid.uuid4()),
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
                 photo=request.FILES['photo'],
@@ -411,17 +415,17 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
     return render(request, 'registration/addPersona.html', context)
 
 @login_required()
-def delete_nurses(request, pk):
+def delete_nurses(request, nurse_uuid):
     try:
-        nurse = Person.objects.get(id=pk)
+        nurse = Person.objects.get(uuid=nurse_uuid)
         nurse.delete()
     except:
         return redirect('enfermeros')
 
 @login_required()
-def update_nurses(request, pk):
+def update_nurses(request, nurse_uuid):
     try:
-        person = Person.objects.get(id=pk)
+        person = Person.objects.get(uuid=nurse_uuid)
     except:
         return redirect('enfermeros')
     
@@ -477,7 +481,7 @@ def create_room(request):
     if request.method == 'POST':
         name = request.POST['room_name']
         if name:
-            new_room = Room(room_name=name)
+            new_room = Room(uuid=str(uuid.uuid4()), room_name=name)
             new_room.save()
             #Proof Sensors
             new_sensor_data = Sensors(room=new_room, room_temperature=18.5, room_humidity=60, room_dust_level=30, room_air_quality=79, patient_temperature=28, patient_pulse=83, patient_electro=34)
@@ -485,13 +489,12 @@ def create_room(request):
             return redirect('mi-clinica')
         else:
             None # Flash message
-        return redirect('mi-clinica')
     return render(request, 'registration/addRoom.html')
 
 @login_required
-def edit_room(request, room_id):
+def edit_room(request, room_uuid):
     try:
-        room = Room.objects.get(id=room_id)
+        room = Room.objects.get(uuid=room_uuid)
     except:
         return redirect('mi-clinica')
     
@@ -508,9 +511,9 @@ def edit_room(request, room_id):
     return render(request, 'registration/addRoom.html', context)
 
 @login_required
-def delete_room(request, room_id):
+def delete_room(request, room_uuid):
     try:
-        room = Room.objects.get(id=room_id)
+        room = Room.objects.get(uuid=room_uuid)
         
         if len(Patient.objects.filter(room=room)):
             raise Exception

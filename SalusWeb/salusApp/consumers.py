@@ -10,8 +10,8 @@ decorator to make them async contextualized. This will make possible
 the function calling from an AsyncWebsocketConsumer.  
 """
 @database_sync_to_async
-def get_all_sensor_data(room_id: str):
-    room = Room.objects.get(id=room_id)
+def get_all_sensor_data(room_uuid: str):
+    room = Room.objects.get(uuid=room_uuid)
     return list(Sensors.objects.filter(room=room).values())
 
 class ThrowingSensorData(AsyncJsonWebsocketConsumer):
@@ -24,7 +24,7 @@ class ThrowingSensorData(AsyncJsonWebsocketConsumer):
         await self.accept()
         sensors_data_list = list()
         while True:
-            sensors_data = await get_all_sensor_data(self.scope['url_route']['kwargs']['room_id'])
+            sensors_data = await get_all_sensor_data(self.scope['url_route']['kwargs']['room_uuid'])
             await self.send(text_data=json.dumps({"sensors_data":sensors_data}))
             await sleep(1.5)
     

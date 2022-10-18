@@ -24,7 +24,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="{%url 'room-add' %}" class="btn-download"><!-- Agregar Doctores -->
+                <a href="{% url 'room-add' %}" class="btn-download"><!-- Agregar Doctores -->
                     <i class='bx bx-pulse' ></i>
                     <span class="text">Agregar habitacion</span>
                 </a>
@@ -51,7 +51,7 @@
             <div class="table-data">
                 <div class="order">
                     {% if sensors|is_here:patient.room.id != False %}
-                    <a href="{% url 'mi-clinica-room' patient.room.id %}"> <!--Redireccionar a pagina monitor-->
+                    <a href="{% url 'mi-clinica-room' patient.room.uuid %}"> <!--Redireccionar a pagina monitor-->
                         <div class="head">
                             <h3>{{patient.room.room_name}}</h3>
                         </div>
@@ -131,8 +131,8 @@
                         </li>
                     </ul>
                     {% endif %}
-                    <a href="{% url 'room-edit' patient.room.id %}">Editar</a>
-                    <a href="{% url 'room-delete' patient.room.id %}">Eliminar</a>
+                    <a href="{% url 'room-edit' patient.room.uuid %}">Editar</a>
+                    <a href="{% url 'room-delete' patient.room.uuid %}">Eliminar</a>
                 </div>
             </div>
             {% endfor %}
@@ -151,8 +151,8 @@
                             </span>
                         </li>
                     </ul>
-                    <a href="{% url 'room-edit' room.id %}">Editar</a>
-                    <a href="{% url 'room-delete' room.id %}">Eliminar</a>
+                    <a href="{% url 'room-edit' room.uuid %}">Editar</a>
+                    <a href="{% url 'room-delete' room.uuid %}">Eliminar</a>
                     <!-- HABITACION -->
                 </div>
             </div>

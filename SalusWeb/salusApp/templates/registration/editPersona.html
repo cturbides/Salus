@@ -29,7 +29,7 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'enfermeros-edit' person.id %}">Editando a {{person.first_name}}</a>
+                            <a class="active" href="{% url 'enfermeros-edit' person.uuid %}">Editando a {{person.first_name}}</a>
                         </li>
 
                         {% elif person.is_doctor%}
@@ -38,7 +38,7 @@
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'doctores-edit' person.id %}">Editando a {{person.first_name}}</a>
+                            <a class="active" href="{% url 'doctores-edit' person.uuid %}">Editando a {{person.first_name}}</a>
                         </li>
 
                         {% endif %}

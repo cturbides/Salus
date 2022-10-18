@@ -66,6 +66,7 @@ class User(AbstractBaseUser):
 class Person(models.Model):
     """
     PERSON DATA:
+        -UUID
         -First name
         -Last name
         -Photo file
@@ -77,6 +78,7 @@ class Person(models.Model):
         -is_doctor -> bool
         -is_nurse -> bool
     """
+    uuid = models.CharField(max_length=36)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     photo = models.ImageField(blank=True, null=True, upload_to='images/')
@@ -98,9 +100,11 @@ class Person(models.Model):
 class Room(models.Model):
     """
     ROOM DATA:
+        -UUID
         -Room name
         -isAvailable -> bool
     """
+    uuid = models.CharField(max_length=36)
     room_name = models.CharField(max_length=30)
     is_available = models.BooleanField(default=True)
     
@@ -129,6 +133,7 @@ class Sensors(models.Model):
 class Patient(models.Model):
     """
     PATIENT'S DATA:
+        -UUID
         -Person -> Foreign Key
         -Nurse -> Foreign Key
         -Doctor -> Foreign Key
@@ -146,6 +151,7 @@ class Patient(models.Model):
         -Illness -> Illness' name
         -Hospitalization type -> Urgent, Programmed and Intrahospitalary
     """
+    uuid = models.CharField(max_length=36)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="nurse")
     doctor = models.ForeignKey(Person, on_delete=models.DO_NOTHING, related_name="doctor")
