@@ -173,7 +173,6 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
             person = Person(
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                photo=request.FILES['photo'],
                 age=request.POST['age'],
                 address=request.POST['address'],
                 sex=request.POST['sex'],
@@ -182,6 +181,9 @@ def create_patient(request): #Mejorar el agregado de datos -> Convertirlo implem
                 is_doctor=False,
                 is_nurse=False
             )
+            photo = request.FILES.get('photo', None)
+            if photo:
+                person.photo = photo
             nurse = Person.objects.filter(pk=request.POST['nurse'], is_nurse=True)[0]
             doctor = Person.objects.filter(pk=request.POST['doctor'], is_doctor=True)[0]
             room = Room.objects.filter(pk=request.POST['room'])[0]
@@ -334,7 +336,6 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
             uuid=str(uuid.uuid4()),
             first_name=request.POST['first_name'],
             last_name=request.POST['last_name'],
-            photo=request.FILES['photo'],
             age=request.POST['age'],
             address=request.POST['address'],
             sex=request.POST['sex'],
@@ -343,6 +344,9 @@ def create_doctor(request): #Mejorar el agregado de datos -> Convertirlo impleme
             is_doctor=True,
             is_nurse=False
         )
+        photo = request.FILES.get('photo', None)
+        if photo:
+            person.photo = photo
         person.save()
         return redirect('doctores')
     return render(request, 'registration/addPersona.html', context)
@@ -399,7 +403,6 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
                 uuid=str(uuid.uuid4()),
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                photo=request.FILES['photo'],
                 age=request.POST['age'],
                 address=request.POST['address'],
                 sex=request.POST['sex'],
@@ -408,6 +411,9 @@ def create_nurses(request): #Mejorar el agregado de datos -> Convertirlo impleme
                 is_doctor=False,
                 is_nurse=True
             )
+            photo = request.FILES.get('photo', None)
+            if photo:
+                person.photo = photo
             person.save()
             return redirect('enfermeros')
         except:

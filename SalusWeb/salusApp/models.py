@@ -81,7 +81,7 @@ class Person(models.Model):
     uuid = models.CharField(max_length=36)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    photo = models.ImageField(blank=True, null=True, upload_to='images/')
+    photo = models.ImageField(blank=True, null=True, upload_to='images/', default='images/blank-picture.jpg')
     age = models.IntegerField()    
     address = models.CharField(max_length=100)
     sex_choices = [
