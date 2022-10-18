@@ -13,11 +13,11 @@
                     <h1>{{ patient.room.room_name }}</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
+                            <a class="active" href="{% url 'mi-clinica' %}">Mi clínica</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -42,7 +42,7 @@
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
                                 <h3>{{patient.nurse.first_name}} {{patient.nurse.last_name}}</h3>
-                                <p>Enfermera a cargo</p>
+                                <p>Enfermero a cargo</p>
                             </span>
                         </li>
                         <li>
@@ -85,9 +85,9 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Temperatura del paciente media</th>
+                                        <th>Temperatura media del paciente</th>
                                         <th>Pulso del paciente</th>
-                                        <th>Estado de los musculos</th>
+                                        <th>Estado de los músculos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,7 +118,7 @@
                             <tr>
                                 <ul class="box-info">
                                     <li style="max-width: 300px; max-height: 300px;">
-                                        <h1>Temperatura de la habitacion</h1>
+                                        <h1>Temperatura de la habitación</h1>
                                         <canvas id="myChart_temperaturaHabitacion" width="400" height="500"></canvas>
                                     </li>
                                     <li style="max-width: 300px; max-height: 300px;">
@@ -146,7 +146,7 @@
                             <tr>
                                 <ul class="box-info">
                                     <li style="max-width: 300px; max-height: 300px;">
-                                        <h1>Estado de sus musculos</h1>
+                                        <h1>Estado de sus músculos</h1>
                                         <canvas id="myChart_electromigrafo" width="400" height="500"></canvas>
                                     </li>
                                 </ul>

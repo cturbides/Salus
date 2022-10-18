@@ -11,11 +11,11 @@
                     <h1>Eliminar {{ name }}</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'settings' %}">Configuracion</a>
+                            <a class="active" href="{% url 'settings' %}">Configuración</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -31,7 +31,7 @@
                         {% if message %}
                         <h3>{{message}}</h3>
                         {% else %}
-                        <h3>Estas seguro?</h3>
+                        <h3>¿Estás seguro?</h3>
                         
                     </div>
                     <ul class="box-info">

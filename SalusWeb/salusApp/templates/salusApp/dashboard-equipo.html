@@ -9,13 +9,13 @@
             <div class="head-title">
                 <div class="left">
                     {% if not person %}
-                    <h1>Parece que todos estan de vacaciones</h1>
+                    <h1>Todavía no ha agregado una habitación</h1>
                     {% else %}
-                    <h1>La ultima persona agregada ha sido {{ person.first_name }} {{ person.last_name }}</h1>
+                    <h1>La último persona agregada ha sido {{ person.first_name }} {{ person.last_name }}</h1>
                     {% endif %}
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -38,7 +38,7 @@
                             <img src="{{ doc.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{doc.first_name}} {{doc.last_name}}</h3>
-                                <p>Ultimo doctor agregado</p>
+                                <p>Último doctor agregado</p>
                             </span>
                         </li>
                         <li>
@@ -46,7 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th>Edad</th>
-                                        <th>Numero de Telefono</th>
+                                        <th>Número de teléfono</th>
                                         <th>Residencia</th>
                                     </tr>
                                 </thead>
@@ -82,7 +82,7 @@
                             <img src="{{ nurse.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{nurse.first_name}} {{nurse.last_name}}</h3>
-                                    <p>Ultimo enfermero agregado</p>
+                                    <p>Último enfermero agregado</p>
                             </span>
                         </li>
                         <li>
@@ -90,7 +90,7 @@
                                 <thead>
                                     <tr>
                                         <th>Edad</th>
-                                        <th>Numero de Telefono</th>
+                                        <th>Número de teléfono</th>
                                         <th>Residencia</th>
                                     </tr>
                                 </thead>
@@ -127,7 +127,7 @@
                             <img src="{{ patient.person.photo.url }}" style="height: 90px;">
                             <span class="text">
                                 <h3>{{patient.person.first_name}} {{patient.person.last_name}}</h3>
-                                <p>Ultimo paciente ingresado</p>
+                                <p>Último paciente ingresado</p>
                             </span>
                         </li>
                         <li>
@@ -137,7 +137,7 @@
                                         <th>Edad</th>
                                         <th>Enfermedad</th>
                                         <th>Tipo de sangre</th>
-                                        <th>Numero de Habitacion</th>
+                                        <th>Número de Habitacion</th>
                                     </tr>
                                 </thead>
                                 <tbody>

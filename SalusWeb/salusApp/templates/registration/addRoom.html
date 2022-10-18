@@ -11,16 +11,16 @@
                     <h1>Crear una habitacion</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
+                            <a class="active" href="{% url 'mi-clinica' %}">Mi clínica</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         
                         <li>
-                            <a class="active" href="{% url 'room-add' %}">Nueva habitacion</a>
+                            <a class="active" href="{% url 'room-add' %}">Nueva habitación</a>
                         </li>
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
                             <li>
                                 <!-- Primer Nombre-->
                                 <span class="text">
-                                    <h3>Nombre de la habitacion</h3>
+                                    <h3>Nombre de la habitación</h3>
                                     <input id="id_room_name" type="text" name="room_name" maxlength="20" required="" 
                                     value="{{ room_name }}"
                                     style="border: none !important;

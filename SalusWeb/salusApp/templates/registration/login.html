@@ -2,7 +2,7 @@
 {% load static %}
 <html>
     <head>
-        <title>Login Page</title>
+        <title>Salus - Iniciar sesión</title>
         <link rel="stylesheet" href="{% static 'salusApp/css/login.css' %}">
         <script defer src="{% static 'salusApp/js/login.js' %}"></script>
     </head>
@@ -19,15 +19,15 @@
             <form method="POST" action="">
                 {% csrf_token %}
                 <!-- user -->
-                <label for="username">Username</label>
+                <label for="username">Usuario</label>
                 <input id="id_username" type="text" placeholder="Input your username" name='username' required="">
                 <!-- pass -->
-                <label for="password">Password</label>
+                <label for="password">Contraseña</label>
                 <input id="id_password" type="password" placeholder="Input password" name="password" required="">
                 <!-- user -->
                 <input type="submit" value="Login" name="">
 
-                <a href="{% url 'signup' %}">Sign up</a><br>
+                <a href="{% url 'signup' %}">Registrarse</a><br>
             </form>
         </div>
     </body>

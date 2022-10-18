@@ -10,23 +10,23 @@
             <div class="head-title">
                 <div class="left">
                     {% if active_room_counter %}
-                    <h1>El ultimo paciente ingresado ha sido {{ last_patient.person.first_name }}</h1>
+                    <h1>El último paciente ingresado ha sido {{ last_patient.person.first_name }}</h1>
                     {% else %}
-                    <h1>La clinica esta limpia por hoy</h1>
+                    <h1>La clínica esta limpia por hoy</h1>
                     {% endif %}
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'mi-clinica' %}">Mi clinica</a>
+                            <a class="active" href="{% url 'mi-clinica' %}">Mi clínica</a>
                         </li>
                     </ul>
                 </div>
                 <a href="{% url 'room-add' %}" class="btn-download"><!-- Agregar Doctores -->
                     <i class='bx bx-pulse' ></i>
-                    <span class="text">Agregar habitacion</span>
+                    <span class="text">Agregar habitación</span>
                 </a>
             </div>
 
@@ -112,9 +112,9 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Temperatura del paciente media</th>
+                                        <th>Temperatura media del paciente</th>
                                         <th>Pulso del paciente</th>
-                                        <th>Estado de los musculos</th>
+                                        <th>Estado de los músculos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -147,7 +147,7 @@
                         <li>
                             <i class='bx bx-plus-medical'></i>
                             <span class="text">
-                                <h3>Habitacion disponible</h3>
+                                <h3>Habitación disponible</h3>
                             </span>
                         </li>
                     </ul>

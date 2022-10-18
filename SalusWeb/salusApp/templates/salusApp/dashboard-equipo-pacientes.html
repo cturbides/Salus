@@ -8,10 +8,10 @@
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Lista de Pacientes</h1>
+                    <h1>Lista de pacientes</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
@@ -43,6 +43,10 @@
                                     <p>Mujer</p>
                                 {% elif patient.person.sex == 'M' %}
                                     <p>Hombre</p>
+                                {% elif patient.person.sex == 'O' %}
+                                    <p>Otro</p>
+                                {% elif patient.person.sex == 'NA' %}
+                                    <p>No aplica</p>
                                 {% endif %}
                                 
                             </span>
@@ -68,9 +72,9 @@
                         <thead>
                             <tr>
                                 <th>Tipo de sangre</th>
-                                <th>Tipo de hospitalizacion</th>
+                                <th>Tipo de hospitalización</th>
                                 <th>Fecha de ingreso</th>
-                                <th>Nombre de referencia</th>
+                                <th>Nombre de la referencia</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,9 +95,9 @@
 
                         <thead>
                             <tr>
-                                <th>Numero de telefono - Referencia</th>
-                                <th>Parentesco - Referencia</th>
-                                <th>Habitacion</th>
+                                <th>Número de teléfono de la referencia</th>
+                                <th>Parentesco de la referencia</th>
+                                <th>Habitación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,7 +105,7 @@
                                 <td>{{patient.reference_phone}}</td>
                                 
                                 {% if patient.reference_kindship == 'H' %}
-                                    <td>Conyugue</td> <!-- Poner la tilde-->
+                                    <td>Cónyuge</td> <!-- Poner la tilde-->
                                 {% elif patient.reference_kindship == 'A' %}
                                     <td>Amigo</td>
                                 {% elif patient.reference_kindship == 'F' %}

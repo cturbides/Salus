@@ -11,11 +11,11 @@
                     <h1>Bienvenido {{ name }}</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'settings' %}">Configuracion</a>
+                            <a class="active" href="{% url 'settings' %}">Configuración</a>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +49,7 @@
                             </span>
                         </li>
                     </ul>
-                    <a href="{% url 'changepass' %}">Cambiar password</a>
+                    <a href="{% url 'changepass' %}">Cambiar contraseña</a>
                     <a>|  |</a>
                     <a href="{% url 'delete' user.id %}">Eliminar cuenta</a>
                 </div>

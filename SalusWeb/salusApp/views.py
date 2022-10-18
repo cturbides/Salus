@@ -124,7 +124,7 @@ def show_clinic_room(request, room_uuid):
         }
         return render(request, 'salusApp/dashboard-miClinica-room.html', context)
     except:
-        None
+        return redirect('mi-clinica')
 #==========================MI-CLINICA=========================
 
 

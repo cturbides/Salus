@@ -11,11 +11,11 @@
                     <h1>Bienvenido {{ user_name }}</h1>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">Menú principal</a>
                         </li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li>
-                            <a class="active" href="{% url 'dashboard' %}">Home</a>
+                            <a class="active" href="{% url 'dashboard' %}">Bienvenida</a>
                         </li>
                     </ul>
                 </div>
@@ -26,7 +26,7 @@
                     <i class='bx bxs-calendar-check'></i>
                     <span class="text">
 						<h3>{{patient_counter}}</h3>
-						<p>Nuevos Pacientes</p>
+						<p>Nuevos pacientes</p>
 					</span>
                 </li>
                 <li>
@@ -56,7 +56,7 @@
                                 <th>Paciente</th>
                                 <th>Fecha de ingreso</th>
                                 <th>Tipo de ingreso</th>
-                                <th>Habitacion</th>
+                                <th>Habitación</th>
                             </tr>
                         </thead>
                         <tbody>
