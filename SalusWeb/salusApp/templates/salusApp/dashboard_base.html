@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         
     <link rel="stylesheet" href="{% static 'salusApp/css/dashboard.css' %}">
-
     <title>Salus</title>
 </head>
 {% endblock head %}
@@ -32,7 +31,7 @@
             <li>
                 <a href="{% url 'mi-clinica' %}" id="clinica">
                     <i class='bx bx-health'></i>
-                    <span class="text">Mi Clínica</span>
+                    <span class="text">Mi clínica</span>
                 </a>
             </li>            
             <li>
@@ -62,7 +61,6 @@
     <!-- NAVBAR -->
     <section id="content">
 		<nav>
-			<i class='bx bx-menu' ></i>
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
 		</nav>
@@ -71,7 +69,7 @@
     {% block content %}{% endblock content %}
     </section>
     {% block script %}{% endblock script %}
-    <script src="{% static 'salusApp/js/dashboard.js' %}"></script>
+    <script type="module" src="{% static 'salusApp/js/dashboard.js' %}"></script>
 </body>
 
 </html>

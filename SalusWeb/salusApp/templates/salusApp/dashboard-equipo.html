@@ -9,9 +9,9 @@
             <div class="head-title">
                 <div class="left">
                     {% if not person %}
-                    <h1>Todavía no ha agregado una habitación</h1>
+                    <h1>Todavía no ha agregado a nadie</h1>
                     {% else %}
-                    <h1>La último persona agregada ha sido {{ person.first_name }} {{ person.last_name }}</h1>
+                    <h1>La última persona agregada ha sido {{ person.first_name }} {{ person.last_name }}</h1>
                     {% endif %}
                     <ul class="breadcrumb">
                         <li>
